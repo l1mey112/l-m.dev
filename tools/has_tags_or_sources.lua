@@ -12,5 +12,14 @@ function Meta(meta)
 	end
 
 	meta['has_tags_or_sources'] = #tags or #sources
+
+	-- i don't really know
+
+	if meta['has_tags_or_sources'] > 0 then
+		meta['has_tags_or_sources'] = true
+	else
+		meta['has_tags_or_sources'] = false
+	end
+
 	return meta
 end

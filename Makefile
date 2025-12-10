@@ -8,6 +8,13 @@
 # need to store build artefacts somewhere, guess
 # putting them in public shouldn't do any harm
 
+# pass W="Website" make to change the source directory
+ifndef W
+	website := Website
+else
+	website := $(W)
+endif
+
 FILTERS := $(wildcard tools/*.lua)
 FILTERS_ARG := $(foreach f,$(FILTERS),-L $(f))
 
@@ -15,15 +22,15 @@ LUA_DEPS := $(shell find tools -type f -name '*.lua')
 
 TEMPLATES := $(shell find templates -type f -name '*.html')
 
-CS := $(wildcard Website/cs/*)
-CS_PAGES := $(patsubst Website/cs/%.md,public/cs/%.html,$(filter %.md,$(CS)))
+CS := $(wildcard $(website)/cs/*)
+CS_PAGES := $(patsubst $(website)/cs/%.md,public/cs/%.html,$(filter %.md,$(CS)))
 
 ifdef OVERRIDE_CS_PAGES
 CS_PAGES := $(strip $(OVERRIDE_CS_PAGES))
 endif
 
-# --from markdown+autolink_bare_uris literally converts frontmatter urls to tags.
-# what a joke.
+# --from markdown+autolink_bare_uris literally converts frontmatter urls to <a> tags.
+# what a joke
 
 PANDOC_OPTS := -s \
 	--from markdown+hard_line_breaks+wikilinks_title_after_pipe+mark+pipe_tables
@@ -44,9 +51,17 @@ all: public/cs/index.html $(CS_PAGES)
 serve: all
 	miniserve public --pretty-urls
 
-public/cs/index.html: Website/cs_index.md public/cs_list.json $(TEMPLATES) $(LUA_DEPS)
+.PHONY: clean
+clean:
+	find public -mindepth 1 -maxdepth 1 ! -name 'static' -exec rm -rf {} +
 
-	pandoc Website/cs_index.md -o $@ \
+public/cs: 
+	mkdir -p $@
+
+public/cs/index.html: $(website)/cs_index.md $(TEMPLATES) $(LUA_DEPS) \
+	public/cs public/cs_list.json
+
+	pandoc $(website)/cs_index.md -o $@ \
 		--template=templates/cs/baseof_list.html \
 		-V section="cs" \
 		$(PANDOC_OPTS) $(FILTERS_ARG) \
@@ -54,7 +69,8 @@ public/cs/index.html: Website/cs_index.md public/cs_list.json $(TEMPLATES) $(LUA
 		-M list_map_file="$(abspath public/cs_list.json)" \
 		--title-prefix="Cs"
 
-public/cs/%.html: Website/cs/%.md $(TEMPLATES) $(LUA_DEPS) public/cs_navigation.json
+public/cs/%.html: $(website)/cs/%.md $(TEMPLATES) $(LUA_DEPS) \
+	public/cs public/cs_navigation.json
 
 	pandoc $< -o $@ \
 		--template=templates/cs/baseof.html \
@@ -65,13 +81,13 @@ public/cs/%.html: Website/cs/%.md $(TEMPLATES) $(LUA_DEPS) public/cs_navigation.
 		--title-prefix="l-m.dev"
 
 public/cs_list.json: $(CS) tools/list.sh
-	tools/list.sh "Website/cs" "/cs/" > $@
+	tools/list.sh "$(website)/cs" "/cs/" > $@
 
 # only mark this file as updated when the contents change, not timestamp
 public/cs_navigation.json: $(CS) tools/navigation.sh
 
 # this runs repeatedly for some reason, just make it quiet
-	@tools/navigation.sh "Website/cs" "/cs/" > $@.tmp
+	@tools/navigation.sh "$(website)/cs" "/cs/" > $@.tmp
 	
 	@if cmp -s $@.tmp $@; then \
 		rm $@.tmp;             \

@@ -23,7 +23,7 @@ while IFS= read -r -d '' f; do
 	filename="${filename%.*}"
 
 	# prepend + filename
-	baseurl="$2/$filename"
+	baseurl="$2$filename"
 
 	# word count, reading time
 	# title, date

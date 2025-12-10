@@ -1,0 +1,24 @@
+@font-face {
+  font-family: 'RenoMono';
+  src: /* url('/static/fonts/LiberationMono-Bold.ttf') format('truetype'),
+       url('/static/fonts/LiberationMono-BoldItalic.ttf') format('truetype'),
+       url('/static/fonts/LiberationMono-Italic.ttf') format('truetype'), */
+       url('/static/fonts/LiberationMono-Regular.ttf') format('truetype');
+           font-style: normal;
+
+  font-weight: normal;
+  text-rendering: optimizeLegibility;
+}
+/* fira-sans-regular - latin */
+@font-face {
+  font-family: 'Fira Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/static/fonts/fira-sans-v10-latin-regular.eot'); /* IE9 Compat Modes */
+  src: local('Fira Sans Regular'), local('FiraSans-Regular'),
+       url('/static/fonts/fira-sans-v10-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/static/fonts/fira-sans-v10-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+       url('/static/fonts/fira-sans-v10-latin-regular.woff') format('woff'), /* Modern Browsers */
+       url('/static/fonts/fira-sans-v10-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('/static/fonts/fira-sans-v10-latin-regular.svg#FiraSans') format('svg'); /* Legacy iOS */
+}

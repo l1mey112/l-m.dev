@@ -1,7 +1,8 @@
 node_modules
-public
+public/*
+!public/static
 
-Website
+Website-test
 
 package-lock.json
 package.json
