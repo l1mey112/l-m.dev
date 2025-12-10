@@ -1,7 +1,7 @@
 
 
 # tools:
-#   miniserve
+#   nginx
 #   pandoc
 #   yq (go-yq) - https://github.com/mikefarah/yq/releases/tag/v4.49.2
 
@@ -23,7 +23,7 @@ LUA_DEPS := $(shell find tools -type f -name '*.lua')
 TEMPLATES := $(shell find templates -type f -name '*.html')
 
 CS := $(wildcard $(website)/cs/*)
-CS_PAGES := $(patsubst $(website)/cs/%.md,public/cs/%.html,$(filter %.md,$(CS)))
+CS_PAGES := $(patsubst $(website)/cs/%.md,public/cs/%/index.html,$(filter %.md,$(CS)))
 
 ifdef OVERRIDE_CS_PAGES
 CS_PAGES := $(strip $(OVERRIDE_CS_PAGES))
@@ -49,7 +49,7 @@ all: public/cs/index.html $(CS_PAGES)
 
 .PHONY: serve
 serve: all
-	miniserve public --pretty-urls
+	nginx -c serve-nginx.conf -p .
 
 .PHONY: clean
 clean:
@@ -69,8 +69,10 @@ public/cs/index.html: $(website)/cs_index.md $(TEMPLATES) $(LUA_DEPS) \
 		-M list_map_file="$(abspath public/cs_list.json)" \
 		--title-prefix="Cs"
 
-public/cs/%.html: $(website)/cs/%.md $(TEMPLATES) $(LUA_DEPS) \
+public/cs/%/index.html: $(website)/cs/%.md $(TEMPLATES) $(LUA_DEPS) \
 	public/cs public/cs_navigation.json
+
+	mkdir -p $(dir $@)
 
 	pandoc $< -o $@ \
 		--template=templates/cs/baseof.html \
