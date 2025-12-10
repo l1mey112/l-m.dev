@@ -15,6 +15,12 @@ else
 	website := $(W)
 endif
 
+ifndef M
+	media := $(website)/_Media
+else
+	media := $(M)
+endif
+
 FILTERS := $(wildcard tools/*.lua)
 FILTERS_ARG := $(foreach f,$(FILTERS),-L $(f))
 
@@ -33,8 +39,19 @@ endif
 # --from markdown+autolink_bare_uris literally converts frontmatter urls to <a> tags.
 # what a joke
 
-PANDOC_OPTS := -s \
-	--from markdown+hard_line_breaks+wikilinks_title_after_pipe+mark+pipe_tables
+TOPLEVEL := $(filter-out $(website)/index.md,$(wildcard $(website)/*.md))
+TOPLEVEL_PAGES := $(patsubst $(website)/%.md,public/%/index.html,$(filter %.md,$(TOPLEVEL)))
+
+# these show up at the top as /talk, /cs, /3d, etc
+TOPLEVEL_LIST := /cs /talk
+
+# TOPLEVEL_LIST -> -M toplevel_list=item1 -M toplevel_list=item2 ...
+TOPLEVEL_LIST_ARG := $(foreach t,$(TOPLEVEL_LIST),-M toplevel_list=$(t))
+
+PANDOC_OPTS := -s $(TOPLEVEL_LIST_ARG) \
+	--from markdown+hard_line_breaks+wikilinks_title_after_pipe+mark+pipe_tables \
+	--highlight-style=tools/monokai.theme \
+	--extract-media=public/media -M media_path=$(media) # see resources.lua
 
 # broken at the moment
 #	--filter tools/mathjax-svg-filter.js
@@ -46,7 +63,7 @@ PANDOC_OPTS := -s \
 # would require rebuilding everything all the time when a single file changes
 
 .PHONY: all
-all: public/index.html \
+all: public/index.html $(TOPLEVEL_PAGES) \
 	public/cs/index.html $(CS_PAGES)
 
 .PHONY: serve
@@ -64,18 +81,25 @@ public/cs:
 public/index.html: $(website)/index.md $(TEMPLATES) $(STATIC) $(LUA_DEPS) \
 	public
 
-	pandoc $(website)/index.md -o $@ \
+	pandoc $< -o $@ \
 		--template=templates/baseof.html \
-		$(PANDOC_OPTS) $(FILTERS_ARG) \
-		-M pageurl="/" \
-		--metadata title="l-m.dev"
+		$(PANDOC_OPTS) $(FILTERS_ARG)
+
+public/%/index.html: $(website)/%.md $(TEMPLATES) $(STATIC) $(LUA_DEPS) \
+	public
+
+	mkdir -p $(dir $@)
+
+	pandoc $< -o $@ \
+		--template=templates/baseof.html \
+		$(PANDOC_OPTS) $(FILTERS_ARG)
 
 public/cs/index.html: $(TEMPLATES) $(STATIC) $(LUA_DEPS) \
 	public/cs public/cs_list.json
 
 	cat /dev/null | pandoc -o $@ \
 		--template=templates/cs/baseof_list.html \
-		-V section="cs" \
+		-V section="cs" -V is_cs=true \
 		$(PANDOC_OPTS) $(FILTERS_ARG) \
 		-M pageurl="/cs" \
 		-M list_map_file="$(abspath public/cs_list.json)" \
@@ -89,7 +113,7 @@ public/cs/%/index.html: $(website)/cs/%.md $(TEMPLATES) $(STATIC) $(LUA_DEPS) \
 
 	pandoc $< -o $@ \
 		--template=templates/cs/baseof.html \
-		-V section="cs" \
+		-V section="cs" -V is_cs=true \
 		$(PANDOC_OPTS) $(FILTERS_ARG) \
 		-M pageurl="/cs/$(basename $(notdir $<))" \
 		-M navigation_map_file="$(abspath public/cs_navigation.json)" \

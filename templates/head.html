@@ -8,8 +8,8 @@
 		$endif$
 	</div>
 	<nav>
-		<a href="/cs">/cs</a>
-		<a href="/3d">/3d</a>
-		<a href="/talk">/talk</a>
+		$for(toplevel_list)$
+		<a href="$toplevel_list$">$toplevel_list$</a>
+		$endfor$
 	</nav>
 </header>

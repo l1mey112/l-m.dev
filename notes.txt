@@ -1,3 +1,68 @@
+
+
+\{\{< mp4_full "/(.+)" >\}\} -> ![]($1){.mp4-full}
+
+\{\{< png_full "/(.+)" >\}\} -> ![]($1){.png-full}
+
+--------------------------------------------
+
+:::::::::: {.convo}
+\[ **l-m** \] [**01/30/2023**]{.meta} milestone crushed! compilation and execution of math.powi straight to webassembly
+::::::::::
+
+
+meta_t
+No Intel® 64 and IA-32 Architectures Software Developer Manual(s) needed!
+/meta_t
+
+--> [No Intel® 64 and IA-32 Architectures Software Developer Manual(s) needed!]{.meta}
+
+![](phyapplied.gif){.png-full}
+
+:::::::::: {.flex-columns}
+::::: {.flex-columns-1}
+and columns
+
+:::::::::: {.flex-columns}
+::::: {.flex-columns-1}
+
+:::::
+::::: {.flex-columns-1}
+
+:::::
+::::::::::
+
+-------------------
+
+for vertical container
+
+:::::::::: {.flex-columns .align-items}
+::::: {.flex-columns-1}
+
+
+vertical_content_container vertical_content_75
+:::::::::: {.flex-columns .align-items}
+::::: {.flex-columns-2}
+
+
+<figure>
+
+![](image-reflect.png){.img-raw}
+
+<figcaption><h4>N is the wall normal vector</h4></figcaption>
+</figure>
+
+![](image-suzanne-normal.png,image-suzanne-wire.png){.png-list}
+
+--------------------------
+
+https://github.com/pandoc/lua-filters/blob/master/math2svg/math2svg.lua
+
+--extract-media=
+--resource-path=
+
+--------------
+
 pandoc --print-default-data-file=templates/default.html5
 pandoc --print-default-data-file=templates/styles.html
 
@@ -23,39 +88,3 @@ tex_math_dollars
 
 The extensions tex_math_dollars, tex_math_gfm, tex_math_single_backslash, and
 tex_math_double_backslash are described in the section about Pandoc’s Markdown.
-
-------------------
-
-	{{- $title := ( .Title ) -}}
-	{{- $siteTitle := ( .Site.Title ) -}}
-	{{- if .IsHome -}}
-	<title>{{ $siteTitle }} | Home </title>
-	{{- else -}}
-	<title>{{ $title }} - {{ $siteTitle }}</title>
-	{{- end -}}
-
-Replaced with $title-prefix$
-
-------------------
-
-
-	{{- if isset .Site.Params "favicon" -}}
-	<link rel="icon" type="image/png" href={{ .Site.Params.favicon }} />
-	{{- end -}}
-
-(header.html) Removed
-
-	<meta property="og:image" content="{{ .Site.Params.og_image }}"/>
-	{{- if not .IsHome -}}
-		{{- with .OutputFormats.Get "rss" -}}
-		{{- printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML -}}
-		{{- end -}}
-	{{- end -}}
-
-(header.html) Removed TODO implement RSS
-
-	{{- if ne .Section "cs" -}}
-	{{ partial "css.html" "css/index.css" }}
-	{{- end -}}
-
-(header.html) REMOVED

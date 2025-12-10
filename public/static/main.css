@@ -410,7 +410,7 @@ h2 code::before {
 
 pre {
   background-color: #292429 !important;
-  line-height: 1.4;
+  line-height: 1;
   overflow-x: auto;
   padding: 1em;
 }
@@ -433,6 +433,19 @@ a {
 a:hover {
   background-color: var(--maincolor);
   color: black;
+}
+
+div.sourceCode a {
+  border-bottom: none;
+  text-decoration: none;
+  color: inherit;
+  pointer-events: none;
+  cursor: default;
+}
+
+div.sourceCode a:hover {
+  background-color: transparent;
+  color: inherit;
 }
 
 .site-description a {
@@ -470,6 +483,8 @@ a:hover {
   color: black;
 }
 
+/* -------------- shortcode porting -------------- */
+
 .flex-columns {
   display: flex;
   flex-wrap: wrap;
@@ -485,4 +500,23 @@ a:hover {
 
 .flex-columns-1 {
   flex:1 1;
+}
+
+/* vertical_content_75 */
+.flex-columns-2 {
+  flex:2 1;
+}
+
+/* vertical_content_80 */
+.flex-columns-4 {
+  flex:2 1;
+}
+
+.centre-text {
+  text-align: center;
+}
+
+/* vertical_content_container */
+.align-items {
+  align-items: center;
 }
