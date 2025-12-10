@@ -21,6 +21,7 @@ FILTERS_ARG := $(foreach f,$(FILTERS),-L $(f))
 LUA_DEPS := $(shell find tools -type f -name '*.lua')
 
 TEMPLATES := $(shell find templates -type f -name '*.html')
+STATIC := $(wildcard public/static/**)
 
 CS := $(wildcard $(website)/cs/*)
 CS_PAGES := $(patsubst $(website)/cs/%.md,public/cs/%/index.html,$(filter %.md,$(CS)))
@@ -45,10 +46,12 @@ PANDOC_OPTS := -s \
 # would require rebuilding everything all the time when a single file changes
 
 .PHONY: all
-all: public/cs/index.html $(CS_PAGES)
+all: public/index.html \
+	public/cs/index.html $(CS_PAGES)
 
 .PHONY: serve
 serve: all
+	@echo http://localhost:8080
 	nginx -c serve-nginx.conf -p .
 
 .PHONY: clean
@@ -58,18 +61,28 @@ clean:
 public/cs: 
 	mkdir -p $@
 
-public/cs/index.html: $(website)/cs_index.md $(TEMPLATES) $(LUA_DEPS) \
+public/index.html: $(website)/index.md $(TEMPLATES) $(STATIC) $(LUA_DEPS) \
+	public
+
+	pandoc $(website)/index.md -o $@ \
+		--template=templates/baseof.html \
+		$(PANDOC_OPTS) $(FILTERS_ARG) \
+		-M pageurl="/" \
+		--metadata title="l-m.dev"
+
+public/cs/index.html: $(TEMPLATES) $(STATIC) $(LUA_DEPS) \
 	public/cs public/cs_list.json
 
-	pandoc $(website)/cs_index.md -o $@ \
+	cat /dev/null | pandoc -o $@ \
 		--template=templates/cs/baseof_list.html \
 		-V section="cs" \
 		$(PANDOC_OPTS) $(FILTERS_ARG) \
-		-M pageurl="/cs/" \
+		-M pageurl="/cs" \
 		-M list_map_file="$(abspath public/cs_list.json)" \
+		--metadata title="l-m.dev" \
 		--title-prefix="Cs"
 
-public/cs/%/index.html: $(website)/cs/%.md $(TEMPLATES) $(LUA_DEPS) \
+public/cs/%/index.html: $(website)/cs/%.md $(TEMPLATES) $(STATIC) $(LUA_DEPS) \
 	public/cs public/cs_navigation.json
 
 	mkdir -p $(dir $@)

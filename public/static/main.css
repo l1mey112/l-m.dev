@@ -482,3 +482,7 @@ a:hover {
   min-width: 10rem;
   padding: 0 1rem
 }
+
+.flex-columns-1 {
+  flex:1 1;
+}

@@ -1,5 +1,102 @@
+body {
+	background-color: white;
+	color: black;
+}
 
-/* this is used for the actual index of the website,
-	it's overridden everywhere else */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: black;
+}
 
-	/* TODO REMOVE */
+h1:not(.nounderline)::after {
+	display: none;
+}
+
+h1 {
+	margin-top: 1.5em;
+}
+
+h1::before { display: none; }
+h2::before { display: none; }
+h3::before { display: none; }
+h4::before { display: none; }
+h5::before { display: none; }
+h6::before { display: none; }
+
+h1 {
+	padding: 0px 0 0px;
+}
+
+blockquote {
+	background-color: rgb(15, 15, 15);
+}
+
+blockquote::after {
+	display: none
+}
+
+blockquote p {
+	color: var(--maincolor);
+	font-weight: bold;
+}
+
+/* ---------------- */
+
+.gallery {
+	display: flex;
+	flex-wrap: wrap;
+	position: relative;
+	align-content: flex-start;
+}
+.gallery::after {
+	content: "";
+	display: block;
+	flex-grow: 10;
+	outline: 2px solid #fff;
+	position: relative;
+}
+.gallery-element::before {
+    display: none;
+}
+.gallery .gallery-element {
+	height: 40vh;
+	flex-grow: 1;
+	outline: 2px solid #fff;
+	position: relative;
+	background-size: 100%;
+}
+.gallery .gallery-element * * {
+	max-height: 100%;
+	min-width: 100%;
+	min-height: 100%;
+	width: auto;
+	object-fit: cover;
+	display: block;
+}
+
+.title-3d::before { color: var(--maincolor); content: '@liam.3d # '; }
+
+p, li {
+	font-family: 'RenoMono', monospace !important;
+	font-size: 15px !important;
+	line-height: 1.6em !important;
+}
+
+#ic {
+	display: flex;
+	width: 100%;
+	height: 100%;
+	flex-direction: column;
+	overflow: hidden;
+}
+
+#ic iframe {
+	flex-grow: 1;
+	border: none;
+	margin: 0;
+	padding: 0;
+}

@@ -12,12 +12,32 @@
 	<meta name="description" content="$description-meta$" />
 	$endif$
 
-	$-- this website should already be dark
-	<meta name="darkreader-lock">
-
 	<link rel="stylesheet" type="text/css" media="screen" href="/static/fonts.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/static/main.css" />
+	$if(section)$
+	<meta name="darkreader-lock">
+	$else$
 	<link rel="stylesheet" type="text/css" media="screen" href="/static/index.css" />
+	$endif$
+
+	<!-- $for(css)$
+	<link rel="stylesheet" href="$css$" />
+	$endfor$ -->
+
+	$-- pandoc --print-default-data-file=templates/styles.html
+
+	<style>
+	$if(quotes)$
+	q { quotes: "“" "”" "‘" "’"; }
+	$endif$
+	$if(displaymath-css)$
+	.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+	$endif$
+	$if(highlighting-css)$
+	/* CSS for syntax highlighting */
+	$highlighting-css$
+	$endif$
+	</style>
 
 	$if(math)$
 		$math$
