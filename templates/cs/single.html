@@ -1,0 +1,66 @@
+<main>
+	<article>
+		<header>
+			<h1 class="nounderline THE-TITLE">$title$</h1>
+		</header>
+		<hr class="nohugemargin">
+		$if(description)$
+		<div class="meta"> >> $description$ </div>
+		<br>
+		$endif$
+		<div class="meta">
+			Posted on <time> $date_formatted$ </time>
+			|
+			$word_count$ words
+			|
+			~$reading_time$ minute read
+		</div>
+
+		$if(has_tags_or_sources)$
+		<hr>
+		<nav class="nav tags meta">
+			$if(tags)$
+			tags:
+			$for(tags_urlized)$
+			[ <a href="/tags/$tags_urlized.urlized$">$tags_urlized.original$</a> ]
+			$endfor$
+			$endif$
+
+			$if(sources)$
+			$if(tags)$
+			<br>
+			<br>
+			$endif$
+				$-- why this is an array of maps is beyond me
+			
+				sources:
+				$for(sources)$
+				$for(sources/pairs)$
+				[ <a href="$it.value$">$it.key$</a> ]
+				$endfor$
+				$endfor$
+			$endif$
+		$endif$
+		</nav>
+		<hr>
+
+		<section class="body">
+			$body$
+		</section>
+
+		<hr>
+		<nav class="pagination" style="display: flex; justify-content: space-between;">
+			<span class="page-item page-prev">
+			
+			$if(navigation_prev)$
+			<a href="$navigation_prev$" class="page-link" aria-label="Previous"><span aria-hidden="true">← Previous</span></a>
+			$endif$
+			</span>
+			<span class="page-item page-next">
+			$if(navigation_next)$
+			<a href="$navigation_next$" class="page-link" aria-label="Next"><span aria-hidden="true">Next →</span></a>
+			$endif$
+			</span>
+		</nav>
+	</article>
+</main>

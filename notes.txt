@@ -1,0 +1,61 @@
+pandoc --print-default-data-file=templates/default.html5
+pandoc --print-default-data-file=templates/styles.html
+
+
+Enable Extensions
+
+pandoc --from markdown+table_captions+pipe_tables -o output.html input.md
+
+Enables specific Markdown extensions
+
+Common Extensions
+pipe_tables
+fenced_code_blocks
+auto_identifiers
+definition_lists
+footnotes
+smart
+yaml_metadata_block
+tex_math_dollars
+
++hard_line_breaks
++wikilinks thing
+
+The extensions tex_math_dollars, tex_math_gfm, tex_math_single_backslash, and
+tex_math_double_backslash are described in the section about Pandoc’s Markdown.
+
+------------------
+
+	{{- $title := ( .Title ) -}}
+	{{- $siteTitle := ( .Site.Title ) -}}
+	{{- if .IsHome -}}
+	<title>{{ $siteTitle }} | Home </title>
+	{{- else -}}
+	<title>{{ $title }} - {{ $siteTitle }}</title>
+	{{- end -}}
+
+Replaced with $title-prefix$
+
+------------------
+
+
+	{{- if isset .Site.Params "favicon" -}}
+	<link rel="icon" type="image/png" href={{ .Site.Params.favicon }} />
+	{{- end -}}
+
+(header.html) Removed
+
+	<meta property="og:image" content="{{ .Site.Params.og_image }}"/>
+	{{- if not .IsHome -}}
+		{{- with .OutputFormats.Get "rss" -}}
+		{{- printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML -}}
+		{{- end -}}
+	{{- end -}}
+
+(header.html) Removed TODO implement RSS
+
+	{{- if ne .Section "cs" -}}
+	{{ partial "css.html" "css/index.css" }}
+	{{- end -}}
+
+(header.html) REMOVED

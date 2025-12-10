@@ -1,0 +1,22 @@
+$-- is_home, section
+
+<header>
+	<div class="main">
+		<a href="/">l-m.dev</a>
+		<div style="float: right; padding-left: 0.8em;" class="meta">
+		$if(is_home)$
+		$else$
+			$if(section)$
+			 / $section$
+			$else$
+			 / l-m.dev
+			$endif$
+		$endif$
+		</div>
+	</div>
+	<nav>
+		<a href="/cs">/cs</a>
+		<a href="/3d">/3d</a>
+		<a href="/talk">/talk</a>
+	</nav>
+</header>

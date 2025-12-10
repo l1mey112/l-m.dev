@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    $../header.html()$
+    <body>
+    <div class="content">
+    $../head.html()$
+    <main>
+        <style>
+            html {
+                font-family: 'RenoMono', monospace;
+                font-size: 15px;
+                line-height: 1.6em;
+            }
+            p {
+                line-height: 1.5;
+                font-family: 'Fira Sans', sans-serif;
+                line-height: 1.5;
+            }
+        </style>
+
+        <section>
+        <div class="site-description">
+            <p>About computers and all of the above.</p>
+        </div>
+        $for(list_map)$
+        <article>
+            <h1 class="title nounderline"><a href="$list_map.path$">$list_map.title$</a></h1>
+            <div class="meta">
+                <time>$list_map.date_formatted$</time>
+                |
+                $list_map.wordcount$ words
+                |
+                ~$list_map.reading_time_minutes$ minute read
+                <br>
+			    $for(list_map.tags_urlized)$
+                [ $it.original$ ]
+			    $endfor$
+            </div>
+            <br><div class="description">
+                $list_map.description$
+            </div>
+            <a class="readmore" href="$list_map.path$">Read more ⟶</a>
+        </article>
+        $endfor$
+        </section>
+    </main>
+    $../footer.html()$
+    </div>
+    </body>
+</html>
