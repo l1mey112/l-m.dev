@@ -4,6 +4,7 @@
 #   nginx
 #   pandoc
 #   yq (go-yq) - https://github.com/mikefarah/yq/releases/tag/v4.49.2
+#   md2html (arch and debian)
 
 # need to store build artefacts somewhere, guess
 # putting them in public shouldn't do any harm
@@ -50,10 +51,10 @@ TOPLEVEL_LIST_ARG := $(foreach t,$(TOPLEVEL_LIST),-M toplevel_list=$(t))
 
 PANDOC_OPTS := -s $(TOPLEVEL_LIST_ARG) \
 	--from markdown+hard_line_breaks+wikilinks_title_after_pipe+mark+pipe_tables \
-	--highlight-style=tools/monokai.theme \
-	--syntax-definition=tools/vlang.xml \
-	--syntax-definition=tools/stas.xml \
-	--syntax-definition=tools/wat.xml \
+	--highlight-style=templates/monokai.theme \
+	--syntax-definition=templates/vlang.xml \
+	--syntax-definition=templates/stas.xml \
+	--syntax-definition=templates/wat.xml \
 	--extract-media=public/media -M media_path=$(media) # see resources.lua
 
 # broken at the moment
@@ -67,7 +68,9 @@ PANDOC_OPTS := -s $(TOPLEVEL_LIST_ARG) \
 
 .PHONY: all
 all: public/index.html $(TOPLEVEL_PAGES) \
-	public/cs/index.html $(CS_PAGES)
+	public/cs/index.html
+
+# public/cs/index.html
 
 .PHONY: serve
 serve: all
@@ -77,19 +80,22 @@ serve: all
 .PHONY: clean
 clean:
 	find public -mindepth 1 -maxdepth 1 ! -name 'static' -exec rm -rf {} +
+	rm meta.db
+
+meta.db:
+	sqlite3 $@ < tools/schema.sql
 
 public/cs: 
 	mkdir -p $@
 
-public/index.html: $(website)/index.md $(TEMPLATES) $(STATIC) $(LUA_DEPS) \
-	public
+public/index.html: $(website)/index.md $(TEMPLATES) $(STATIC) $(LUA_DEPS)
 
 	pandoc $< -o $@ \
 		--template=templates/baseof.html \
+		--metadata title="l-m.dev" \
 		$(PANDOC_OPTS) $(FILTERS_ARG)
 
-public/%/index.html: $(website)/%.md $(TEMPLATES) $(STATIC) $(LUA_DEPS) \
-	public
+public/%/index.html: $(website)/%.md $(TEMPLATES) $(STATIC) $(LUA_DEPS)
 
 	mkdir -p $(dir $@)
 
@@ -98,19 +104,19 @@ public/%/index.html: $(website)/%.md $(TEMPLATES) $(STATIC) $(LUA_DEPS) \
 		$(PANDOC_OPTS) $(FILTERS_ARG)
 
 public/cs/index.html: $(TEMPLATES) $(STATIC) $(LUA_DEPS) \
-	public/cs public/cs_list.json
+	public/cs meta.db $(CS_PAGES)
 
 	cat /dev/null | pandoc -o $@ \
 		--template=templates/cs/baseof_list.html \
 		-V section="cs" -V is_cs=true \
 		$(PANDOC_OPTS) $(FILTERS_ARG) \
 		-M pageurl="/cs" \
-		-M list_map_file="$(abspath public/cs_list.json)" \
+		-M list_map_file=<(tools/dump_cs_list.sh meta.db) \
 		--metadata title="l-m.dev" \
 		--title-prefix="Cs"
 
-public/cs/%/index.html: $(website)/cs/%.md $(TEMPLATES) $(STATIC) $(LUA_DEPS) \
-	public/cs public/cs_navigation.json
+public/cs/%/index.html: $(website)/cs/%.md meta.db $(TEMPLATES) $(STATIC) $(LUA_DEPS) \
+	public/cs
 
 	mkdir -p $(dir $@)
 
@@ -119,20 +125,6 @@ public/cs/%/index.html: $(website)/cs/%.md $(TEMPLATES) $(STATIC) $(LUA_DEPS) \
 		-V section="cs" -V is_cs=true \
 		$(PANDOC_OPTS) $(FILTERS_ARG) \
 		-M pageurl="/cs/$(basename $(notdir $<))" \
-		-M navigation_map_file="$(abspath public/cs_navigation.json)" \
-		--title-prefix="l-m.dev"
-
-public/cs_list.json: $(CS) tools/list.sh
-	tools/list.sh "$(website)/cs" "/cs/" > $@
-
-# only mark this file as updated when the contents change, not timestamp
-public/cs_navigation.json: $(CS) tools/navigation.sh
-
-# this runs repeatedly for some reason, just make it quiet
-	@tools/navigation.sh "$(website)/cs" "/cs/" > $@.tmp
-	
-	@if cmp -s $@.tmp $@; then \
-		rm $@.tmp;             \
-	else                       \
-		mv $@.tmp $@;          \
-	fi
+		-M extract_meta=true \
+		--title-prefix="l-m.dev" \
+	| sqlite3 meta.db

@@ -8,8 +8,6 @@ function resolve_url(src)
 	local path = media_path .. "/" .. src
 	local url = "/media/" .. src
 
-	print(path)
-
 	local mt, contents = pandoc.mediabag.fetch(path)
 	pandoc.mediabag.insert(src, mt, contents)
 
@@ -84,7 +82,6 @@ function _Image(el)
 		html = html .. '</div>'
 		return pandoc.RawInline('html', html)
 	end
-
 
 	--[[ should probably error out here ]]
 

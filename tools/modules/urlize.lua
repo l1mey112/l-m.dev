@@ -69,11 +69,15 @@ function urlize.urlize(str)
   return url_escape(string.lower(sanitize(str)))
 end
 
-function urlize.urlize_pandoc_array(arr)
+function urlize.urlize_string(str)
+  return url_escape(string.lower(sanitize(str)))
+end
+
+function urlize.urlize_pandoc_array_pairs(arr)
 	local typee = pandoc.utils.type(arr)
 
 	-- this is probably an empty array..
-	if typee == "userdata" then
+	if typee == "userdata" or arr == nil then
 		return nil
 	end
 
@@ -92,6 +96,27 @@ function urlize.urlize_pandoc_array(arr)
 	end
 
 	return pandoc.MetaList(urlized_tags)
+end
+
+function urlize.urlize_array(arr)
+  local typee = pandoc.utils.type(arr)
+
+  -- this is probably an empty array..
+  if typee == "userdata" or arr == nil then
+    return nil
+  end
+
+  
+  local urlized_tags = {}
+  -- Iterate over the existing tags
+  for i, tag in ipairs(arr) do
+    local original_text = pandoc.utils.stringify(tag)
+    local urlized_text = urlize.urlize(original_text)
+
+    table.insert(urlized_tags, urlized_text)
+  end
+
+  return urlized_tags
 end
 
 --[[ 

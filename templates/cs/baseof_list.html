@@ -28,12 +28,12 @@
             <div class="meta">
                 <time>$list_map.date_formatted$</time>
                 |
-                $list_map.wordcount$ words
+                $list_map.word_count$ words
                 |
-                ~$list_map.reading_time_minutes$ minute read
+                ~$list_map.reading_time$ minute read
                 <br>
-			    $for(list_map.tags_urlized)$
-                [ $it.original$ ]
+			    $for(list_map.tags)$
+                [ $it$ ]
 			    $endfor$
             </div>
             <br><div class="description">

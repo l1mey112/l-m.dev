@@ -22,11 +22,11 @@
 
 -- counts words in a document
 
-words = 0
-characters = 0
-characters_and_spaces = 0
+local words = 0
+local characters = 0
+local characters_and_spaces = 0
 
-wordcount = {
+local wordcount = {
 	Str = function(el)
 		-- we don't count a word if it's entirely punctuation:
 		if el.text:match("%P") then
@@ -59,13 +59,25 @@ wordcount = {
 
 -- https://bojidar-bg.dev/blog/2025-05-14-pandoc-word-count/
 
-function Pandoc(doc)
-	-- skip metadata, just count body:
+local M = nil
+
+-- will cache, regardless of any document passed
+local function meta_reading_information(doc)
+	if M ~= nil then
+		return M
+	end
+
 	pandoc.walk_block(pandoc.Div(doc.blocks), wordcount)
-	doc.meta.word_count = words
+	local word_count = words
 
 	-- .ReadingTime from Hugo: https://github.com/gohugoio/hugo/blob/master/hugolib/page__content.go
 	local reading_time = math.floor((words + 212) / 213)
-	doc.meta.reading_time = reading_time
-	return doc
+
+	M = {
+		word_count = word_count,
+		reading_time = reading_time
+	}
+	return M
 end
+
+return meta_reading_information
