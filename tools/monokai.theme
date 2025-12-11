@@ -117,7 +117,7 @@
             "underline": false
         },
         "Function": {
-            "text-color": "#a6e22e",
+            "text-color": "#66d9ef",
             "background-color": null,
             "bold": false,
             "italic": false,
@@ -138,7 +138,7 @@
             "underline": false
         },
         "Keyword": {
-            "text-color": "#a6e22e",
+            "text-color": "#66d9ef",
             "background-color": null,
             "bold": false,
             "italic": false,

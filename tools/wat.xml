@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language [
+  <!ENTITY hex "[0-9a-fA-F](?:_?[0-9a-fA-F])*">
+  <!ENTITY num "[0-9](?:_?[0-9])*">
+  <!-- Valid identifier characters allowed after $ -->
+  <!ENTITY idchars "0-9a-zA-Z!#$%&amp;'*+./:&lt;=&gt;?@\\^_`|~-">
+]>
+<language name="WebAssembly" version="1" kateversion="5.0" section="Sources" extensions="*.wat;*.wast" mimetype="text/x-webassembly" author="Chroma Conversion" license="MIT">
+  <highlighting>
+    <!-- Structural Keywords -->
+    <list name="keywords">
+      <item>module</item>
+      <item>import</item>
+      <item>func</item>
+      <item>funcref</item>
+      <item>start</item>
+      <item>param</item>
+      <item>local</item>
+      <item>type</item>
+      <item>result</item>
+      <item>export</item>
+      <item>memory</item>
+      <item>global</item>
+      <item>mut</item>
+      <item>data</item>
+      <item>table</item>
+      <item>elem</item>
+      <item>if</item>
+      <item>then</item>
+      <item>else</item>
+      <item>end</item>
+      <item>block</item>
+      <item>loop</item>
+    </list>
+
+    <!-- Value Types -->
+    <list name="types">
+      <item>i32</item>
+      <item>i64</item>
+      <item>f32</item>
+      <item>f64</item>
+      <item>v128</item>
+      <item>anyfunc</item>
+      <item>func</item>
+      <item>externref</item>
+    </list>
+
+    <!-- Instructions / Builtins -->
+	<list name="instructions">
+      <item>unreachable</item>
+      <item>nop</item>
+      <item>br</item>
+      <item>br_if</item>
+      <item>br_table</item>
+      <item>return</item>
+      <item>call</item>
+      <item>call_indirect</item>
+      <item>drop</item>
+      <item>select</item>
+    </list>
+
+    <contexts>
+      <context name="Normal" attribute="Normal Text" lineEndContext="#stay">
+        <DetectSpaces />
+
+        <!-- Comments: Match ;; followed by anything until the end of the line -->
+        <RegExpr attribute="Comment" context="#stay" String=";;.*$" />
+        <Detect2Chars attribute="Comment" context="NestedComment" char="(" char1=";" beginRegion="Comment" />
+
+        <!-- Strings -->
+        <DetectChar attribute="String" context="String" char="&quot;" />
+
+        <!-- Variables: $name -->
+        <RegExpr attribute="Variable" context="#stay" String="\$[&idchars;]+" />
+
+        <!-- Dotted Instructions (e.g. local.get, i32.const) -> White -->
+        <RegExpr attribute="Instruction" context="#stay" String="\b[a-z][a-z0-9_]*\.[a-z0-9_]+(?=[^a-z0-9_]|$)" />
+
+        <!-- Keywords (func, block, if) -> Blue -->
+        <keyword attribute="Keyword" context="#stay" String="keywords" />
+        
+        <!-- Types (i32) -> Blue -->
+        <keyword attribute="Type" context="#stay" String="types" />
+        
+        <!-- Single-word Instructions (return, call) -> White -->
+        <keyword attribute="Instruction" context="#stay" String="instructions" />
+
+        <!-- Special Attributes (offset=, align=) -->
+        <RegExpr attribute="Keyword" context="AttributeValue" String="\b(?:offset|align)=" />
+
+        <!-- Numbers -->
+        <RegExpr attribute="Float" context="#stay" String="[+-]?0x&hex;(?:[pP][+-]?&hex;|(?:\.&hex;?(?:[pP][+-]?&hex;)?))" />
+        <RegExpr attribute="Float" context="#stay" String="[+-]?&num;\.&num;(?:[eE][+-]?&num;)?" />
+        <RegExpr attribute="Float" context="#stay" String="[+-]?&num;[eE][+-]?&num;" />
+        <RegExpr attribute="Float" context="#stay" String="[+-]?(?:inf|nan(?::0x&hex;)?)" />
+        <RegExpr attribute="Hex" context="#stay" String="[+-]?0x&hex;" />
+        <RegExpr attribute="Decimal" context="#stay" String="[+-]?&num;" />
+
+        <!-- Punctuation -->
+        <AnyChar attribute="Symbol" context="#stay" String="()" />
+      </context>
+
+      <!-- Context for Attribute Values (offset=0x10) -->
+      <context name="AttributeValue" attribute="Normal Text" lineEndContext="#pop" fallthroughContext="#pop">
+        <RegExpr attribute="Hex" context="#pop" String="0x&hex;" />
+        <RegExpr attribute="Decimal" context="#pop" String="&num;" />
+      </context>
+
+      <!-- Nested Comments (; ... ;) -->
+      <context name="NestedComment" attribute="Comment" lineEndContext="#stay">
+        <Detect2Chars attribute="Comment" context="NestedComment" char="(" char1=";" beginRegion="Comment" />
+        <Detect2Chars attribute="Comment" context="#pop" char=";" char1=")" endRegion="Comment" />
+        <IncludeRules context="##Comments" />
+      </context>
+
+      <!-- Strings -->
+      <context name="String" attribute="String" lineEndContext="#stay">
+        <DetectChar attribute="String" context="#pop" char="&quot;" />
+        <RegExpr attribute="String Char" context="#stay" String="\\[0-9a-fA-F]{2}" />
+        <RegExpr attribute="String Char" context="#stay" String="\\u\{[0-9a-fA-F](?:_?[0-9a-fA-F])*\}"/>
+        <RegExpr attribute="String Char" context="#stay" String="\\[tnr\&quot;'\\]" />
+      </context>
+    </contexts>
+
+    <itemDatas>
+      <itemData name="Normal Text" defStyleNum="dsNormal" spellChecking="false" />
+      
+      <!-- Keywords (func, module, param, if, block) -> Blue -->
+      <itemData name="Keyword"     defStyleNum="dsKeyword" spellChecking="false" />
+      
+      <!-- Types (i32, i64) -> Blue -->
+      <itemData name="Type"        defStyleNum="dsDataType" spellChecking="false" />
+      
+      <!-- Instructions (local.get, call, return) -> White (Normal Text) -->
+      <itemData name="Instruction" defStyleNum="dsNormal" spellChecking="false" />
+
+      <!-- Variables ($0, $main) -> White (Normal Text) -->
+      <itemData name="Variable"    defStyleNum="dsNormal" spellChecking="false" />
+      
+      <itemData name="Decimal"     defStyleNum="dsDecVal" spellChecking="false" />
+      <itemData name="Hex"         defStyleNum="dsBaseN" spellChecking="false" />
+      <itemData name="Float"       defStyleNum="dsFloat" spellChecking="false" />
+      <itemData name="String"      defStyleNum="dsString" spellChecking="true" />
+      <itemData name="String Char" defStyleNum="dsSpecialChar" spellChecking="false" />
+      <itemData name="Comment"     defStyleNum="dsComment" spellChecking="true" />
+      <itemData name="Symbol"      defStyleNum="dsNormal" spellChecking="false" />
+    </itemDatas>
+  </highlighting>
+  <general>
+    <comments>
+      <comment name="singleLine" start=";;" />
+      <comment name="multiLine" start="(;" end=";)" region="Comment" />
+    </comments>
+    <keywords casesensitive="1" />
+  </general>
+</language>
+<!-- kate: replace-tabs on; tab-width 4; indent-width 4; -->

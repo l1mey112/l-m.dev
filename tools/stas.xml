@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language [
+  <!ENTITY whitespace "(?:^|\s)">
+  <!ENTITY boundary "(?=\s|$)">
+]>
+<!--
+    Converted from Chroma syntax highlighting for stas.
+    Original Chroma Lexer: stas
+-->
+<language name="stas" version="1" kateversion="5.0" section="Sources" extensions="*.stas" mimetype="text/x-stas" author="Chroma Conversion" license="MIT">
+  <highlighting>
+    <list name="keywords">
+      <item>include</item>
+      <item>fn</item>
+      <item>argc</item>
+      <item>argv</item>
+      <item>swap</item>
+      <item>dup</item>
+      <item>over</item>
+      <item>over2</item>
+      <item>rot</item>
+      <item>rot4</item>
+      <item>drop</item>
+      <item>w8</item>
+      <item>w16</item>
+      <item>w32</item>
+      <item>w64</item>
+      <item>r8</item>
+      <item>r16</item>
+      <item>r32</item>
+      <item>r64</item>
+      <item>assert</item>
+      <item>const</item>
+      <item>auto</item>
+      <item>reserve</item>
+      <item>pop</item>
+      <item>addr</item>
+      <item>sizeof</item>
+      <item>if</item>
+      <item>else</item>
+      <item>elif</item>
+      <item>while</item>
+      <item>break</item>
+      <item>continue</item>
+      <item>ret</item>
+      <item>?def</item>
+      <item>comptime</item>
+      <item>asm</item>
+      <item>cextern</item>
+    </list>
+
+    <contexts>
+      <context name="Root" attribute="Normal Text" lineEndContext="#stay">
+        <!-- Consume whitespace so regexes usually match from start of token -->
+        <DetectSpaces />
+
+        <!-- Special case: include <path> -->
+        <!-- Lookahead for whitespace followed by < -->
+        <RegExpr attribute="Keyword" context="IncludeWait" String="include(?=\s+&lt;)" />
+
+        <!-- Standard Keywords -->
+        <!-- \b handles the boundary for alphanumeric keywords effectively -->
+        <keyword attribute="Keyword" context="#stay" String="keywords" />
+
+        <!-- Operators -->
+        <!-- Using lookahead (?=\s|$) to ensure they are standalone tokens as per Chroma's (?!\S) -->
+        <RegExpr attribute="Operator" context="#stay" String="(?:\+|\-|\*|/|%|%%|\+\+|\-\-|&gt;&gt;|&lt;&lt;)&boundary;" />
+        <RegExpr attribute="Operator" context="#stay" String="(?:=|!=|&gt;|&lt;|&gt;=|&lt;=|&gt;s|&lt;s|&gt;=s|&lt;=s)&boundary;" />
+        <RegExpr attribute="Operator" context="#stay" String="(?:&amp;|\||\^|~|!|-&gt;)&boundary;" />
+
+        <!-- Numbers -->
+        <RegExpr attribute="Decimal" context="#stay" String="-?\d+&boundary;" />
+
+        <!-- Comments -->
+        <!-- Chroma: (?<!\S);.*(\S|\n) -> Semicolon at start of token starts comment -->
+        <RegExpr attribute="Comment" context="#stay" String=";.*$" />
+
+        <!-- Strings -->
+        <DetectChar attribute="String" context="StringSingle" char="'" />
+        <DetectChar attribute="String" context="StringDouble" char="&quot;" />
+        <DetectChar attribute="Char" context="StringBacktick" char="`" />
+
+        <!-- Punctuation -->
+        <AnyChar attribute="Symbol" context="#stay" String="{}" />
+
+        <!-- Generic Name (Catch-all for anything else that isn't whitespace) -->
+        <RegExpr attribute="Normal Text" context="#stay" String="[^\s]+" />
+      </context>
+
+      <!-- Context to handle: include -> (whitespace) -> <path> -->
+      <context name="IncludeWait" attribute="Normal Text" lineEndContext="#stay">
+        <DetectSpaces />
+        <DetectChar attribute="String" context="IncludePath" char="&lt;" />
+        <!-- If we hit anything else, it's not a valid include path, go back -->
+        <RegExpr attribute="Normal Text" context="#pop" String="." lookAhead="true" />
+      </context>
+
+      <!-- Context for <path> -->
+      <context name="IncludePath" attribute="String" lineEndContext="#stay">
+        <DetectChar attribute="String" context="#pop#pop" char="&gt;" />
+        <DetectChar attribute="String Char" context="#stay" char="\" lookAhead="true" />
+        <RegExpr attribute="String Char" context="#stay" String="\\." />
+        <RegExpr attribute="String" context="#stay" String="[^\\&gt;]+" />
+      </context>
+
+      <!-- Double Quoted String "..." -->
+      <context name="StringDouble" attribute="String" lineEndContext="#stay">
+        <DetectChar attribute="String" context="#pop" char="&quot;" />
+        <RegExpr attribute="String Char" context="#stay" String="\\." />
+        <RegExpr attribute="String" context="#stay" String="[^\\&quot;]+" />
+      </context>
+
+      <!-- Single Quoted String '...' -->
+      <context name="StringSingle" attribute="String" lineEndContext="#stay">
+        <DetectChar attribute="String" context="#pop" char="'" />
+        <RegExpr attribute="String Char" context="#stay" String="\\." />
+        <RegExpr attribute="String" context="#stay" String="[^\\']+" />
+      </context>
+
+      <!-- Backtick String `...` -->
+      <context name="StringBacktick" attribute="Char" lineEndContext="#stay">
+        <DetectChar attribute="Char" context="#pop" char="`" />
+        <RegExpr attribute="String Char" context="#stay" String="\\." />
+        <RegExpr attribute="Char" context="#stay" String="[^\\`]+" />
+      </context>
+
+    </contexts>
+
+    <itemDatas>
+      <itemData name="Normal Text" defStyleNum="dsNormal" spellChecking="false" />
+      <itemData name="Keyword" defStyleNum="dsKeyword" spellChecking="false" />
+      <itemData name="Operator" defStyleNum="dsOperator" spellChecking="false" />
+      <itemData name="Decimal" defStyleNum="dsDecVal" spellChecking="false" />
+      <itemData name="Comment" defStyleNum="dsComment" spellChecking="true" />
+      <itemData name="String" defStyleNum="dsString" spellChecking="true" />
+      <itemData name="Char" defStyleNum="dsChar" spellChecking="false" />
+      <itemData name="String Char" defStyleNum="dsSpecialChar" spellChecking="false" />
+      <itemData name="Symbol" defStyleNum="dsNormal" spellChecking="false" />
+    </itemDatas>
+  </highlighting>
+  <general>
+    <comments>
+      <comment name="singleLine" start=";" />
+    </comments>
+    <keywords casesensitive="1" />
+  </general>
+</language>
+<!-- kate: replace-tabs on; tab-width 4; indent-width 4; -->

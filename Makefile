@@ -51,6 +51,9 @@ TOPLEVEL_LIST_ARG := $(foreach t,$(TOPLEVEL_LIST),-M toplevel_list=$(t))
 PANDOC_OPTS := -s $(TOPLEVEL_LIST_ARG) \
 	--from markdown+hard_line_breaks+wikilinks_title_after_pipe+mark+pipe_tables \
 	--highlight-style=tools/monokai.theme \
+	--syntax-definition=tools/vlang.xml \
+	--syntax-definition=tools/stas.xml \
+	--syntax-definition=tools/wat.xml \
 	--extract-media=public/media -M media_path=$(media) # see resources.lua
 
 # broken at the moment

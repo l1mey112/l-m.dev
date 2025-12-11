@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language [
+  <!ENTITY int "(?:[0-9](?:_?[0-9])*)">
+  <!ENTITY hex "(?:[0-9a-fA-F](?:_?[0-9a-fA-F])*)">
+  <!ENTITY oct "(?:[0-7](?:_?[0-7])*)">
+  <!ENTITY bin "(?:[01](?:_?[01])*)">
+  <!ENTITY name "[a-zA-Z_]\w*">
+]>
+
+<!--
+This file is based on the Chroma syntax highlighter for the V language.
+V is a statically typed compiled programming language.
+-->
+
+<language name="V" version="1" kateversion="5.0" section="Sources" extensions="*.v;*.vv;v.mod" mimetype="text/x-v" author="Chroma Conversion" license="MIT">
+  <highlighting>
+    <!-- Keywords from Chroma 'KeywordNamespace' -->
+    <list name="namespace_keywords">
+      <item>import</item>
+      <item>module</item>
+    </list>
+
+    <!-- Keywords from Chroma 'KeywordDeclaration' -->
+    <list name="declaration_keywords">
+      <item>fn</item>
+      <item>struct</item>
+      <item>union</item>
+      <item>map</item>
+      <item>chan</item>
+      <item>type</item>
+      <item>interface</item>
+      <item>enum</item>
+      <item>const</item>
+      <item>mut</item>
+      <item>shared</item>
+      <item>pub</item>
+      <item>__global</item>
+    </list>
+
+    <!-- Keywords from Chroma 'Keyword' and standard control flow -->
+    <list name="keywords">
+      <item>break</item>
+      <item>select</item>
+      <item>match</item>
+      <item>defer</item>
+      <item>go</item>
+      <item>goto</item>
+      <item>else</item>
+      <item>if</item>
+      <item>continue</item>
+      <item>for</item>
+      <item>return</item>
+      <item>assert</item>
+      <item>or</item>
+      <item>as</item>
+      <item>atomic</item>
+      <item>isreftype</item>
+      <item>is</item>
+      <item>in</item>
+      <item>lock</item>
+      <item>rlock</item>
+      <item>sizeof</item>
+      <item>typeof</item>
+      <item>unsafe</item>
+      <item>volatile</item>
+      <item>static</item>
+      <item>__offsetof</item>
+    </list>
+
+    <!-- Keywords from Chroma 'KeywordConstant' -->
+    <list name="constants">
+      <item>none</item>
+      <item>true</item>
+      <item>false</item>
+      <item>si_s_code</item>
+      <item>si_g32_code</item>
+      <item>si_g64_code</item>
+    </list>
+
+    <!-- Keywords from Chroma 'KeywordType' -->
+    <list name="types">
+      <item>u8</item>
+      <item>u16</item>
+      <item>u32</item>
+      <item>u64</item>
+      <item>u128</item>
+      <item>int</item>
+      <item>i8</item>
+      <item>i16</item>
+      <item>i64</item>
+      <item>i128</item>
+      <item>f32</item>
+      <item>f64</item>
+      <item>rune</item>
+      <item>string</item>
+      <item>bool</item>
+      <item>usize</item>
+      <item>isize</item>
+      <item>any</item>
+      <item>error</item>
+      <item>voidptr</item>
+      <item>byte</item>
+    </list>
+
+    <!-- Keywords from Chroma 'NameBuiltin' (Function-like) -->
+    <!-- <list name="builtins">
+      <item>print</item>
+      <item>println</item>
+      <item>dump</item>
+      <item>panic</item>
+      <item>eprint</item>
+      <item>eprintln</item>
+      <item>copy</item>
+      <item>close</item>
+      <item>len</item>
+      <item>map</item>
+      <item>filter</item>
+      <item>cap</item>
+      <item>delete</item>
+      <item>delete_many</item>
+      <item>delete_last</item>
+      <item>exit</item>
+      <item>clone</item>
+      <item>keys</item>
+      <item>values</item>
+      <item>move</item>
+    </list>
+ -->
+    <!-- Preprocessor OS/Arch Checks -->
+    <list name="pp_words">
+      <item>windows</item>
+      <item>linux</item>
+      <item>macos</item>
+      <item>mac</item>
+      <item>darwin</item>
+      <item>ios</item>
+      <item>android</item>
+      <item>mach</item>
+      <item>dragonfly</item>
+      <item>gnu</item>
+      <item>hpux</item>
+      <item>haiku</item>
+      <item>qnx</item>
+      <item>solaris</item>
+      <item>gcc</item>
+      <item>tinyc</item>
+      <item>clang</item>
+      <item>mingw</item>
+      <item>msvc</item>
+      <item>cplusplus</item>
+      <item>amd64</item>
+      <item>arm64</item>
+      <item>x64</item>
+      <item>x32</item>
+      <item>little_endian</item>
+      <item>big_endian</item>
+      <item>debug</item>
+      <item>prod</item>
+      <item>test</item>
+      <item>js</item>
+      <item>glibc</item>
+      <item>prealloc</item>
+      <item>no_bounds_checking</item>
+      <item>freestanding</item>
+      <item>no_segfault_handler</item>
+      <item>no_backtrace</item>
+      <item>no_main</item>
+    </list>
+
+    <contexts>
+      <context name="Normal" attribute="Normal Text" lineEndContext="#stay">
+        
+        <!-- Shebang -->
+        <RegExpr attribute="Comment" context="#stay" String="^#!.*$" />
+
+        <!-- Comments -->
+        <Detect2Chars attribute="Comment" context="CommentSingle" char="/" char1="/" />
+        <Detect2Chars attribute="Comment" context="CommentMulti" char="/" char1="*" beginRegion="Comment" />
+
+        <!-- Attributes [foo] -->
+        <DetectChar attribute="Operator" context="#stay" char="[" />
+
+        <!-- SQL Block (basic delegation or highlight) -->
+        <RegExpr attribute="Keyword" context="SQLBlock" String="\bsql\s+\w+\s*\{" beginRegion="SQL" />
+        
+        <!-- ASM Block -->
+        <RegExpr attribute="Keyword" context="ASMBlock" String="\basm\s+\w+\s*\{" beginRegion="ASM" />
+
+        <!-- Compiler/Preprocessor Directives ($if, $embed_file etc) -->
+        <RegExpr attribute="Preprocessor" context="#stay" String="\$(?:embed_file|pkgconfig|tmpl|env|compile_error|compile_warn|if|else)\b" />
+        <RegExpr attribute="Preprocessor" context="PreprocessorCheck" String="\$if\b" />
+        <DetectChar attribute="Operator" context="#stay" char="$" /> <!-- Generic $ operator -->
+
+        <!-- Magic Variables (@FN, etc) -->
+        <RegExpr attribute="Magic Variable" context="#stay" String="@(?:FN|METHOD|MOD|STRUCT|FILE|LINE|COLUMN|VEXE|VEXEROOT|VHASH|VMOD_FILE|VMODROOT)\b" />
+        <RegExpr attribute="Magic Variable" context="#stay" String="\bit\b" />
+
+        <!-- C Preprocessor style -->
+        <RegExpr attribute="Preprocessor" context="#stay" String="^\s*#(?:include|flag|define).*$" />
+
+        <!-- Strings -->
+        <!-- Raw Strings -->
+        <RegExpr attribute="String" context="#stay" String="r'[^']*'" />
+        <RegExpr attribute="String" context="#stay" String="r&quot;[^&quot;]*&quot;" />
+        <!-- C Strings -->
+        <RegExpr attribute="String" context="StringDouble" String="c&quot;" />
+        <RegExpr attribute="String" context="StringSingle" String="c'" />
+        <!-- Standard Strings -->
+        <DetectChar attribute="String" context="StringDouble" char="&quot;" />
+        <DetectChar attribute="String" context="StringSingle" char="'" />
+        <!-- Char / Rune -->
+        <DetectChar attribute="Char" context="Char" char="`" />
+
+        <!-- Numbers -->
+        <!-- Float -->
+        <RegExpr attribute="Float" context="#stay" String="\b&int;\.&int;(?:[eE][+-]?&int;)?|&int;[eE][+-]?&int;|\.&int;(?:[eE][+-]?&int;)?" />
+        <!-- Hex -->
+        <RegExpr attribute="Hex" context="#stay" String="\b0x[0-9a-fA-F_]+" />
+        <!-- Octal -->
+        <RegExpr attribute="Octal" context="#stay" String="\b0o[0-7_]+" />
+        <!-- Bin -->
+        <RegExpr attribute="Binary" context="#stay" String="\b0b[01_]+" />
+        <!-- Int -->
+        <RegExpr attribute="Decimal" context="#stay" String="\b(?:0|[1-9](?:_?[0-9])*)" />
+
+        <!-- Keywords & Types -->
+		<keyword attribute="Module" context="#stay" String="namespace_keywords" />
+        <keyword attribute="Data Type" context="#stay" String="declaration_keywords" />
+        <keyword attribute="Keyword" context="#stay" String="keywords" />
+        <keyword attribute="Constant" context="#stay" String="constants" />
+        <keyword attribute="Data Type" context="#stay" String="types" />
+
+        <!-- Operators -->
+        <AnyChar attribute="Operator" context="#stay" String="+*/%!=&lt;&gt;&amp;^|~-?:;" />
+        <Detect2Chars attribute="Operator" context="#stay" char="." char1="." />
+
+        <!-- Identifiers -->
+        <RegExpr attribute="Function" context="#stay" String="&name;(?=\s*\()" />
+        <RegExpr attribute="Type" context="#stay" String="[A-Z]\w*" />
+
+        <!-- Folding -->
+        <DetectChar attribute="Operator" context="#stay" char="{" beginRegion="Brace" />
+        <DetectChar attribute="Operator" context="#stay" char="}" endRegion="Brace" />
+
+      </context>
+
+      <!-- Comments -->
+      <context name="CommentSingle" attribute="Comment" lineEndContext="#pop">
+        <DetectSpaces />
+        <IncludeRules context="##Comments" />
+      </context>
+
+      <context name="CommentMulti" attribute="Comment" lineEndContext="#stay">
+        <DetectSpaces />
+        <Detect2Chars attribute="Comment" context="CommentMulti" char="/" char1="*" beginRegion="Comment" />
+        <Detect2Chars attribute="Comment" context="#pop" char="*" char1="/" endRegion="Comment" />
+        <IncludeRules context="##Comments" />
+      </context>
+
+      <!-- Preprocessor Conditionals -->
+      <context name="PreprocessorCheck" attribute="Preprocessor" lineEndContext="#pop">
+        <keyword attribute="Constant" context="#stay" String="pp_words" />
+        <AnyChar attribute="Operator" context="#stay" String="&amp;|!" />
+      </context>
+
+      <!-- Strings & Interpolation -->
+      <context name="StringDouble" attribute="String" lineEndContext="#pop">
+        <DetectChar attribute="String" context="#pop" char="&quot;" />
+        <IncludeRules context="StringCommon" />
+      </context>
+
+      <context name="StringSingle" attribute="String" lineEndContext="#pop">
+        <DetectChar attribute="String" context="#pop" char="'" />
+        <IncludeRules context="StringCommon" />
+      </context>
+
+      <context name="StringCommon" attribute="String" lineEndContext="#stay">
+        <RegExpr attribute="String Char" context="#stay" String="\\[\\abfnrtv$'\&quot;`]|\\x[0-9a-fA-F]{2}|\\u[0-9a-fA-F]{4}|\\U[0-9a-fA-F]{8}|[0-7]{1,3}" />
+        
+        <!-- Interpolation: ${...} -->
+        <Detect2Chars attribute="Operator" context="InterpolationComplex" char="$" char1="{" />
+        <!-- Interpolation: $var -->
+        <RegExpr attribute="Operator" context="#stay" String="\$(?:&name;)" />
+      </context>
+
+      <context name="InterpolationComplex" attribute="Normal Text" lineEndContext="#stay">
+        <DetectChar attribute="Operator" context="#pop" char="}" />
+        <IncludeRules context="Normal" />
+      </context>
+
+      <context name="Char" attribute="Char" lineEndContext="#pop">
+        <DetectChar attribute="Char" context="#pop" char="`" />
+        <RegExpr attribute="String Char" context="#stay" String="\\." />
+      </context>
+
+      <!-- SQL / ASM Blocks (Simple container handling) -->
+      <context name="SQLBlock" attribute="Normal Text" lineEndContext="#stay">
+        <DetectChar attribute="Operator" context="#pop" char="}" endRegion="SQL" />
+        <!-- Could IncludeRules context="##SQL" if available -->
+      </context>
+
+      <context name="ASMBlock" attribute="Normal Text" lineEndContext="#stay">
+        <DetectChar attribute="Operator" context="#pop" char="}" endRegion="ASM" />
+      </context>
+
+    </contexts>
+
+    <itemDatas>
+      <itemData name="Normal Text" defStyleNum="dsNormal" spellChecking="false" />
+      <itemData name="Keyword" defStyleNum="dsKeyword" spellChecking="false" />
+      <itemData name="Data Type" defStyleNum="dsDataType" spellChecking="false" />
+      <itemData name="Constant" defStyleNum="dsConstant" spellChecking="false" />
+      <itemData name="Magic Variable" defStyleNum="dsConstant" spellChecking="false" />
+      <itemData name="Builtin" defStyleNum="dsBuiltIn" spellChecking="false" />
+      <itemData name="Function" defStyleNum="dsAttribute" spellChecking="false" />
+      <itemData name="Decimal" defStyleNum="dsDecVal" spellChecking="false" />
+      <itemData name="Hex" defStyleNum="dsBaseN" spellChecking="false" />
+      <itemData name="Octal" defStyleNum="dsBaseN" spellChecking="false" />
+      <itemData name="Binary" defStyleNum="dsBaseN" spellChecking="false" />
+      <itemData name="Float" defStyleNum="dsFloat" spellChecking="false" />
+      <itemData name="Char" defStyleNum="dsChar" spellChecking="false" />
+      <itemData name="String" defStyleNum="dsString" spellChecking="true" />
+      <itemData name="String Char" defStyleNum="dsSpecialChar" spellChecking="false" />
+      <itemData name="Comment" defStyleNum="dsComment" spellChecking="true" />
+      <itemData name="Operator" defStyleNum="dsOperator" spellChecking="false" />
+      <itemData name="Preprocessor" defStyleNum="dsPreprocessor" spellChecking="false" />
+      <itemData name="Attribute" defStyleNum="dsAttribute" spellChecking="false" />
+      <itemData name="Type" defStyleNum="dsDataType" spellChecking="false" />
+	  <itemData name="Module" defStyleNum="dsImport" spellChecking="false" />
+    </itemDatas>
+  </highlighting>
+  <general>
+    <comments>
+      <comment name="singleLine" start="//" />
+      <comment name="multiLine" start="/*" end="*/" region="Comment" />
+    </comments>
+    <keywords casesensitive="1" />
+  </general>
+</language>
+<!-- kate: replace-tabs on; tab-width 4; indent-width 4; -->
