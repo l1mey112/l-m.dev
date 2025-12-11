@@ -13,11 +13,25 @@
 	$endif$
 
 	<link rel="stylesheet" type="text/css" media="screen" href="/static/fonts.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="/static/main.css" />
+
 	$if(is_cs)$
 	<meta name="darkreader-lock">
+	$endif$
+	$if(is_homepage)$
+	<meta name="darkreader-lock">
+	$endif$
+
+	$if(is_cs)$
+	<link rel="stylesheet" type="text/css" media="screen" href="/static/main.css" />
 	$else$
+	$if(is_homepage)$
 	<link rel="stylesheet" type="text/css" media="screen" href="/static/index.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/static/main.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/static/me.css" />
+	$else$
+	<link rel="stylesheet" type="text/css" media="screen" href="/static/main.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/static/index.css" />
+	$endif$
 	$endif$
 
 	<!-- $for(css)$

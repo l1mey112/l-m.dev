@@ -22,11 +22,6 @@ else
 	media := $(M)
 endif
 
-FILTERS := $(wildcard tools/*.lua)
-FILTERS_ARG := $(foreach f,$(FILTERS),-L $(f))
-
-LUA_DEPS := $(shell find tools -type f -name '*.lua')
-
 TEMPLATES := $(shell find templates -type f -name '*.html')
 STATIC := $(wildcard public/static/**)
 
@@ -49,7 +44,7 @@ TOPLEVEL_LIST := /cs /talk
 # TOPLEVEL_LIST -> -M toplevel_list=item1 -M toplevel_list=item2 ...
 TOPLEVEL_LIST_ARG := $(foreach t,$(TOPLEVEL_LIST),-M toplevel_list=$(t))
 
-PANDOC_OPTS := -s $(TOPLEVEL_LIST_ARG) \
+PANDOC_OPTS := -s -L tools/resources.lua $(TOPLEVEL_LIST_ARG) \
 	--from markdown+hard_line_breaks+wikilinks_title_after_pipe+mark+pipe_tables \
 	--highlight-style=templates/monokai.theme \
 	--syntax-definition=templates/vlang.xml \
@@ -66,11 +61,11 @@ PANDOC_OPTS := -s $(TOPLEVEL_LIST_ARG) \
 # i would prefer to make it all consistent, but doing so (reading from the list json)
 # would require rebuilding everything all the time when a single file changes
 
+_dummy := $(shell mkdir -p public/cs)
+
 .PHONY: all
 all: public/index.html $(TOPLEVEL_PAGES) \
 	public/cs/index.html
-
-# public/cs/index.html
 
 .PHONY: serve
 serve: all
@@ -80,50 +75,57 @@ serve: all
 .PHONY: clean
 clean:
 	find public -mindepth 1 -maxdepth 1 ! -name 'static' -exec rm -rf {} +
-	rm meta.db
+	rm -f meta.db meta.db-shm meta.db-wal
 
 meta.db:
 	sqlite3 $@ < tools/schema.sql
 
-public/cs: 
-	mkdir -p $@
+public/index.html: $(TEMPLATES) $(STATIC) \
+	meta.db $(CS_PAGES) \
+	tools/resources.lua tools/metadata_list_tags.lua
 
-public/index.html: $(website)/index.md $(TEMPLATES) $(STATIC) $(LUA_DEPS)
+# removed for now
+#-V is_homepage=true
 
-	pandoc $< -o $@ \
-		--template=templates/baseof.html \
-		--metadata title="l-m.dev" \
-		$(PANDOC_OPTS) $(FILTERS_ARG)
+	cat /dev/null | pandoc -o $@ \
+		--template=templates/index/baseof.html \
+		$(PANDOC_OPTS) -L tools/metadata_list_tags.lua \
+		-M list_tags_file=<(tools/dump_tags_popcount.sh meta.db) \
+		--metadata title="l-m.dev"
 
-public/%/index.html: $(website)/%.md $(TEMPLATES) $(STATIC) $(LUA_DEPS)
+public/%/index.html: $(website)/%.md $(TEMPLATES) $(STATIC) \
+	tools/metadata_page.lua tools/resources.lua
 
 	mkdir -p $(dir $@)
 
 	pandoc $< -o $@ \
 		--template=templates/baseof.html \
-		$(PANDOC_OPTS) $(FILTERS_ARG)
+		$(PANDOC_OPTS) -L tools/metadata_page.lua
 
-public/cs/index.html: $(TEMPLATES) $(STATIC) $(LUA_DEPS) \
-	public/cs meta.db $(CS_PAGES)
+public/cs/index.html: $(TEMPLATES) $(STATIC) \
+	meta.db $(CS_PAGES) \
+	tools/metadata_list_map.lua tools/resources.lua
 
+	mkdir -p $(dir $@)
+	
 	cat /dev/null | pandoc -o $@ \
 		--template=templates/cs/baseof_list.html \
 		-V section="cs" -V is_cs=true \
-		$(PANDOC_OPTS) $(FILTERS_ARG) \
+		$(PANDOC_OPTS) -L tools/metadata_list_map.lua \
 		-M pageurl="/cs" \
 		-M list_map_file=<(tools/dump_cs_list.sh meta.db) \
 		--metadata title="l-m.dev" \
 		--title-prefix="Cs"
 
-public/cs/%/index.html: $(website)/cs/%.md meta.db $(TEMPLATES) $(STATIC) $(LUA_DEPS) \
-	public/cs
+public/cs/%/index.html: $(website)/cs/%.md meta.db $(TEMPLATES) $(STATIC) \
+	tools/metadata_hook.lua tools/metadata_page.lua tools/resources.lua
 
 	mkdir -p $(dir $@)
 
 	pandoc $< -o $@ \
 		--template=templates/cs/baseof.html \
 		-V section="cs" -V is_cs=true \
-		$(PANDOC_OPTS) $(FILTERS_ARG) \
+		$(PANDOC_OPTS) -L tools/metadata_hook.lua -L tools/metadata_page.lua \
 		-M pageurl="/cs/$(basename $(notdir $<))" \
 		-M extract_meta=true \
 		--title-prefix="l-m.dev" \

@@ -100,3 +100,14 @@ p, li {
 	margin: 0;
 	padding: 0;
 }
+
+pre {
+	font-family: 'Terminus (TTF)' !important;
+	margin: 0;
+    padding: 4px 0;
+    display: inline;
+}
+
+pre {
+	color: rgb(95, 90, 83);
+}

@@ -1,5 +1,3 @@
-local datenorm = require("tools.modules.datenorm")
-local urlize = require("tools.modules.urlize")
 local pandoc_safe = require("tools.modules.pandoc_safe")
 
 local function comma_sep_to_pandoc(str)

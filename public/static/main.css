@@ -408,7 +408,7 @@ h2 code::before {
   display: inline;
 }
 
-pre {
+pre:has(code) {
   background-color: #292429 !important;
   line-height: 1;
   overflow-x: auto;
