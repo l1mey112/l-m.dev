@@ -2,8 +2,16 @@
 -- then put these inside the mediabag
 local media_path
 
+local function is_remote_path(path)
+    return path:match("^%a+://") or path:match("^//") ~= nil
+end
+
 function resolve_url(src)
 	src = pandoc.utils.stringify(src)
+
+	if is_remote_path(src) then
+		return src
+	end
 
 	local path = media_path .. "/" .. src
 	local url = "/media/" .. src
@@ -29,7 +37,136 @@ local image_styles = {
     ['png-flex']      = '<img loading="lazy" style="max-width: 100%%; height: auto; flex: 1 1 0; min-width: 200px;" src="%s"></img>'
 }
 
+local debug = require("tools.modules.debug")
+
+local function handle_wikilink(el)
+	--[[
+		the only way we know that something is a wikilink is by checking the title="wikilink"
+		on the pandoc element. this seems quite brittle, but oh well!
+
+		if something happens, it's probably this
+	]]
+
+	local src = resolve_url(el.src)
+
+	local caption = pandoc.utils.stringify(el.caption)
+
+	local opt_centre = nil
+	local opt_pixel = nil
+
+	-- there isn't a special directive, captions are the directives
+	if el.src == caption then
+		-- no directives
+	else
+		for directive in string.gmatch(caption, '([^|]+)') do
+			directive = directive:lower():gsub("^%s*(.-)%s*$", "%1") -- trim spaces
+
+			if directive == "center" then
+				opt_centre = true
+			else
+				local pixel_value = tonumber(directive)
+				if pixel_value then
+					opt_pixel = pixel_value
+				else
+					debug.eprint("unrecognized wikilink directive: " .. directive)
+				end
+			end
+		end
+	end
+
+	if opt_centre and opt_pixel then
+		return pandoc.RawInline(
+			'html',
+			string.format(
+				'<div style="text-align: center;"><img loading="lazy" style="border: none; width: %dpx; height: auto;" src="%s"></img></div>',
+				opt_pixel,
+				src
+			)
+		)
+	elseif opt_centre then
+		return pandoc.RawInline(
+			'html',
+			string.format(
+				'<div style="text-align: center;"><img loading="lazy" style="border: none;" src="%s"></img></div>',
+				src
+			)
+		)
+	elseif opt_pixel then
+		return pandoc.RawInline(
+			'html',
+			string.format(
+				'<img loading="lazy" style="border: none; width: %dpx; height: auto;" src="%s"></img>',
+				opt_pixel,
+				src
+			)
+		)
+	else
+		return pandoc.RawInline(
+			'html',
+			string.format(
+				'<img loading="lazy" style="border: none;" src="%s"></img>',
+				src
+			)
+		)
+	end
+end
+
+function is_wikilink(el) 
+	return el.title == "wikilink"
+end
+
+function _Para(el)
+	-- handle collage images
+	-- ![[tole.png]] ![[tole.png]] ![[tole.png]]
+
+	--[[ , Para
+		[ Image
+			( "" , [] , [] )
+			[ Str "tole.png" ]
+			( "tole.png" , "wikilink" )
+		, Space
+		, Image
+			( "" , [] , [] )
+			[ Str "tole.png" ]
+			( "tole.png" , "wikilink" )
+		, Space
+		, Image
+			( "" , [] , [] )
+			[ Str "tole.png" ]
+			( "tole.png" , "wikilink" )
+		]
+	] ]]
+
+	local image_elements = {}
+
+	for i, inline in ipairs(el.content) do
+		if inline.t == "Image" and is_wikilink(inline) then
+			table.insert(image_elements, inline)
+		elseif inline.t == "Space" then
+			-- ignore spaces
+		else
+			-- not a collage
+			return nil
+		end
+	end
+
+	if #image_elements <= 1 then
+		-- not a collage
+		return nil
+	end
+
+	local html = '<div class="image-row">'
+	for _, img in ipairs(image_elements) do
+		html = html .. handle_wikilink(img).text
+	end
+	html = html .. '</div>'
+	return pandoc.RawInline('html', html)
+end
+
 function _Image(el)
+	if is_wikilink(el) then
+		return handle_wikilink(el)
+	end
 
 	for _, class in ipairs(el.classes) do
         local template = image_styles[class]
@@ -83,9 +220,12 @@ function _Image(el)
 		return pandoc.RawInline('html', html)
 	end
 
-	--[[ should probably error out here ]]
+	if not is_remote_path(el.src) then
+		debug.print_table(el)
+		error("unrecognized local image kind for local media (see above ^^)")
+	end
 
-	return el
+	return nil
 end
 
 function _Meta(meta)
@@ -95,6 +235,7 @@ end
 
 function Pandoc(doc)
 	doc = doc:walk { Meta = _Meta }
+	doc = doc:walk { Para = _Para } -- find wikilinks in paragraphs first
 	doc = doc:walk { Image = _Image }
 	return doc
 end

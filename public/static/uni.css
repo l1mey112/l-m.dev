@@ -1,0 +1,53 @@
+
+/* -------------- shortcode porting -------------- */
+
+.flex-columns {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -1rem;
+  margin-right: -1rem;
+}
+
+.flex-columns>div {
+  margin: 1rem 0;
+  min-width: 10rem;
+  padding: 0 1rem
+}
+
+.flex-columns-1 {
+  flex:1 1;
+}
+
+/* vertical_content_75 */
+.flex-columns-2 {
+  flex:2 1;
+}
+
+/* vertical_content_80 */
+.flex-columns-4 {
+  flex:2 1;
+}
+
+.centre-text {
+  text-align: center;
+}
+
+/* vertical_content_container */
+.align-items {
+  align-items: center;
+}
+
+.image-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.image-row img {
+  max-width: 100%;
+  height: auto;
+  
+  flex: 0 0 auto;
+}

@@ -12,14 +12,6 @@ local function esc(str)
     return str:gsub("'", "''")
 end
 
-function eprint(...)
-    local args = {...}
-    for i, v in ipairs(args) do
-        args[i] = tostring(v)
-    end
-    io.stderr:write(table.concat(args, "\t") .. "\n")
-end
-
 local datenorm = require("tools.modules.datenorm")
 local urlize = require("tools.modules.urlize")
 local pandoc_safe = require("tools.modules.pandoc_safe")
@@ -59,8 +51,6 @@ function Pandoc(doc)
 
 	local date_yyyy_mm_dd = pandoc.utils.stringify(doc.meta.date)
 	doc.meta.date_formatted = datenorm.normalize_date(doc.meta.date)
-
-	eprint(doc.meta.title)
 
 	local title = pandoc_safe.stringify_or_nil(doc.meta.title)
 	local description = pandoc_safe.stringify_or_nil(doc.meta.description)

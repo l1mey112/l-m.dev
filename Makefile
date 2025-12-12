@@ -27,7 +27,9 @@ LUA_MODULES := $(wildcard tools/modules/*.lua)
 TEMPLATES := $(shell find templates -type f -name '*.html')
 STATIC := $(wildcard public/static/**)
 
-DIRS := $(wildcard $(website)/*)
+# extracts ONLY directories under $(website) that don't start with _
+RAW_DIRS := $(filter-out $(website)/_%/,$(wildcard $(website)/*/))
+DIRS     := $(patsubst %/,%,$(RAW_DIRS))
 TARGETS := $(patsubst $(website)/%,public/%/index.html,$(filter %,$(DIRS)))
 
 #ifdef OVERRIDE_CS_PAGES
@@ -47,7 +49,7 @@ TOPLEVEL_LIST := /cs /talk
 TOPLEVEL_LIST_ARG := $(foreach t,$(TOPLEVEL_LIST),-M toplevel_list=$(t))
 
 PANDOC_OPTS := -s -L tools/resources.lua $(TOPLEVEL_LIST_ARG) \
-	--from markdown+hard_line_breaks+wikilinks_title_after_pipe+mark+pipe_tables \
+	--from markdown+hard_line_breaks+wikilinks_title_after_pipe-implicit_figures+mark+pipe_tables \
 	--highlight-style=templates/monokai.theme \
 	--syntax-definition=templates/vlang.xml \
 	--syntax-definition=templates/stas.xml \
