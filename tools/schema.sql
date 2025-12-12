@@ -15,7 +15,7 @@ create table if not exists posts (
 
 	"epoch" integer,
 
-	"title" text not null,
+	"title" text,
 	"description" text,
 
 	"tags" text not null, -- comma-separated list of tags

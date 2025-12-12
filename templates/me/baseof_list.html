@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+    $../header.html()$
+	</head>
+    <body>
+	<div class="cnt">
+		<a class="nvis" href="/">
+<pre>
+  ▄▄▌    • ▌ ▄ ·.   
+  ██•    ·██ ▐███▪  
+  ██ ▪   ▐█ ▌▐▌▐█·  
+  ▐█▌ ▄  ██ ██▌▐█▌  
+  .▀▀▀   ▀▀  █▪▀▀▀  
+</pre>
+		</a>
+
+		<div class="cc">
+		<p>
+		<a href="https://l-m.dev">https://l-m.dev</a> - © l-m.dev 2023<br>
+		Welcome! - 660 total posts. [<a href="/index.xml">RSS</a>]<br>
+		Created with &lt;3 with <a href="https://vlang.io/">V</a>. [<a href="$pageurl$#$latest_post.epoch$">LATEST</a>]
+		</p>
+		</div>
+	</div>
+
+	<hr color=gray>
+	$for(list_map)$
+	<article id="$it.epoch$">
+	<header>
+		<time datetime="$it.date_epoch_rfc3339$">$it.date_epoch_nice$</time>
+		<p class=s>$it.epoch$</p>
+		$it.tags_me_fmt$
+		<div class=r>
+			<a href="$pageurl$#$it.epoch$">[share]</a>
+			<!-- no linking to images at the moment -->
+		</div>
+	</header>
+	<main>
+		$it.body$
+	</main>
+	</article>
+	$if(it.last_pinned)$
+	<hr color=gray>
+	$endif$
+	$endfor$
+	<hr color=gray>
+	<br>
+    </body>
+</html>

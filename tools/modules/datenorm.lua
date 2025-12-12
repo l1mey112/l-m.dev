@@ -23,4 +23,28 @@ function datenorm.normalize_date(date_str)
 	return nil
 end
 
+function datenorm.utc_epoch_to_YYYY_MM_DD(epoch)
+	local epoch_num = tonumber(epoch)
+	if epoch_num == nil then
+		return nil
+	end
+	return os.date("%Y-%m-%d", epoch_num)
+end
+
+function datenorm.utc_epoch_to_rfc3339(epoch)
+	local epoch_num = tonumber(epoch)
+	if epoch_num == nil then
+		return nil
+	end
+	return os.date("!%Y-%m-%dT%H:%M:%SZ", epoch_num)
+end
+
+function datenorm.utc_epoch_to_nice_string(epoch)
+	local epoch_num = tonumber(epoch)
+	if epoch_num == nil then
+		return nil
+	end
+	return os.date("%c %Z", epoch_num)
+end
+
 return datenorm

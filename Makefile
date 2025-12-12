@@ -22,21 +22,23 @@ else
 	media := $(M)
 endif
 
+LUA_MODULES := $(wildcard tools/modules/*.lua)
+
 TEMPLATES := $(shell find templates -type f -name '*.html')
 STATIC := $(wildcard public/static/**)
 
-CS := $(wildcard $(website)/cs/*)
-CS_PAGES := $(patsubst $(website)/cs/%.md,public/cs/%/index.html,$(filter %.md,$(CS)))
+DIRS := $(wildcard $(website)/*)
+TARGETS := $(patsubst $(website)/%,public/%/index.html,$(filter %,$(DIRS)))
 
-ifdef OVERRIDE_CS_PAGES
-CS_PAGES := $(strip $(OVERRIDE_CS_PAGES))
-endif
+#ifdef OVERRIDE_CS_PAGES
+#CS_PAGES := $(strip $(OVERRIDE_CS_PAGES))
+#endif
 
 # --from markdown+autolink_bare_uris literally converts frontmatter urls to <a> tags.
 # what a joke
 
-TOPLEVEL := $(filter-out $(website)/index.md,$(wildcard $(website)/*.md))
-TOPLEVEL_PAGES := $(patsubst $(website)/%.md,public/%/index.html,$(filter %.md,$(TOPLEVEL)))
+#TOPLEVEL := $(filter-out $(website)/index.md,$(wildcard $(website)/*.md))
+#TOPLEVEL_PAGES := $(patsubst $(website)/%.md,public/%/index.html,$(filter %.md,$(TOPLEVEL)))
 
 # these show up at the top as /talk, /cs, /3d, etc
 TOPLEVEL_LIST := /cs /talk
@@ -55,17 +57,9 @@ PANDOC_OPTS := -s -L tools/resources.lua $(TOPLEVEL_LIST_ARG) \
 # broken at the moment
 #	--filter tools/mathjax-svg-filter.js
 
-# the calculation for the word count in the list uses `wc`, but the calculation
-# for the wordcount in the actual files uses a more sophisticated lua filter.
-#
-# i would prefer to make it all consistent, but doing so (reading from the list json)
-# would require rebuilding everything all the time when a single file changes
-
-_dummy := $(shell mkdir -p public/cs)
-
+#$(TOPLEVEL_PAGES)
 .PHONY: all
-all: public/index.html $(TOPLEVEL_PAGES) \
-	public/cs/index.html
+all: public/index.html $(TARGETS)
 
 .PHONY: serve
 serve: all
@@ -77,56 +71,77 @@ clean:
 	find public -mindepth 1 -maxdepth 1 ! -name 'static' -exec rm -rf {} +
 	rm -f meta.db meta.db-shm meta.db-wal
 
-meta.db:
-	sqlite3 $@ < tools/schema.sql
+	    
+_metadb := $(shell sqlite3 meta.db < tools/schema.sql)
 
 public/index.html: $(TEMPLATES) $(STATIC) \
-	meta.db $(CS_PAGES) \
-	tools/resources.lua tools/metadata_list_tags.lua
+	tools/resources.lua tools/metadata_list_tags.lua $(LUA_MODULES)
 
 # removed for now
 #-V is_homepage=true
 
 	cat /dev/null | pandoc -o $@ \
 		--template=templates/index/baseof.html \
+		--css=/static/main.css \
+		--css=/static/index.css \
+		-V is_homepage=true -V is_dark_already=false \
 		$(PANDOC_OPTS) -L tools/metadata_list_tags.lua \
 		-M list_tags_file=<(tools/dump_tags_popcount.sh meta.db) \
 		--metadata title="l-m.dev"
 
-public/%/index.html: $(website)/%.md $(TEMPLATES) $(STATIC) \
-	tools/metadata_page.lua tools/resources.lua
+#public/%/index.html: $(website)/%.md $(TEMPLATES) $(STATIC) \
+#	tools/metadata_page.lua tools/resources.lua
+#
+#	mkdir -p $(dir $@)
+#
+#	pandoc $< -o $@ \
+#		--template=templates/baseof.html \
+#		$(PANDOC_OPTS) -L tools/metadata_page.lua
 
-	mkdir -p $(dir $@)
+STYLE_cs   := /static/main.css
+STYLE_DEFAULT := /static/me.css
 
-	pandoc $< -o $@ \
-		--template=templates/baseof.html \
-		$(PANDOC_OPTS) -L tools/metadata_page.lua
+TEMPLATE_BASE_cs := templates/cs/
+TEMPLATE_BASE_DEFAULT := templates/me/
 
-public/cs/index.html: $(TEMPLATES) $(STATIC) \
-	meta.db $(CS_PAGES) \
-	tools/metadata_list_map.lua tools/resources.lua
+SUBSITE_OPTS := -V is_dark_already=true
 
-	mkdir -p $(dir $@)
-	
-	cat /dev/null | pandoc -o $@ \
-		--template=templates/cs/baseof_list.html \
-		-V section="cs" -V is_cs=true \
-		$(PANDOC_OPTS) -L tools/metadata_list_map.lua \
-		-M pageurl="/cs" \
-		-M list_map_file=<(tools/dump_cs_list.sh meta.db) \
+# call on dir in W, root rule is public/$1/index.html
+define SUBSITE_RULE
+MARK_$1 := $$(wildcard $(website)/$1/*.md)
+MARK_PAGES_$1 := $$(patsubst $(website)/$1/%.md,public/$1/%/index.html,$$(MARK_$1))
+
+CURRENT_STYLE_$1 := $(or $(STYLE_$1),$(STYLE_DEFAULT))
+CURRENT_TEMPLATE_BASE_$1 := $(or $(TEMPLATE_BASE_$1),$(TEMPLATE_BASE_DEFAULT))
+
+public/$1/index.html: $$(MARK_PAGES_$1) $$(TEMPLATES) $$(STATIC) \
+	tools/metadata_list_map.lua tools/resources.lua tools/metadata_list_tags.lua $(LUA_MODULES)
+
+	mkdir -p $$(dir $$@)
+
+	cat /dev/null | pandoc -o $$@ \
+		--template=$$(CURRENT_TEMPLATE_BASE_$1)/baseof_list.html --css=$$(CURRENT_STYLE_$1) \
+		-V section="$1" -V is_$1=true $$(SUBSITE_OPTS) \
+		$$(PANDOC_OPTS) -L tools/metadata_list_map.lua -L tools/metadata_list_tags.lua \
+		-M pageurl="/$1" \
+		-M list_map_file=<(tools/dump_list.sh meta.db "/$1*") \
+		-M list_tags_file=<(tools/dump_tags_popcount.sh meta.db "/$1*") \
 		--metadata title="l-m.dev" \
-		--title-prefix="Cs"
+		--title-prefix="$1"
 
-public/cs/%/index.html: $(website)/cs/%.md meta.db $(TEMPLATES) $(STATIC) \
-	tools/metadata_hook.lua tools/metadata_page.lua tools/resources.lua
+public/$1/%/index.html: $(website)/$1/%.md $$(TEMPLATES) $$(STATIC) \
+	tools/metadata_hook.lua tools/metadata_page.lua tools/resources.lua $(LUA_MODULES)
 
-	mkdir -p $(dir $@)
+	mkdir -p $$(dir $$@)
 
-	pandoc $< -o $@ \
-		--template=templates/cs/baseof.html \
-		-V section="cs" -V is_cs=true \
-		$(PANDOC_OPTS) -L tools/metadata_hook.lua -L tools/metadata_page.lua \
-		-M pageurl="/cs/$(basename $(notdir $<))" \
+	pandoc $$< -o $$@ \
+		--template=$$(CURRENT_TEMPLATE_BASE_$1)/baseof.html --css=$$(CURRENT_STYLE_$1) \
+		-V section="$1" -V is_$1=true $$(SUBSITE_OPTS) \
+		$$(PANDOC_OPTS) -L tools/metadata_hook.lua -L tools/metadata_page.lua \
+		-M pageurl="/$1/$$(basename $$(notdir $$<))" \
 		-M extract_meta=true \
 		--title-prefix="l-m.dev" \
 	| sqlite3 meta.db
+endef
+
+$(foreach dir,$(notdir $(filter $(website)/%,$(DIRS))),$(eval $(call SUBSITE_RULE,$(dir))))

@@ -22,10 +22,13 @@ article {
 	margin: 1em;
 	padding: 1em;
 }
-.lat {
+
+/* .lat isn't being assigned anymore. since we don't do pagination (im lazy!), this suffices */
+article:target, .lat {
 	border-color: #F7208B;
 	border-style: dotted;
 }
+
 article:hover {
 	border-color: #923B2C;
 	border-style: dotted;
@@ -162,9 +165,10 @@ code:not(pre code):before, code:not(pre code):after {
 :focus {
 	outline: none;
 }
-/* nav {
+nav {
+	display: flex;
 	justify-content: space-between;
-} */
+}
 audio {
 	width: 100%;
 	max-height: 3em;
@@ -227,10 +231,3 @@ audio::-webkit-media-controls-time-remaining-display,
 audio::-webkit-media-controls-current-time-display {
 	text-shadow: none;
 }
-
-/* undo what was done in main.css */
-/* a {
-  border-bottom: none;
-  text-decoration: none;
-} */
-

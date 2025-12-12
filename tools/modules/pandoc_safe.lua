@@ -94,4 +94,12 @@ function pandoc_safe.stringify_array(arr)
 	return str_arr
 end
 
+function pandoc_safe.stringify_or_nil(val)
+	local typee = pandoc.utils.type(val)
+	if typee == "userdata" or val == nil then
+		return nil
+	end
+	return pandoc.utils.stringify(val)
+end
+
 return pandoc_safe

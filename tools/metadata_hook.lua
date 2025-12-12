@@ -12,6 +12,14 @@ local function esc(str)
     return str:gsub("'", "''")
 end
 
+function eprint(...)
+    local args = {...}
+    for i, v in ipairs(args) do
+        args[i] = tostring(v)
+    end
+    io.stderr:write(table.concat(args, "\t") .. "\n")
+end
+
 local datenorm = require("tools.modules.datenorm")
 local urlize = require("tools.modules.urlize")
 local pandoc_safe = require("tools.modules.pandoc_safe")
@@ -35,17 +43,27 @@ function Pandoc(doc)
 		urlized_tags = {}
 	end
 
-	local date_yyyy_mm_dd = pandoc.utils.stringify(doc.meta.date)
-	doc.meta.date_formatted = datenorm.normalize_date(doc.meta.date)
-
-	local title = pandoc.utils.stringify(doc.meta.title)
-	local description = pandoc.utils.stringify(doc.meta.description)
-
 	local epoch = nil
 
 	if doc.meta.epoch then
 		epoch = pandoc.utils.stringify(doc.meta.epoch)
 	end
+
+	if not doc.meta.date then
+		if epoch then
+			doc.meta.date = datenorm.utc_epoch_to_YYYY_MM_DD(epoch)
+		else
+			error("no date or epoch metadata for post: " .. path)
+		end
+	end
+
+	local date_yyyy_mm_dd = pandoc.utils.stringify(doc.meta.date)
+	doc.meta.date_formatted = datenorm.normalize_date(doc.meta.date)
+
+	eprint(doc.meta.title)
+
+	local title = pandoc_safe.stringify_or_nil(doc.meta.title)
+	local description = pandoc_safe.stringify_or_nil(doc.meta.description)
 
 	-- 10 seconds, avoid database is locked errors
 	print('PRAGMA busy_timeout = 10000;')

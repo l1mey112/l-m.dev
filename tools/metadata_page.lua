@@ -1,6 +1,7 @@
 local urlize = require("tools.modules.urlize")
 local datenorm = require("tools.modules.datenorm")
 local wordcount_info = require("tools.modules.pandoc_wordcount")
+local me = require("tools.modules.me")
 
 function Pandoc(doc)
 	local meta = doc.meta
@@ -19,6 +20,13 @@ function Pandoc(doc)
 
 	if meta.date then
 		meta.date_formatted = datenorm.normalize_date(meta.date)
+	end
+
+	if meta.epoch then
+		meta.date_epoch_rfc3339 = datenorm.utc_epoch_to_rfc3339(meta.epoch)
+		meta.date_epoch_nice = datenorm.utc_epoch_to_nice_string(meta.epoch)
+		meta.tags_me_fmt = me.fmt_tags_pandoc(tags)
+		meta.title = '???'
 	end
 
 	local reading_info = wordcount_info(doc)

@@ -1,11 +1,14 @@
 #!/bin/bash
 
 if [[ -z "${1:-}" ]]; then
-    echo "usage: $0 <db.sqlite>" >&2
+    echo "usage: $0 <db.sqlite> (<path glob>)?" >&2
     exit 1
 fi
 
-sqlite3 "$1" <<EOF
+glob="${2:-"*"}"
+glob="${glob//\'/\'\'}"
+
+sqlite3 -cmd ".timeout 10000" "$1" <<EOF
 select json_group_array(
 	json_object(
 		'path', path,
@@ -22,6 +25,8 @@ select json_group_array(
 ) from (
     select * 
     from posts 
-    order by date_yyyy_mm_dd desc, path asc
+	where path glob '$glob'
+	order by
+    	coalesce(epoch, cast(strftime('%s', date_yyyy_mm_dd) as integer)) desc, path asc
 );
 EOF
