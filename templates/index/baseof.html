@@ -10,16 +10,7 @@
             <hr>
             $body$
             <hr>
-
-
-            <section class="tag-list">
-            $for(tags_map.data)$
-	        <div style="display: inline-block; font-size: $it.font_size$em;">
-                <pre>［$it.tag$: <strong>$it.count$</strong>］</pre>
-            </div>
-            $endfor$
-            </section>
-            
+            $../tags_map.html()$
         </main>
         $../footer.html()$
         </div>

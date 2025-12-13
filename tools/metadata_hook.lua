@@ -54,14 +54,14 @@ function Pandoc(doc)
 	-- see schema.sql
 	sql.exec(string.format([[
 		insert or replace into posts (
-			path,
+			path, section,
 			date_yyyy_mm_dd, date_formatted, epoch,
 			title, description, tags, tags_urlized,
 			word_count, reading_time
 		)
-		values ('%s', '%s', '%s', %s, '%s', '%s', '%s', '%s', %d, %d);
+		values ('%s', '%s', '%s', '%s', %s, '%s', '%s', '%s', '%s', %d, %d);
 	]],
-		sql.esc(path),
+		sql.esc(path), sql.esc(doc.meta.section),
 		sql.esc(date_yyyy_mm_dd), sql.esc(doc.meta.date_formatted), sql.esc(epoch),
 		
 		sql.esc(title), sql.esc(description),

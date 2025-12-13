@@ -435,6 +435,15 @@ a:hover {
   color: black;
 }
 
+.clean-link {
+  border-bottom: none;
+}
+
+.clean-link:hover {
+  background-color: transparent;
+  color: inherit;
+}
+
 div.sourceCode a {
   border-bottom: none;
   text-decoration: none;

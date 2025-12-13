@@ -1,0 +1,19 @@
+<section>
+$for(tags_map.data)$
+
+$if(it.url)$
+<a href="$it.url$" class="clean-link">
+$endif$
+
+<div style="display: inline-block; font-size: $it.font_size$em;">
+	$it.pieces$
+
+	(<strong>$it.count$</strong>)
+</div>
+
+$if(it.url)$
+</a>
+$endif$
+
+$endfor$
+</section>

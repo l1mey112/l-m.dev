@@ -13,10 +13,10 @@ WITH
 filtered_posts AS (
     SELECT * 
     FROM posts 
-    WHERE path GLOB '$glob'
+    WHERE section GLOB '$glob'
 ),
-all_tags_exploded AS (
-    SELECT value AS tag
+combined_tags AS (
+    SELECT value AS tag, section
     FROM filtered_posts,
     json_each(
         CASE 
@@ -24,12 +24,26 @@ all_tags_exploded AS (
             ELSE json('["' || replace(tags_urlized, ',', '","') || '"]')
         END
     )
+    UNION ALL
+    SELECT '/' || section AS tag, section
+    FROM filtered_posts
+    WHERE section IS NOT NULL AND section != ''
+),
+distinct_tag_sections AS (
+    SELECT DISTINCT tag, section
+    FROM combined_tags
+),
+grouped_sections AS (
+    SELECT 
+        tag, 
+        json_group_array('/' || section) as sections_json
+    FROM distinct_tag_sections
+    GROUP BY tag
 ),
 tag_counts AS (
     SELECT tag, COUNT(*) as popularity
-    FROM all_tags_exploded
+    FROM combined_tags
     GROUP BY tag
-    ORDER BY popularity DESC, tag ASC
 )
 SELECT json_object(
     'post_count', (SELECT COUNT(*) FROM filtered_posts),
@@ -38,10 +52,19 @@ SELECT json_object(
         SELECT json_group_array(
             json_object(
                 'tag', tag, 
-                'count', popularity
+                'count', popularity,
+                'sections', json(sections_json)
             )
         )
-        FROM tag_counts
+        FROM (
+            SELECT t.tag, t.popularity, s.sections_json
+            FROM tag_counts t
+            JOIN grouped_sections s ON t.tag = s.tag
+            ORDER BY 
+                (t.tag LIKE '/%') DESC,
+                t.popularity DESC,
+                t.tag ASC
+        )
     )
 );
 EOF

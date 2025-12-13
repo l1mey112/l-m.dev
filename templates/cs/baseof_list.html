@@ -24,6 +24,7 @@
         <div class="site-description">
             <p>About computers and all of the above.</p>
         </div>
+
         $for(list_map)$
         <article>
             <h1 class="title nounderline"><a href="$list_map.path$">$list_map.title$</a></h1>
@@ -34,7 +35,7 @@
                 |
                 ~$list_map.reading_time$ minute read
                 <br>
-			    $for(list_map.tags)$
+			    $for(list_map.tags_urlized)$
                 [ $it$ ]
 			    $endfor$
             </div>

@@ -59,9 +59,11 @@ PANDOC_OPTS := -s -L tools/resources.lua $(TOPLEVEL_LIST_ARG) \
 # broken at the moment
 #	--filter tools/mathjax-svg-filter.js
 
-#$(TOPLEVEL_PAGES)
+# public/index.html depends on all toplevel pages as this it contains
+# global naviagation to a pages based on a tag
+
 .PHONY: all
-all: public/index.html $(TARGETS)
+all: public/index.html $(TOPLEVEL_PAGES)
 
 .PHONY: serve
 serve: all
@@ -76,29 +78,31 @@ clean:
 	    
 _metadb := $(shell sqlite3 meta.db < tools/schema.sql)
 
-public/index.html: $(TEMPLATES) $(STATIC) \
-	tools/metadata_list_tags.lua tools/resources.lua $(LUA_MODULES)
+public/index.html: $(website)/index.md $(TEMPLATES) $(STATIC) $(TARGETS) \
+	tools/metadata_list_tags.lua tools/resources.lua $(LUA_MODULES) \
+	$(website)/colours.json
 
-# removed for now
-#-V is_homepage=true
-
-	cat /dev/null | pandoc -o $@ \
+	 pandoc $< -o $@ \
 		--template=templates/index/baseof.html \
 		--css=/static/main.css \
 		--css=/static/index.css \
 		-V is_homepage=true -V is_dark_already=false \
 		$(PANDOC_OPTS) -L tools/metadata_list_tags.lua \
 		-M list_tags_file=<(tools/dump_tags_popcount.sh meta.db) \
+		-M colours_file=$(website)/colours.json \
 		--metadata title="l-m.dev"
 
-#public/%/index.html: $(website)/%.md $(TEMPLATES) $(STATIC) \
-#	tools/metadata_page.lua tools/resources.lua
-#
-#	mkdir -p $(dir $@)
-#
-#	pandoc $< -o $@ \
-#		--template=templates/baseof.html \
-#		$(PANDOC_OPTS) -L tools/metadata_page.lua
+public/%/index.html: $(website)/%.md $(TEMPLATES) $(STATIC) \
+	tools/metadata_page.lua tools/resources.lua
+
+	mkdir -p $(dir $@)
+
+	pandoc $< -o $@ \
+		--template=templates/baseof.html \
+		--css=/static/main.css \
+		--css=/static/index.css \
+		-V is_homepage=true -V is_dark_already=false \
+		$(PANDOC_OPTS) -L tools/metadata_page.lua
 
 STYLE_cs   := /static/main.css
 STYLE_DEFAULT := /static/me.css
@@ -117,17 +121,19 @@ CURRENT_STYLE_$1 := $(or $(STYLE_$1),$(STYLE_DEFAULT))
 CURRENT_TEMPLATE_BASE_$1 := $(or $(TEMPLATE_BASE_$1),$(TEMPLATE_BASE_DEFAULT))
 
 public/$1/index.html: $$(MARK_PAGES_$1) $$(TEMPLATES) $$(STATIC) \
-	tools/metadata_list_map.lua tools/resources.lua tools/metadata_list_tags.lua $(LUA_MODULES)
+	tools/metadata_list_map.lua tools/resources.lua tools/metadata_list_tags.lua $(LUA_MODULES) \
+	$(website)/colours.json
 
 	mkdir -p $$(dir $$@)
 
 	cat /dev/null | pandoc -o $$@ \
 		--template=$$(CURRENT_TEMPLATE_BASE_$1)/baseof_list.html --css=$$(CURRENT_STYLE_$1) \
-		-V section="$1" -V is_$1=true $$(SUBSITE_OPTS) \
+		-M section="$1" -V is_$1=true $$(SUBSITE_OPTS) \
 		$$(PANDOC_OPTS) -L tools/metadata_list_map.lua -L tools/metadata_list_tags.lua \
 		-M pageurl="/$1" \
 		-M list_map_file=<(tools/dump_list.sh meta.db "/$1*") \
-		-M list_tags_file=<(tools/dump_tags_popcount.sh meta.db "/$1*") \
+		-M list_tags_file=<(tools/dump_tags_popcount.sh meta.db "$1") \
+		-M colours_file=$(website)/colours.json \
 		--metadata title="l-m.dev" \
 		--title-prefix="$1"
 
@@ -138,7 +144,7 @@ public/$1/%/index.html: $(website)/$1/%.md $$(TEMPLATES) $$(STATIC) \
 
 	pandoc $$< -o $$@ \
 		--template=$$(CURRENT_TEMPLATE_BASE_$1)/baseof.html --css=$$(CURRENT_STYLE_$1) \
-		-V section="$1" -V is_$1=true $$(SUBSITE_OPTS) \
+		-M section="$1" -V is_$1=true $$(SUBSITE_OPTS) \
 		$$(PANDOC_OPTS) -L tools/metadata_hook.lua -L tools/metadata_page.lua \
 		-M pageurl="/$1/$$(basename $$(notdir $$<))" \
 		-M emit_meta=true \

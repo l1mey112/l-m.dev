@@ -9,6 +9,7 @@ pragma temp_store = memory;
 
 create table if not exists posts (
 	"path" text primary key,
+	"section" text not null,
 
 	"date_yyyy_mm_dd" text not null,
 	"date_formatted" text not null,

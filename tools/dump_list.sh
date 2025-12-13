@@ -20,17 +20,7 @@ select json_group_array(
 		'tags', tags,
 		'tags_urlized', tags_urlized,
 		'word_count', word_count,
-		'reading_time', reading_time,
-		'media', json((
-			SELECT json_group_array(
-				json_object(
-					'path', pm.path, 
-					'frag', pm.frag
-				)
-			)
-			FROM post_media pm
-			WHERE pm.post_path = p.path
-		))
+		'reading_time', reading_time
 	)
 ) from (
     select * 
