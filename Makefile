@@ -77,7 +77,7 @@ clean:
 _metadb := $(shell sqlite3 meta.db < tools/schema.sql)
 
 public/index.html: $(TEMPLATES) $(STATIC) \
-	tools/resources.lua tools/metadata_list_tags.lua $(LUA_MODULES)
+	tools/metadata_list_tags.lua tools/resources.lua $(LUA_MODULES)
 
 # removed for now
 #-V is_homepage=true
@@ -141,7 +141,7 @@ public/$1/%/index.html: $(website)/$1/%.md $$(TEMPLATES) $$(STATIC) \
 		-V section="$1" -V is_$1=true $$(SUBSITE_OPTS) \
 		$$(PANDOC_OPTS) -L tools/metadata_hook.lua -L tools/metadata_page.lua \
 		-M pageurl="/$1/$$(basename $$(notdir $$<))" \
-		-M extract_meta=true \
+		-M emit_meta=true \
 		--title-prefix="l-m.dev" \
 	| sqlite3 meta.db
 endef

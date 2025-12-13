@@ -20,7 +20,17 @@ select json_group_array(
 		'tags', tags,
 		'tags_urlized', tags_urlized,
 		'word_count', word_count,
-		'reading_time', reading_time
+		'reading_time', reading_time,
+		'media', json((
+			SELECT json_group_array(
+				json_object(
+					'path', pm.path, 
+					'frag', pm.frag
+				)
+			)
+			FROM post_media pm
+			WHERE pm.post_path = p.path
+		))
 	)
 ) from (
     select * 
@@ -28,5 +38,5 @@ select json_group_array(
 	where path glob '$glob'
 	order by
     	coalesce(epoch, cast(strftime('%s', date_yyyy_mm_dd) as integer)) desc, path asc
-);
+) as p;
 EOF

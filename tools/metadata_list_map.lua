@@ -2,7 +2,7 @@ local pandoc_safe = require("tools.modules.pandoc_safe")
 local urlize = require("tools.modules.urlize")
 local datenorm = require("tools.modules.datenorm")
 local me = require("tools.modules.me")
-local extract_body = require("tools.modules.extract_body")
+local extract_html = require("tools.modules.extract_html")
 
 local function comma_sep_to_pandoc(str)
 	local result = {}
@@ -36,7 +36,7 @@ function Meta(meta)
 				nlist[i].date_epoch_rfc3339 = datenorm.utc_epoch_to_rfc3339(nlist[i].epoch)
 				nlist[i].date_epoch_nice = datenorm.utc_epoch_to_nice_string(nlist[i].epoch)
 				nlist[i].tags_me_fmt = me.fmt_tags_pandoc(nlist[i].tags)
-				nlist[i].body = pandoc.RawBlock('html', extract_body(nlist[i].path))
+				nlist[i].body = pandoc.RawBlock('html', extract_html.extract_body(nlist[i].path))
 			end
 		end
 

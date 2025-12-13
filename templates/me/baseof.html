@@ -8,6 +8,10 @@
 	<meta content="$tags_me_fmt$" property="og:description">
 
 	<meta http-equiv="refresh" content="0; url=/$section$#$epoch$">
+	$if(embed)$
+	<meta name="twitter:image" property="og:image" content="$embed$">
+	$endif$
+	
 	<title>Redirecting to $section$...</title>
 
 	<link rel="canonical" href="/$section$#$epoch$" />

@@ -1,6 +1,9 @@
 -- we want to resolve relative to meta.media_path,
 -- then put these inside the mediabag
 local media_path
+local embed_meta
+
+local embed_meta_path_actual
 
 local function is_remote_path(path)
     return path:match("^%a+://") or path:match("^//") ~= nil
@@ -10,6 +13,7 @@ function resolve_url(src)
 	src = pandoc.utils.stringify(src)
 
 	if is_remote_path(src) then
+		if src == embed_meta then embed_meta_path_actual = src end
 		return src
 	end
 
@@ -18,6 +22,10 @@ function resolve_url(src)
 
 	local mt, contents = pandoc.mediabag.fetch(path)
 	pandoc.mediabag.insert(src, mt, contents)
+
+	if src == embed_meta then
+		embed_meta_path_actual = url
+	end
 
 	return url
 end
@@ -119,24 +127,6 @@ function _Para(el)
 	-- handle collage images
 	-- ![[tole.png]] ![[tole.png]] ![[tole.png]]
 
-	--[[ , Para
-		[ Image
-			( "" , [] , [] )
-			[ Str "tole.png" ]
-			( "tole.png" , "wikilink" )
-		, Space
-		, Image
-			( "" , [] , [] )
-			[ Str "tole.png" ]
-			( "tole.png" , "wikilink" )
-		, Space
-		, Image
-			( "" , [] , [] )
-			[ Str "tole.png" ]
-			( "tole.png" , "wikilink" )
-		]
-	] ]]
-
 	local image_elements = {}
 
 	for i, inline in ipairs(el.content) do
@@ -230,6 +220,9 @@ end
 
 function _Meta(meta)
 	media_path = meta.media_path
+	if meta.embed then
+		embed_meta = pandoc.utils.stringify(meta.embed)
+	end
 	return meta
 end
 
@@ -237,5 +230,6 @@ function Pandoc(doc)
 	doc = doc:walk { Meta = _Meta }
 	doc = doc:walk { Para = _Para } -- find wikilinks in paragraphs first
 	doc = doc:walk { Image = _Image }
+	doc.meta.embed = embed_meta_path_actual
 	return doc
 end
