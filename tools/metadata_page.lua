@@ -26,7 +26,10 @@ function Pandoc(doc)
 		meta.date_epoch_rfc3339 = datenorm.utc_epoch_to_rfc3339(meta.epoch)
 		meta.date_epoch_nice = datenorm.utc_epoch_to_nice_string(meta.epoch)
 		meta.tags_me_fmt = me.fmt_tags_pandoc(tags)
-		meta.title = '???'
+
+		if not meta.title then
+			meta.title = '???'
+		end
 	end
 
 	local reading_info = wordcount_info(doc)

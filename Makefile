@@ -39,21 +39,22 @@ TARGETS := $(patsubst $(website)/%,public/%/index.html,$(filter %,$(DIRS)))
 # --from markdown+autolink_bare_uris literally converts frontmatter urls to <a> tags.
 # what a joke
 
-#TOPLEVEL := $(filter-out $(website)/index.md,$(wildcard $(website)/*.md))
-#TOPLEVEL_PAGES := $(patsubst $(website)/%.md,public/%/index.html,$(filter %.md,$(TOPLEVEL)))
+TOPLEVEL := $(filter-out $(website)/index.md,$(wildcard $(website)/*.md))
+TOPLEVEL_PAGES := $(patsubst $(website)/%.md,public/%/index.html,$(filter %.md,$(TOPLEVEL)))
 
 # these show up at the top as /talk, /cs, /3d, etc
-TOPLEVEL_LIST := /cs /talk
+TOPLEVEL_LIST := /cs /stream /talk
 
 # TOPLEVEL_LIST -> -M toplevel_list=item1 -M toplevel_list=item2 ...
 TOPLEVEL_LIST_ARG := $(foreach t,$(TOPLEVEL_LIST),-M toplevel_list=$(t))
 
-PANDOC_OPTS := -s -L tools/resources.lua $(TOPLEVEL_LIST_ARG) \
+PANDOC_OPTS := -s -L tools/resources.lua -L tools/relative_time.lua $(TOPLEVEL_LIST_ARG) \
 	--from markdown+hard_line_breaks+wikilinks_title_after_pipe-implicit_figures+mark+pipe_tables \
 	--highlight-style=templates/monokai.theme \
 	--syntax-definition=templates/vlang.xml \
 	--syntax-definition=templates/stas.xml \
 	--syntax-definition=templates/wat.xml \
+	--strip-comments \
 	--extract-media=public/media -M media_path=$(media) # see resources.lua
 
 # broken at the moment
@@ -121,7 +122,7 @@ CURRENT_STYLE_$1 := $(or $(STYLE_$1),$(STYLE_DEFAULT))
 CURRENT_TEMPLATE_BASE_$1 := $(or $(TEMPLATE_BASE_$1),$(TEMPLATE_BASE_DEFAULT))
 
 public/$1/index.html: $$(MARK_PAGES_$1) $$(TEMPLATES) $$(STATIC) \
-	tools/metadata_list_map.lua tools/resources.lua tools/metadata_list_tags.lua $(LUA_MODULES) \
+	tools/metadata_list_map.lua tools/resources.lua tools/relative_time.lua tools/metadata_list_tags.lua $(LUA_MODULES) \
 	$(website)/colours.json
 
 	mkdir -p $$(dir $$@)
@@ -138,7 +139,7 @@ public/$1/index.html: $$(MARK_PAGES_$1) $$(TEMPLATES) $$(STATIC) \
 		--title-prefix="$1"
 
 public/$1/%/index.html: $(website)/$1/%.md $$(TEMPLATES) $$(STATIC) \
-	tools/metadata_hook.lua tools/metadata_page.lua tools/resources.lua $(LUA_MODULES)
+	tools/metadata_hook.lua tools/metadata_page.lua tools/resources.lua tools/relative_time.lua $(LUA_MODULES)
 
 	mkdir -p $$(dir $$@)
 

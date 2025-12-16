@@ -36,14 +36,17 @@ function Pandoc(doc)
 	if not doc.meta.date then
 		if epoch then
 			doc.meta.date = datenorm.utc_epoch_to_YYYY_MM_DD(epoch)
-		else
-			error("no date or epoch metadata for post: " .. path)
+		--[[ else
+			error("no date or epoch metadata for post: " .. path) ]]
 		end
 	end
 
-	local date_yyyy_mm_dd = pandoc.utils.stringify(doc.meta.date)
-	doc.meta.date_formatted = datenorm.normalize_date(doc.meta.date)
-
+	local date_yyyy_mm_dd
+	if doc.meta.date then
+		date_yyyy_mm_dd = pandoc.utils.stringify(doc.meta.date)
+		doc.meta.date_formatted = datenorm.normalize_date(doc.meta.date)
+	end
+	
 	if not doc.meta.emit_meta then
 		return doc
 	end

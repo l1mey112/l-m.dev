@@ -61,7 +61,9 @@ a, .s {
 	color: #FF0000;
 	display: inline;
 }
-label strong, .cl {
+
+/* we don't use this anymore */
+/* label strong, .cl {
 	color: #FF8B8B;
 }
 label, summary {
@@ -75,11 +77,11 @@ input[type=checkbox] + label:before {
 }
 input[type=checkbox]:checked + label:before {
 	content: '[x] ';
-}
+} */
 input[type=checkbox] {
 	display:none;
 }
-input[type=search], input[type=text], textarea {
+/* input[type=search], input[type=text], textarea {
 	border: solid 2px #923B2C;
 	background-color: inherit;
 	border-style: dotted;
@@ -89,7 +91,8 @@ input:focus, textarea:focus {
 }
 input[type=submit] {
 	display: none;
-}
+} */
+ 
 textarea {
 	width: 100%;
 	resize: none;
@@ -231,3 +234,21 @@ audio::-webkit-media-controls-time-remaining-display,
 audio::-webkit-media-controls-current-time-display {
 	text-shadow: none;
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: white;
+}
+
+    
+h1:has(.stream-time-future) {
+    color: #55ff55;
+}
+
+/* h1:has(.stream-time-past) {
+    color: #888;
+} */

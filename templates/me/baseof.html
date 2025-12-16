@@ -5,7 +5,13 @@
 	<meta name="twitter:card" content="summary_large_image">
 	<meta name="twitter:title" content="l-m.dev/$section$ | #$epoch$">
 	<meta content="l-m.dev/$section$ | #$epoch$" property="og:title">
+
+	$if(title)$
+	<meta content="$title$
+$tags_me_fmt$" property="og:description">
+	$else$
 	<meta content="$tags_me_fmt$" property="og:description">
+	$endif$
 
 	<meta http-equiv="refresh" content="0; url=/$section$#$epoch$">
 	$if(embed)$

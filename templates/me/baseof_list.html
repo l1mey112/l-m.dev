@@ -2,6 +2,33 @@
 <html>
 	<head>
     $../header.html()$
+	<script defer>
+		document.addEventListener("DOMContentLoaded", () => {
+			document.querySelectorAll('.stream-time').forEach(el => {
+				const epochStr = el.getAttribute('data-stream-epoch');
+				const durStr = el.getAttribute('data-duration-hours');
+
+				if (!epochStr || !durStr || isNaN(epochStr)) return;
+
+				const start = new Date(parseInt(epochStr, 10) * 1000);
+				const duration = parseFloat(durStr);
+				const end = new Date(start.getTime() + (duration * 3600000));
+				const now = new Date();
+
+				const isPast = now > end;
+				const isLive = now >= start && now <= end;
+				const diffHours = Math.abs((isPast ? now - end : start - now) / 36e5);
+				const unit = diffHours >= 24 ? 'days' : 'hours';
+				const val = Math.round(diffHours >= 24 ? diffHours / 24 : diffHours);
+
+				let prefix = isLive ? "Live now!" : (isPast ? `finished $${val} $${unit} ago` : `Starts in $${val} $${unit}`);
+
+				el.innerText = `$${prefix} ($${start.toLocaleString()})`;
+				el.classList.add(isPast ? 'stream-time-past' : 'stream-time-future');
+				el.style.display = '';
+			});
+		});
+	</script>
 	</head>
     <body>
 	<div class="cnt">
@@ -18,8 +45,8 @@
 		<div class="cc">
 		<p>
 		<a href="https://l-m.dev">https://l-m.dev</a> - © l-m.dev 2023<br>
-		Welcome! - 660 total posts. [<a href="/index.xml">RSS</a>]<br>
-		Created with &lt;3 with <a href="https://vlang.io/">V</a>. [<a href="$pageurl$#$latest_post.epoch$">LATEST</a>]
+		Welcome! - $tags_map.post_count$ total posts.<!--  [<a href="/index.xml">RSS</a>]<br>
+		Created with &lt;3 with <a href="https://vlang.io/">V</a>. --> [<a href="$pageurl$#$latest_post.epoch$">LATEST</a>]
 		</p>
 		</div>
 	</div>
@@ -33,7 +60,6 @@
 		$it.tags_me_fmt$
 		<div class=r>
 			<a href="$pageurl$/$it.epoch$">[share]</a>
-			<!-- no linking to images at the moment -->
 		</div>
 	</header>
 	<main>
