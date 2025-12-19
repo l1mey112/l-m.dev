@@ -6,6 +6,22 @@ local function is_remote_path(path)
     return path:match("^%a+://") or path:match("^//") ~= nil
 end
 
+    
+local char_to_hex = function(c)
+  return string.format("%%%02X", string.byte(c))
+end
+
+local function urlencode(url)
+  if url == nil then
+    return nil
+  end
+
+  url = url:gsub("\n", "\r\n")
+  url = url:gsub("([^%w%%%-%.~_])", char_to_hex)
+  
+  return url
+end
+
 function resolve_url(src)
 	src = pandoc.utils.stringify(src)
 
@@ -14,7 +30,7 @@ function resolve_url(src)
 	end
 
 	local path = media_path .. "/" .. src
-	local url = "/media/" .. src
+	local url = "/media/" .. urlencode(src)
 
 	local mt, contents = pandoc.mediabag.fetch(path)
 	pandoc.mediabag.insert(src, mt, contents)
@@ -213,6 +229,9 @@ end
 function _Meta(meta)
 	media_path = meta.media_path
 	if meta.embed then
+		debug.eprint("embed is")
+		debug.eprint(meta.embed)
+		debug.eprint(pandoc.utils.stringify(meta.embed))
 		meta.embed = resolve_url(meta.embed)
 	end
 	return meta
