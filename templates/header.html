@@ -11,6 +11,10 @@ $if(description-meta)$
 <meta name="description" content="$description-meta$" />
 $endif$
 
+$if(embed)$
+<meta name="twitter:image" property="og:image" content="$embed$">
+$endif$
+
 <link rel="stylesheet" type="text/css" media="screen" href="/static/fonts.css" />
 
 $if(is_dark_already)$
