@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language [
+    <!-- Regex entities for Lean identifiers -->
+    <!ENTITY idStart "[_a-zA-Zα-ωΑ-Ωϊ-ϻἀ-῾℀-⅏𝒜-𝖟]">
+    <!ENTITY idNext  "[_a-zA-Zα-ωΑ-Ωϊ-ϻἀ-῾℀-⅏𝒜-𝖟0-9'ⁿ-₉ₐ-ₜᵢ-ᵪ!?]">
+    <!ENTITY ident   "(?![λΠΣ])&idStart;(?:(?![λΠΣ])&idNext;)*">
+    <!ENTITY name    "&ident;(?:\.&ident;)*">
+]>
+
+<language name="Lean4" section="Sources"
+          version="2" kateversion="5.0"
+          extensions="*.lean"
+          mimetype="text/x-lean4"
+          author="Chroma Conversion" license="MIT">
+  <highlighting>
+    <!-- 
+        Keywords that introduce a named entity.
+        We will switch context after these to highlight the name in Green.
+    -->
+    <list name="definitions">
+        <item>theorem</item>
+        <item>def</item>
+        <item>structure</item>
+        <item>lemma</item>
+        <item>axiom</item>
+        <item>inductive</item>
+        <item>class</item>
+        <item>instance</item>
+        <item>abbrev</item>
+        <item>opaque</item>
+        <item>constant</item>
+        <item>macro</item>
+        <item>elab</item>
+        <item>syntax</item>
+    </list>
+
+    <!-- 
+        General Keywords (Control flow, modifiers, structural).
+        These will be Pink/Red (dsKeyword).
+    -->
+    <list name="keywords">
+        <item>import</item>
+        <item>where</item>
+        <item>by</item>
+        <item>exact</item>
+        <item>let</item>
+        <item>have</item>
+        <item>from</item>
+        <item>show</item>
+        <item>calc</item>
+        <item>match</item>
+        <item>with</item>
+        <item>if</item>
+        <item>then</item>
+        <item>else</item>
+        <item>do</item>
+        <item>for</item>
+        <item>in</item>
+        <item>unless</item>
+        <item>try</item>
+        <item>catch</item>
+        <item>finally</item>
+        <item>return</item>
+        <item>continue</item>
+        <item>break</item>
+        <item>variable</item>
+        <item>universe</item>
+        <item>namespace</item>
+        <item>section</item>
+        <item>end</item>
+        <item>open</item>
+        <item>export</item>
+        <item>private</item>
+        <item>protected</item>
+        <item>public</item>
+        <item>scoped</item>
+        <item>local</item>
+        <item>noncomputable</item>
+        <item>partial</item>
+        <item>unsafe</item>
+        <item>deriving</item>
+        <item>example</item>
+        <item>attribute</item>
+        <item>#check</item>
+        <item>#eval</item>
+        <item>#reduce</item>
+        <item>#print</item>
+        <item>#help</item>
+        <item>#exit</item>
+        <item>set_option</item>
+        <item>alias</item>
+        <item>renaming</item>
+        <item>hiding</item>
+        <item>using</item>
+        <item>mutual</item>
+        <item>notation</item>
+        <item>infix</item>
+        <item>infixl</item>
+        <item>infixr</item>
+        <item>prefix</item>
+        <item>postfix</item>
+    </list>
+
+    <!-- 
+        Types/Sorts (Blue/Cyan).
+    -->
+    <list name="types">
+        <item>Type</item>
+        <item>Prop</item>
+        <item>Sort</item>
+    </list>
+
+    <list name="errors">
+        <item>sorry</item>
+        <item>admit</item>
+    </list>
+
+    <contexts>
+        <!-- Root Context -->
+        <context name="Normal" attribute="Normal Text" lineEndContext="#stay">
+            <DetectSpaces />
+
+            <!-- Comments -->
+            <StringDetect attribute="Documentation" context="DocString" String="/--" beginRegion="Doc" />
+            <Detect2Chars attribute="Comment" context="Comment" char="/" char1="-" beginRegion="Comment" />
+            <Detect2Chars attribute="Comment" context="CommentLine" char="-" char1="-" />
+            
+            <!-- Attributes @[ ... ] -->
+            <Detect2Chars attribute="Normal Text" context="Attribute" char="@" char1="[" />
+
+            <!-- Definition Keywords: Trigger 'FindEntityName' for Green highlighting -->
+            <keyword attribute="Keyword" context="FindEntityName" String="definitions" />
+
+            <!-- Other Keywords: Just highlight (Pink) -->
+            <keyword attribute="Keyword" context="#stay" String="keywords" />
+
+            <!-- Types: Blue -->
+            <keyword attribute="Data Type" context="#stay" String="types" />
+<keyword attribute="Keyword" context="#stay" String="errors" />
+            <!-- Strings -->
+            <DetectChar attribute="String" context="String" char="&quot;" />
+
+            <!-- Variables (optional explicit styling, else White) -->
+            <!-- Matches ?x or ~x used in macros -->
+            <RegExpr attribute="Variable" context="#stay" String="[~?][a-z][\w']*:" />
+
+            <!-- Symbolic Names: `name -->
+            <RegExpr attribute="Symbol" context="#stay" String="``?&name;" />
+
+            <!-- Numbers (Blue/Cyan usually) -->
+            <RegExpr attribute="Float" context="#stay" String="\d+\.\d*(?:[eE][+-]?[0-9]+)?" />
+            <RegExpr attribute="Decimal" context="#stay" String="\d+" />
+
+            <!-- Operators & Punctuation: Mapped to Normal Text (White) per request -->
+            <StringDetect attribute="Operator" context="#stay" String=":=" />
+            <!-- Unicode and ASCII operators -->
+            <RegExpr attribute="Operator" context="#stay" String="[-+*/%^&amp;|!&lt;&gt;:=?@~#$\\]+" />
+            <AnyChar attribute="Operator" context="#stay" String="∀Πλ↔∧∨≠≤≥¬⁻¹⬝▸→∃≈×⌞⌟≡⟨⟩↦" />
+            <AnyChar attribute="Operator" context="#stay" String="(){}[],;" />
+
+        </context>
+
+        <!-- 
+           Context to find the name after a definition keyword.
+           e.g. "def |MyFunc| ..." -> MyFunc is Green.
+        -->
+        <context name="FindEntityName" attribute="Normal Text" lineEndContext="#pop" fallthroughContext="#pop">
+            <DetectSpaces />
+            
+            <!-- Stop if we hit punctuation that implies parameters start -->
+            <AnyChar attribute="Operator" context="#pop" String="(:{[«" lookAhead="true"/>
+            
+            <!-- Match the identifier -->
+            <RegExpr attribute="Function" context="#pop" String="&name;" />
+        </context>
+
+        <!-- Attribute Context @[ ... ] -->
+        <context name="Attribute" attribute="Normal Text" lineEndContext="#stay">
+            <DetectChar attribute="Normal Text" context="#pop" char="]" />
+            <IncludeRules context="Normal" />
+        </context>
+
+        <!-- Comments -->
+        <context name="CommentLine" attribute="Comment" lineEndContext="#pop">
+            <DetectSpaces />
+            <IncludeRules context="##Comments" />
+        </context>
+
+        <context name="Comment" attribute="Comment" lineEndContext="#stay">
+            <DetectSpaces />
+            <Detect2Chars attribute="Comment" context="Comment" char="/" char1="-" beginRegion="Comment" />
+            <Detect2Chars attribute="Comment" context="#pop" char="-" char1="/" endRegion="Comment" />
+            <IncludeRules context="##Comments" />
+        </context>
+
+        <context name="DocString" attribute="Documentation" lineEndContext="#stay">
+            <DetectSpaces />
+            <Detect2Chars attribute="Documentation" context="#pop" char="-" char1="/" endRegion="Doc" />
+        </context>
+
+        <!-- Strings -->
+        <context name="String" attribute="String" lineEndContext="#pop">
+            <DetectChar attribute="String" context="#pop" char="&quot;" />
+            <RegExpr attribute="String Char" context="#stay" String="\\[n&quot;\\\n]" />
+        </context>
+
+    </contexts>
+
+    <itemDatas>
+        <itemData name="Normal Text"    defStyleNum="dsNormal"   spellChecking="false" />
+        
+        <!-- Keywords (structure, where, def) -> Pink (dsKeyword) -->
+<itemData name="Keyword"        defStyleNum="dsControlFlow"  spellChecking="false" />        
+        <!-- Types (Type, Prop) -> Blue (dsDataType) -->
+        <itemData name="Data Type"      defStyleNum="dsDataType" spellChecking="false" />
+        
+        <!-- Function Names -> Green (dsAttribute) -->
+        <itemData name="Function"       defStyleNum="dsAttribute" spellChecking="false" />
+        
+        <!-- Operators -> White (dsNormal) -->
+        <itemData name="Operator"       defStyleNum="dsNormal"   spellChecking="false" />
+        
+        <itemData name="String"         defStyleNum="dsString"   spellChecking="true" />
+        <itemData name="String Char"    defStyleNum="dsSpecialChar" spellChecking="false" />
+        <itemData name="Comment"        defStyleNum="dsComment"  spellChecking="true" />
+        <!-- Changed to dsComment to match the grey color of C comments -->
+        <itemData name="Documentation"  defStyleNum="dsComment"       spellChecking="true" />
+        <itemData name="Symbol"         defStyleNum="dsFunction" spellChecking="false" />
+        <itemData name="Variable"       defStyleNum="dsNormal"   spellChecking="false" />
+        <itemData name="Decimal"        defStyleNum="dsDecVal"   spellChecking="false" />
+        <itemData name="Float"          defStyleNum="dsFloat"    spellChecking="false" />
+        <itemData name="Error"          defStyleNum="dsAlert"    spellChecking="false" />
+    </itemDatas>
+  </highlighting>
+  <general>
+    <comments>
+      <comment name="singleLine" start="--" />
+      <comment name="multiLine" start="/-" end="-/" region="Comment" />
+    </comments>
+    <keywords casesensitive="1" />
+  </general>
+</language>
+<!-- kate: replace-tabs on; tab-width 2; indent-width 2; -->

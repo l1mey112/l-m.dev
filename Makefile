@@ -54,6 +54,7 @@ PANDOC_OPTS := -s -L tools/resources.lua -L tools/relative_time.lua $(TOPLEVEL_L
 	--syntax-definition=templates/vlang.xml \
 	--syntax-definition=templates/stas.xml \
 	--syntax-definition=templates/wat.xml \
+	--syntax-definition=templates/lean.xml \
 	--strip-comments \
 	--extract-media=public/media -M media_path=$(media) # see resources.lua
 
