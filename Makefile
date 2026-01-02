@@ -22,6 +22,9 @@ else
 	media := $(M)
 endif
 
+# force the use of bash as <(...) is not supported by /bin/sh
+SHELL := /bin/bash
+
 LUA_MODULES := $(wildcard tools/modules/*.lua)
 
 TEMPLATES := $(shell find templates -type f -name '*.html')
