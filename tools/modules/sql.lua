@@ -4,7 +4,7 @@ local sql = {}
 function sql.esc(str)
     if str == nil then return "NULL" end
     str = tostring(str)
-    return str:gsub("'", "''")
+    return "'" .. str:gsub("'", "''") .. "'"
 end
 
 function sql.exec(...)

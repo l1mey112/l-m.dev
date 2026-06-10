@@ -33,6 +33,15 @@ function Pandoc(doc)
 		epoch = pandoc.utils.stringify(doc.meta.epoch)
 	end
 
+	local embed = nil
+	local embed_url = nil
+	if doc.meta.embed then
+		embed = pandoc.utils.stringify(doc.meta.embed)
+		if doc.meta.embed_url then
+			embed_url = pandoc.utils.stringify(doc.meta.embed_url)
+		end
+	end
+
 	if not doc.meta.date then
 		if epoch then
 			doc.meta.date = datenorm.utc_epoch_to_YYYY_MM_DD(epoch)
@@ -60,9 +69,10 @@ function Pandoc(doc)
 			path, section,
 			date_yyyy_mm_dd, date_formatted, epoch,
 			title, description, tags, tags_urlized,
-			word_count, reading_time
+			word_count, reading_time,
+			embed, embed_url
 		)
-		values ('%s', '%s', '%s', '%s', %s, '%s', '%s', '%s', '%s', %d, %d);
+		values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %d, %d, %s, %s);
 	]],
 		sql.esc(path), sql.esc(doc.meta.section),
 		sql.esc(date_yyyy_mm_dd), sql.esc(doc.meta.date_formatted), sql.esc(epoch),
@@ -70,7 +80,8 @@ function Pandoc(doc)
 		sql.esc(title), sql.esc(description),
 		
 		sql.esc(table.concat(tags, ",")), sql.esc(table.concat(urlized_tags, ",")),
-		reading_info.word_count, reading_info.reading_time
+		reading_info.word_count, reading_info.reading_time,
+		sql.esc(embed), sql.esc(embed_url)
 	))
 
 	return doc

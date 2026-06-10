@@ -27,7 +27,10 @@ function pandoc_safe.to_pandoc(val)
 		if is_list then
 			local clean_list = pandoc.List()
 			for _, sub_item in ipairs(val) do
-				clean_list:insert(pandoc_safe.to_pandoc(sub_item))
+				local sub = pandoc_safe.to_pandoc(sub_item)
+				if sub ~= nil then
+					clean_list:insert(sub)
+				end
 			end
 			return pandoc.MetaList(clean_list)
 		else
@@ -39,7 +42,9 @@ function pandoc_safe.to_pandoc(val)
 		end
 		
 	else
-		return pandoc.MetaMap({})
+		-- json null decodes to a userdata sentinel, NOT nil.
+		-- returning nil leaves the key absent so $if()$ is false
+		return nil
 	end
 end
 

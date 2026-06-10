@@ -11,8 +11,9 @@ create table if not exists posts (
 	"path" text primary key,
 	"section" text not null,
 
-	"date_yyyy_mm_dd" text not null,
-	"date_formatted" text not null,
+	-- some pages don't have
+	"date_yyyy_mm_dd" text,
+	"date_formatted" text,
 
 	"epoch" integer,
 
@@ -23,5 +24,8 @@ create table if not exists posts (
 	"tags_urlized" text not null, -- comma-separated list of urlized tags
 
 	"word_count" integer not null,
-	"reading_time" integer not null
+	"reading_time" integer not null,
+
+	"embed" text,
+	"embed_url" text
 );

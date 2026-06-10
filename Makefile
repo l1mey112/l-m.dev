@@ -1,11 +1,3 @@
-
-
-# tools:
-#   nginx
-#   pandoc
-#   yq (go-yq) - https://github.com/mikefarah/yq/releases/tag/v4.49.2
-#   md2html (arch and debian)
-
 # need to store build artefacts somewhere, guess
 # putting them in public shouldn't do any harm
 

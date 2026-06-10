@@ -12,7 +12,8 @@ $if(description-meta)$
 $endif$
 
 $if(embed)$
-<meta name="twitter:image" property="og:image" content="$embed$">
+$-- https://snook.ca/archives/html_and_css/open-graph-and-sharing-tags
+<meta property="og:image" name="twitter:image" content="$embed$">
 $endif$
 
 <link rel="stylesheet" type="text/css" media="screen" href="/static/fonts.css" />

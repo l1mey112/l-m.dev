@@ -20,7 +20,9 @@ select json_group_array(
 		'tags', tags,
 		'tags_urlized', tags_urlized,
 		'word_count', word_count,
-		'reading_time', reading_time
+		'reading_time', reading_time,
+		'embed', embed,
+		'embed_url', embed_url
 	)
 ) from (
     select * 
