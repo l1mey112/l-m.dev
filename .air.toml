@@ -1,0 +1,21 @@
+root = "."
+tmp_dir = "tmp"
+
+[build]
+  cmd = "make all"
+  full_bin = "python3 -m http.server 8081 --directory public --bind 127.0.0.1"
+  include_ext = ["md", "html", "xml", "lua", "sh", "css", "theme", "json"]
+  include_dir = ["Website", "templates", "tools", "public/static"]
+  exclude_dir = ["tmp", "public/media"]
+  delay = 100
+  stop_on_error = false
+  send_interrupt = true
+  kill_delay = "500ms"
+
+[proxy]
+  enabled = true
+  proxy_port = 8080
+  app_port = 8081
+
+[misc]
+  clean_on_exit = true
