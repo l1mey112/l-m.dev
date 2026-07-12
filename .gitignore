@@ -1,6 +1,7 @@
 node_modules
 public/*
 !public/static
+!public/media
 
 Website-test
 

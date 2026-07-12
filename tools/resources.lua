@@ -1,7 +1,3 @@
--- we want to resolve relative to meta.media_path,
--- then put these inside the mediabag
-local media_path
-
 local function is_remote_path(path)
     return path:match("^%a+://") or path:match("^//") ~= nil
 end
@@ -29,13 +25,8 @@ function resolve_url(src)
 		return src
 	end
 
-	local path = media_path .. "/" .. src
-	local url = "/media/" .. urlencode(src)
-
-	local mt, contents = pandoc.mediabag.fetch(path)
-	pandoc.mediabag.insert(src, mt, contents)
-
-	return url
+	-- everything goes by /media now
+	return "/media/" .. urlencode(src)
 end
 
 local image_styles = {
@@ -227,7 +218,6 @@ function _Image(el)
 end
 
 function _Meta(meta)
-	media_path = meta.media_path
 	if meta.embed then
 		debug.eprint("embed is")
 		debug.eprint(meta.embed)

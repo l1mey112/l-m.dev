@@ -1,18 +1,4 @@
-# need to store build artefacts somewhere, guess
-# putting them in public shouldn't do any harm
-
-# pass W="Website" make to change the source directory
-ifndef W
-	website := Website
-else
-	website := $(W)
-endif
-
-ifndef M
-	media := $(website)/_Media
-else
-	media := $(M)
-endif
+website := Website
 
 # force the use of bash as <(...) is not supported by /bin/sh
 SHELL := /bin/bash
@@ -50,8 +36,7 @@ PANDOC_OPTS := -s -L tools/resources.lua -L tools/relative_time.lua -L tools/mar
 	--syntax-definition=templates/stas.xml \
 	--syntax-definition=templates/wat.xml \
 	--syntax-definition=templates/lean.xml \
-	--strip-comments \
-	--extract-media=public/media -M media_path=$(media) # see resources.lua
+	--strip-comments
 
 # broken at the moment
 #	--filter tools/mathjax-svg-filter.js
@@ -69,9 +54,8 @@ serve: all
 
 .PHONY: clean
 clean:
-	find public -mindepth 1 -maxdepth 1 ! -name 'static' -exec rm -rf {} +
+	find public -mindepth 1 -maxdepth 1 ! -name 'static' ! -name 'media' -exec rm -rf {} +
 	rm -f meta.db meta.db-shm meta.db-wal
-
 	    
 _metadb := $(shell sqlite3 meta.db < tools/schema.sql)
 
@@ -109,7 +93,7 @@ TEMPLATE_BASE_DEFAULT := templates/me/
 
 SUBSITE_OPTS := -V is_dark_already=true
 
-# call on dir in W, root rule is public/$1/index.html
+# root rule is public/$1/index.html
 define SUBSITE_RULE
 MARK_$1 := $$(wildcard $(website)/$1/*.md)
 MARK_PAGES_$1 := $$(patsubst $(website)/$1/%.md,public/$1/%/index.html,$$(MARK_$1))
