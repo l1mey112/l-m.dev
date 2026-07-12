@@ -3,7 +3,6 @@ title: l-m.dev
 pageurl: /
 ---
 
-
 # l-m
 
 * Self taught and persistent.
@@ -12,11 +11,11 @@ pageurl: /
 
 - Studying Pure Mathematics and Computer Science - Undergrad @ <span style="color: #ff6a48;">**UNSW**</span>
 - Selfhosted and bootstrapped compilers, interested in P/L optimisation.
-- <span style="color: #654ff0;">**WebAssembly**</span>: Performance, WASM spec, porting, Emscripten/LLVM, and work on WebAssembly code generators.
+- <span style="color: #654ff0;">**WebAssembly**</span>: Performance, WASM spec, porting, Emscripten, and work on WebAssembly code generators.
 - Experience with open source, linux, sysadmin work.
 - Backend work, database performance tuning (PostgreSQL, sqlite3, redis).
 - Previous experience with Blender, 3D modeling.
-- Passion for low level concepts and underlying implementations.
+- Passion for low level concepts, DoD and underlying implementations.
 
 <p></p>
 
@@ -25,6 +24,7 @@ pageurl: /
 + Daily drivers: <span style="color: #1793d1;">**Arch Linux**</span> (desktop) and <span style="color: #d60652;">**Debian**</span> (laptop)
 
 <p></p>
+
 
 # l-m.dev
 
@@ -46,6 +46,12 @@ pageurl: /
 | --------- | ------------------------ | ------------------------------------------------------------------------------- |
 | 2022-2024 | [/2022-2024](/2022-2024) | I just stopped updating this site after 2024.                                   |
 | 2025+     | [/](/)                   | I rewrote everything -> [l1mey112/l-m.dev](https://github.com/l1mey112/l-m.dev) |
+
+# Presentations
+
+See [/talk](/talk)
+
+![](Zero to RandomX.js_ Bringing Webmining Back From The Grave - Linux Society UNSW 2025 - 0-45-06.jpeg){.png-full}
 
 
 # All notable software projects

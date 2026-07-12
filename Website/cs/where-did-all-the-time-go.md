@@ -12,6 +12,7 @@ sources:
   - l1mey112/randomx.js: https://github.com/l1mey112/randomx.js
   - l1mey112/l-m.dev: https://github.com/l1mey112/l-m.dev
 embed: Zero to RandomX.js_ Bringing Webmining Back From The Grave - Linux Society UNSW 2025 - 0-12-49.png
+embed_url: https://www.youtube.com/watch?v=gmAgvHaw9w4
 ---
 
 It's been a while, really it's been ~2 years since I made my last blog post. Two whole years. You all really deserve an apology (I'm sorry!), though this post is really an explainer wrapping up everything that I did from 2024-2025.
