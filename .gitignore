@@ -2,6 +2,7 @@ node_modules
 public/*
 !public/static
 !public/media
+!public/physics-applied
 
 Website-test
 
