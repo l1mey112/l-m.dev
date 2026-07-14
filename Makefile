@@ -50,7 +50,7 @@ all: public/index.html $(TOPLEVEL_PAGES)
 .PHONY: serve
 serve: all
 	@echo http://localhost:8080
-	nginx -c serve-nginx.conf -p .
+	air
 
 .PHONY: clean
 clean:
