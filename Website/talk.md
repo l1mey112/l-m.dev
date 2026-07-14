@@ -4,6 +4,10 @@ section: talk
 pageurl: /talk
 ---
 
+**All presentation source code is here!** [l1mey112/l-m.dev/Presentations](https://github.com/l1mey112/l-m.dev/tree/master/Presentations)
+
+---
+
 <div style="text-align:center;">
 
 [
@@ -18,7 +22,7 @@ pageurl: /talk
         style="width: 100%; aspect-ratio: 16 / 9;">
 </object>
 
-[presentation_randomx.js.pdf](/media/presentation_randomx.js.pdf)
+[presentation_randomx.js.pdf](/media/presentation_randomx.js.pdf) | [source code Presentations/randomx.js](https://github.com/l1mey112/l-m.dev/tree/master/Presentations/randomx.js)
 
 </div>
 
@@ -38,6 +42,6 @@ pageurl: /talk
         style="width: 100%; aspect-ratio: 16 / 9;">
 </object>
 
-[presentation_v_talk.pdf](/media/presentation_v_talk.pdf)
+[presentation_v_talk.pdf](/media/presentation_v_talk.pdf) | [source code Presentations/randomx.js](https://github.com/l1mey112/l-m.dev/tree/master/Presentations/v-talk%40rel)
 
 </div>
