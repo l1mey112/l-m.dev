@@ -14,6 +14,12 @@ pageurl: /talk
 
 [corresponding article: l-m.dev/cs](https://l-m.dev/cs/where-did-all-the-time-go/) | [recording: youtube.com](https://www.youtube.com/watch?v=gmAgvHaw9w4)
 
+<object data="/media/presentation_randomx.js.pdf#toolbar=0&navpanes=0&scrollbar=0&view=Fit" type="application/pdf"
+        style="width: 100%; aspect-ratio: 16 / 9;">
+</object>
+
+[presentation_randomx.js.pdf](/media/presentation_randomx.js.pdf)
+
 </div>
 
 ---
@@ -27,5 +33,11 @@ pageurl: /talk
 [\[Read Fast, Write Fast, Run Faster: How To Maintain And Iterate With V\]](https://www.youtube.com/watch?v=pchEsYwA74Q)
 
 [corresponding article: l-m.dev/cs](https://l-m.dev/cs/presenting_syncs_talk/) | [recording: youtube.com](https://www.youtube.com/watch?v=pchEsYwA74Q)
+
+<object data="/media/presentation_v_talk.pdf#toolbar=0&navpanes=0&scrollbar=0&view=Fit" type="application/pdf"
+        style="width: 100%; aspect-ratio: 16 / 9;">
+</object>
+
+[presentation_v_talk.pdf](/media/presentation_v_talk.pdf)
 
 </div>

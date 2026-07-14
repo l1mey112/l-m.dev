@@ -53,7 +53,6 @@ See [/talk](/talk)
 
 ![](Zero to RandomX.js_ Bringing Webmining Back From The Grave - Linux Society UNSW 2025 - 0-45-06.jpeg){.png-full}
 
-
 # All notable software projects
 
 <div class="meta">
@@ -63,6 +62,8 @@ See [/talk](/talk)
 1. [P] | a related post on /cs
 
 </div>
+
+TODO! incomplete
 
 * [(+)](https://github.com/l1mey112/randomx.js) **'RandomX.js'** | RandomX.js is an implementation of the ubiquitous Monero POW algorithm RandomX in JavaScript. 
 - [(+)](https://github.com/l1mey112/me.l-m.dev) [|+|](https://me.l-m.dev/) **'me.l-m.dev'** | A stylistically minimal, privacy respecting, linear blogging website, written in the V programming language. A search engine for me, the things I am interested with, and take part in.
