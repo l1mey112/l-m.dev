@@ -1,0 +1,6 @@
+[ ] remove long winded explanation about of "GETTING STUFF THERE" - it doesn't fit nicely.
+
+ 1. what is kubernetes
+ 2. how about hosting?
+ 3. how did i do it?
+   talos linux
