@@ -62,8 +62,6 @@
 
 #new-section-slide[(1) Kubernetes]
 
-/* note: this shit sucks */
-
 #let cl-ink = rgb("#dddddd")
 #let cl-string = rgb("#e5484d")
 #let cl-net = rgb("#4e9cf5")
