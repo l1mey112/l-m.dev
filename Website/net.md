@@ -22,6 +22,7 @@ All my friends from around the internet and real life who have websites
 - skeary [https://skeary.me/](https://skeary.me/)
 - ethan [https://github.com/thgilciffart](https://github.com/thgilciffart)
 - 1b [https://unemployed.foo/](https://unemployed.foo/)
+- ronnie [blog.suwuako.com](https://blog.suwuako.com)
 
 a large amount of these people are know from real life
 
