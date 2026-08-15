@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+set -uo pipefail
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+readonly SCRIPT_DIR
+
+# exit tools/
+cd "$SCRIPT_DIR/.." || exit 1
+
+{
+	echo '<?xml version="1.0" encoding="UTF-8"?>'
+	echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+
+	while IFS= read -r f; do
+		grep -q '<meta name="robots" content="noindex">' "$f" && continue
+
+		# public/cs/crepl/index.html -> /cs/crepl
+		# public/index.html -> /
+		loc="${f#public}"
+		loc="${loc%index.html}"
+		[[ $loc == / ]] || loc="${loc%/}"
+
+		canon=$(sed -n 's/.*<link rel="canonical" href="\([^"]*\)".*/\1/p' "$f" | head -1)
+		[[ $canon == *"://"*"$loc" ]] || continue
+
+		if [[ $loc == / ]]; then src="Website/index.md"; else src="Website$loc.md"; fi
+		mod=$(git log -1 --format=%cs -- "$src" 2>/dev/null)
+
+		printf '\t<url><loc>%s</loc>%s</url>\n' \
+			"$canon" "${mod:+<lastmod>$mod</lastmod>}"
+	done < <(find public -name index.html | sort)
+
+	echo '</urlset>'
+} > public/sitemap.xml

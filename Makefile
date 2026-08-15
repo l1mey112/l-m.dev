@@ -49,7 +49,7 @@ PANDOC_OPTS := -s -L tools/resources.lua -L tools/relative_time.lua -L tools/mar
 # global naviagation to a pages based on a tag
 
 .PHONY: all
-all: public/index.html $(TOPLEVEL_PAGES)
+all: public/index.html public/sitemap.xml $(TOPLEVEL_PAGES)
 
 .PHONY: serve
 serve: all
@@ -58,9 +58,9 @@ serve: all
 
 .PHONY: clean
 clean:
-	find public -mindepth 1 -maxdepth 1 ! -name 'static' ! -name 'media' ! -name 'physics-applied' -exec rm -rf {} +
+	find public -mindepth 1 -maxdepth 1 ! -name 'static' ! -name 'media' ! -name 'robots.txt' ! -name 'physics-applied' -exec rm -rf {} +
 	rm -f meta.db meta.db-shm meta.db-wal
-	    
+
 _metadb := $(shell sqlite3 meta.db < tools/schema.sql)
 
 public/index.html: $(website)/index.md $(TEMPLATES) $(STATIC) $(TARGETS) \
@@ -152,3 +152,8 @@ public/$1/%/index.html: $(website)/$1/%.md $$(TEMPLATES) $$(STATIC) \
 endef
 
 $(foreach dir,$(notdir $(filter $(website)/%,$(DIRS))),$(eval $(call SUBSITE_RULE,$(dir))))
+
+SITEMAP_PAGES := public/index.html $(TOPLEVEL_PAGES) $(TARGETS) $(MARK_PAGES_cs)
+
+public/sitemap.xml: $(SITEMAP_PAGES) tools/sitemap.sh
+	tools/sitemap.sh
