@@ -23,6 +23,12 @@ function datenorm.normalize_date(date_str)
 	return nil
 end
 
+-- "2023-01-10" for <time datetime> and article:published_time
+function datenorm.iso_date(date_str)
+	local normalized = pandoc.utils.normalize_date(pandoc.utils.stringify(date_str))
+	return normalized
+end
+
 function datenorm.utc_epoch_to_YYYY_MM_DD(epoch)
 	local epoch_num = tonumber(epoch)
 	if epoch_num == nil then

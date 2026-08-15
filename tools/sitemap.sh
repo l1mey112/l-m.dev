@@ -25,6 +25,8 @@ cd "$SCRIPT_DIR/.." || exit 1
 		[[ $canon == *"://"*"$loc" ]] || continue
 
 		if [[ $loc == / ]]; then src="Website/index.md"; else src="Website$loc.md"; fi
+		# /cs and /stream are generated from meta.db, so fall back to the section dir
+		[[ -f $src ]] || src="Website$loc"
 		mod=$(git log -1 --format=%cs -- "$src" 2>/dev/null)
 
 		printf '\t<url><loc>%s</loc>%s</url>\n' \

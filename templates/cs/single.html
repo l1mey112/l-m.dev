@@ -9,7 +9,7 @@
 		<br>
 		$endif$
 		<div class="meta">
-			Posted on <time> $date_formatted$ </time>
+			Posted on <time$if(date_yyyy_mm_dd)$ datetime="$date_yyyy_mm_dd$"$endif$> $date_formatted$ </time>
 			|
 			$word_count$ words
 			|

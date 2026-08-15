@@ -30,19 +30,25 @@ function resolve_url(src)
 end
 
 local image_styles = {
-    ['png-full']      = '<div style="text-align: center;"><img loading="lazy" style="border: none;" src="%s"></img></div>',
+    ['png-full']      = '<div style="text-align: center;"><img loading="lazy" style="border: none;" src="%s" alt="%s"></img></div>',
 	--[[ png ]]
-    ['png-full-50']   = '<div style="text-align: center;"><img loading="lazy" style="border: none; height: 50%%; width: 50%%;" src="%s"></img></div>',
+    ['png-full-50']   = '<div style="text-align: center;"><img loading="lazy" style="border: none; height: 50%%; width: 50%%;" src="%s" alt="%s"></img></div>',
 	--[[ png_fullish ]]
-    ['png-full-75']   = '<div style="text-align: center;"><img loading="lazy" style="border: none; height: 75%%; width: 75%%;" src="%s"></img></div>',
-    ['mp4-full']      = '<div style="text-align: center;"><video style="height: 100%%; width: 100%%;" src="%s" muted autoplay loop></video></div>',
+    ['png-full-75']   = '<div style="text-align: center;"><img loading="lazy" style="border: none; height: 75%%; width: 75%%;" src="%s" alt="%s"></img></div>',
+    ['mp4-full']      = '<div style="text-align: center;"><video style="height: 100%%; width: 100%%;" src="%s" preload="none" muted autoplay loop></video></div>',
 	--[[ mp4 ]]
-    ['mp4-full-50']   = '<div style="text-align: center;"><video style="height: 50%%; width: 50%%;" src="%s" muted autoplay loop></video></div>',
+    ['mp4-full-50']   = '<div style="text-align: center;"><video style="height: 50%%; width: 50%%;" src="%s" preload="none" muted autoplay loop></video></div>',
 	--[[ mp4_fullish ]]
-    ['mp4-full-75']   = '<div style="text-align: center;"><video style="height: 75%%; width: 75%%;" src="%s" muted autoplay loop></video></div>',
-    ['img-raw']       = '<img loading="lazy" src="%s"></img>',
-    ['png-flex']      = '<img loading="lazy" style="max-width: 100%%; height: auto; flex: 1 1 0; min-width: 200px;" src="%s"></img>'
+    ['mp4-full-75']   = '<div style="text-align: center;"><video style="height: 75%%; width: 75%%;" src="%s" preload="none" muted autoplay loop></video></div>',
+    ['img-raw']       = '<img loading="lazy" src="%s" alt="%s"></img>',
+    ['png-flex']      = '<img loading="lazy" style="max-width: 100%%; height: auto; flex: 1 1 0; min-width: 200px;" src="%s" alt="%s"></img>'
 }
+
+-- extract alt
+local function alt_of(el)
+	local alt = pandoc.utils.stringify(el.caption)
+	return (alt:gsub("&", "&amp;"):gsub('"', "&quot;"))
+end
 
 local debug = require("tools.modules.debug")
 
@@ -85,7 +91,7 @@ local function handle_wikilink(el)
 		return pandoc.RawInline(
 			'html',
 			string.format(
-				'<div style="text-align: center;"><img loading="lazy" style="border: none; width: %dpx; height: auto;" src="%s"></img></div>',
+				'<div style="text-align: center;"><img loading="lazy" style="border: none; width: %dpx; height: auto;" src="%s" alt=""></img></div>',
 				opt_pixel,
 				src
 			)
@@ -94,7 +100,7 @@ local function handle_wikilink(el)
 		return pandoc.RawInline(
 			'html',
 			string.format(
-				'<div style="text-align: center;"><img loading="lazy" style="border: none;" src="%s"></img></div>',
+				'<div style="text-align: center;"><img loading="lazy" style="border: none;" src="%s" alt=""></img></div>',
 				src
 			)
 		)
@@ -102,7 +108,7 @@ local function handle_wikilink(el)
 		return pandoc.RawInline(
 			'html',
 			string.format(
-				'<img loading="lazy" style="border: none; width: %dpx; height: auto;" src="%s"></img>',
+				'<img loading="lazy" style="border: none; width: %dpx; height: auto;" src="%s" alt=""></img>',
 				opt_pixel,
 				src
 			)
@@ -111,7 +117,7 @@ local function handle_wikilink(el)
 		return pandoc.RawInline(
 			'html',
 			string.format(
-				'<img loading="lazy" style="border: none;" src="%s"></img>',
+				'<img loading="lazy" style="border: none;" src="%s" alt=""></img>',
 				src
 			)
 		)
@@ -162,7 +168,7 @@ function _Image(el)
         if template then
             return pandoc.RawInline(
                 'html',
-                string.format(template, resolve_url(el.src))
+                string.format(template, resolve_url(el.src), alt_of(el))
             )
         end
     end
@@ -179,7 +185,7 @@ function _Image(el)
 
 		for _, src in ipairs(srcs) do
 			html = html .. string.format(
-				'<img loading="lazy" style="width: 100%%; flex: 1; min-width: 0; height: auto;" src="%s"></img>',
+				'<img loading="lazy" style="width: 100%%; flex: 1; min-width: 0; height: auto;" src="%s" alt=""></img>',
 				src
 			)
 		end
@@ -200,7 +206,7 @@ function _Image(el)
 
 		for _, src in ipairs(srcs) do
 			html = html .. string.format(
-				'<video style="width: 100%%; flex: 1; min-width: 0; height: auto;" src="%s" muted autoplay loop></video>',
+				'<video style="width: 100%%; flex: 1; min-width: 0; height: auto;" src="%s" preload="none" muted autoplay loop></video>',
 				src
 			)
 		end

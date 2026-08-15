@@ -9,6 +9,8 @@ $if(description-meta)$
 <meta name="description" content="$description-meta$" />
 $endif$
 
+<meta name="author" content="Liam Leadbetter" />
+
 $-- basically, an ignore
 $if(noindex)$
 <meta name="robots" content="noindex">
@@ -25,6 +27,12 @@ $if(description-meta)$
 $endif$
 <meta name="twitter:title" content="$pagetitle$$if(title-prefix)$ - $title-prefix$$endif$">
 <meta name="twitter:card" content="$if(embed)$summary_large_image$else$summary$endif$">
+<meta property="og:site_name" content="l-m.dev">
+<meta property="og:locale" content="en_AU">
+$if(date_yyyy_mm_dd)$
+<meta property="article:published_time" content="$date_yyyy_mm_dd$">
+<meta property="article:author" content="Liam Leadbetter">
+$endif$
 $endif$
 
 $if(embed)$
@@ -61,4 +69,8 @@ $endif$
 
 $if(math)$
 	$math$
+$endif$
+
+$if(jsonld)$
+$jsonld$
 $endif$

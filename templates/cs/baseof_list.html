@@ -29,7 +29,7 @@
         <article>
             <h1 class="title nounderline"><a href="$list_map.path$">$list_map.title$</a></h1>
             <div class="meta">
-                <time>$list_map.date_formatted$</time>
+                <time$if(list_map.date_yyyy_mm_dd)$ datetime="$list_map.date_yyyy_mm_dd$"$endif$>$list_map.date_formatted$</time>
                 |
                 $list_map.word_count$ words
                 |
@@ -46,10 +46,10 @@
             <div style="text-align: center;">
                 $if(list_map.embed_url)$
                 <a href="$list_map.embed_url$">
-                    <img loading="lazy" style="border: none;" src="$list_map.embed$">
+                    <img loading="lazy" style="border: none;" src="$list_map.embed$" alt="$list_map.title$">
                 </a>
                 $else$
-                <img loading="lazy" style="border: none;" src="$list_map.embed$">
+                <img loading="lazy" style="border: none;" src="$list_map.embed$" alt="$list_map.title$">
                 $endif$
             </div>
             $endif$

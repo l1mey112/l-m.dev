@@ -75,8 +75,7 @@ public/index.html: $(website)/index.md $(TEMPLATES) $(STATIC) $(TARGETS) \
 		$(PANDOC_OPTS) -L tools/metadata_list_tags.lua \
 		-M list_tags_file=<(tools/dump_tags_popcount.sh meta.db) \
 		-M colours_file=$(website)/colours.json \
-		-M canonical="$(SITEURL)/" \
-		--metadata title="l-m.dev"
+		-M canonical="$(SITEURL)/"
 
 public/%/index.html: $(website)/%.md $(TEMPLATES) $(STATIC) \
 	tools/metadata_page.lua tools/resources.lua tools/mark_to_meta.lua

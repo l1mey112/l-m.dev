@@ -1,5 +1,5 @@
 ---
-title: l-m.dev
+title: Liam Leadbetter - l-m.dev
 pageurl: /
 description: l-m.dev - my website
 ---
@@ -40,16 +40,16 @@ description: l-m.dev - my website
 
 # where to find me
 
-- YouTube: <a href="https://www.youtube.com/@l-mdotdev">@l-mdotdev</a>
-- Twitch: <a href="https://www.twitch.tv/lmdotdev/">lmdotdev</a>
+- YouTube: <a href="https://www.youtube.com/@l-mdotdev" rel="me">@l-mdotdev</a>
+- Twitch: <a href="https://www.twitch.tv/lmdotdev/" rel="me">lmdotdev</a>
 - Email: 'l-m' at 'l' dash 'm' period 'dev'
-- Linkedin: <a href="https://www.linkedin.com/in/liam-leadbetter-2465a2379/">liam-leadbetter-2465a2379</a>
-- GitHub: <a href="https://github.com/l1mey112">l1mey112</a>
+- Linkedin: <a href="https://www.linkedin.com/in/liam-leadbetter/" rel="me">liam-leadbetter</a>
+- GitHub: <a href="https://github.com/l1mey112" rel="me">l1mey112</a>
 - Discord: 'lm111'
 
 # YouTube
 
-My <span style="color: #ff0033">YouTube</span> <a href="https://www.youtube.com/@l-mdotdev">channel</a> contains some fun stuff. I started it when I was 16 and wanted to talk about C programming
+My <span style="color: #ff0033">YouTube</span> <a href="https://www.youtube.com/@l-mdotdev" rel="me">channel</a> contains some fun stuff. I started it when I was 16 and wanted to talk about C programming
 
 - Series on verification of peephole optimisations on Lean
 - Series on writing a functional programming language compiler in C
