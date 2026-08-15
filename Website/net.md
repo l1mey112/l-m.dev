@@ -20,6 +20,8 @@ All my friends from around the internet and real life who have websites
 - evan [https://evan.lat/](https://evan.lat/)
 - junko [https://kafu.ovh/](https://kafu.ovh/)
 - skeary [https://skeary.me/](https://skeary.me/)
+- ethan [https://github.com/thgilciffart](https://github.com/thgilciffart)
+- 1b [https://unemployed.foo/](https://unemployed.foo/)
 
 a large amount of these people are know from real life
 
