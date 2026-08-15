@@ -132,8 +132,8 @@ public/$1/index.html: $$(MARK_PAGES_$1) $$(TEMPLATES) $$(STATIC) \
 		-M list_map_file=<(tools/dump_list.sh meta.db "/$1*") \
 		-M list_tags_file=<(tools/dump_tags_popcount.sh meta.db "$1") \
 		-M colours_file=$(website)/colours.json \
-		--metadata title="l-m.dev" \
-		--title-prefix="$1"
+		--metadata title="$1" \
+		--title-prefix="l-m.dev"
 
 public/$1/%/index.html: $(website)/$1/%.md $$(TEMPLATES) $$(STATIC) \
 	tools/metadata_hook.lua tools/metadata_page.lua tools/resources.lua tools/relative_time.lua tools/mark_to_meta.lua $(LUA_MODULES)

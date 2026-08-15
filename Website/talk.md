@@ -1,5 +1,5 @@
 ---
-title: talk
+title: talk - l-m.dev
 section: talk
 pageurl: /talk
 description: l-m.dev - my presentations and technical talks
