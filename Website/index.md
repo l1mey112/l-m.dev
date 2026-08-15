@@ -37,6 +37,7 @@ description: l-m.dev - my website
 - [/cs](/cs) | My blog about computers and all of the above. <!-- <span class="meta">[[RSS]](/cs/index.xml)</span> -->
 * [/stream](/stream) | I stream sometimes.
 * [/talk](/talk) | I present talks sometimes.
+* [/net](/net) | Cool sites on the internet.
 
 # where to find me
 

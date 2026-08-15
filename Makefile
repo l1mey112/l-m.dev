@@ -27,7 +27,7 @@ TOPLEVEL := $(filter-out $(website)/index.md,$(wildcard $(website)/*.md))
 TOPLEVEL_PAGES := $(patsubst $(website)/%.md,public/%/index.html,$(filter %.md,$(TOPLEVEL)))
 
 # these show up at the top as /talk, /cs, /3d, etc
-TOPLEVEL_LIST := /cs /stream /talk
+TOPLEVEL_LIST := /cs /stream /talk /net
 
 # TOPLEVEL_LIST -> -M toplevel_list=item1 -M toplevel_list=item2 ...
 TOPLEVEL_LIST_ARG := $(foreach t,$(TOPLEVEL_LIST),-M toplevel_list=$(t))

@@ -50,15 +50,23 @@ function build_jsonld(meta, tags)
 		return nil
 	end
 
+	local siteurl = pandoc_safe.stringify_or_nil(meta.siteurl) or "https://l-m.dev"
+	local person_id = siteurl .. "/#person"
+	local person = {
+		["@type"] = "Person",
+		["@id"] = person_id,
+		name = "Liam Leadbetter",
+		url = siteurl .. "/",
+	}
+
 	local posting = {
-		["@context"] = "https://schema.org",
 		["@type"] = "BlogPosting",
 		["@id"] = canonical .. "#article",
 		mainEntityOfPage = canonical,
 		headline = pandoc_safe.stringify_or_nil(meta.title),
 		description = pandoc_safe.stringify_or_nil(meta.description),
 		datePublished = pandoc_safe.stringify_or_nil(meta.date_yyyy_mm_dd),
-		author = { ["@id"] = (pandoc_safe.stringify_or_nil(meta.siteurl) or "https://l-m.dev") .. "/#person" },
+		author = { ["@id"] = person_id },
 	}
 
 	local keywords = pandoc_safe.stringify_array(tags)
@@ -71,8 +79,13 @@ function build_jsonld(meta, tags)
 		posting.description = nil
 	end
 
+	local graph = {
+		["@context"] = "https://schema.org",
+		["@graph"] = { person, posting },
+	}
+
 	local script = '<script type="application/ld+json">\n'
-		.. pandoc.json.encode(posting)
+		.. pandoc.json.encode(graph)
 		.. '\n</script>'
 
 	return pandoc.MetaBlocks({ pandoc.RawBlock("html", script) })
