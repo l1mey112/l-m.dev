@@ -1,7 +1,7 @@
 ---
 title: Liam Leadbetter - l-m.dev
 pageurl: /
-description: l-m.dev - my website
+description: my website and all about me
 ---
 
 # l-m <span class="meta">(Liam Leadbetter)</span>

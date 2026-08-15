@@ -2,7 +2,7 @@
 title: cool things on the net - l-m.dev
 section: net
 pageurl: /net
-description: l-m.dev - cool things on the net
+description: cool websites and all my friends and stuff
 ---
 
 All my friends from around the internet and real life who have websites
