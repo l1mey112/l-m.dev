@@ -268,7 +268,7 @@ What about line 3? Remember how I said implementing one led the way to implement
 
 # Syntax highlighting
 
-I've already written a tokenizer for [stas](/posts/compiler-part-3), why not repurpose it for syntax highlighting?
+I've already written a tokenizer for [stas](/cs/compiler-part-3), why not repurpose it for syntax highlighting?
 
 I'm pretty proud of this one, it's as optimised as I think it can get.
 

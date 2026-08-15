@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
     $../header.html()$
 	<meta name="twitter:card" content="summary_large_image">
@@ -14,13 +14,9 @@ $tags_me_fmt$" property="og:description">
 	$endif$
 
 	<meta http-equiv="refresh" content="0; url=/$section$#$epoch$">
-	$if(embed)$
-	<meta property="og:image" name="twitter:image" content="$embed$">
-	$endif$
-	
 	<title>Redirecting to $section$...</title>
 
-	<link rel="canonical" href="/$section$#$epoch$" />
+	<link rel="canonical" href="$siteurl$/$section$#$epoch$" />
 	</head>
     <body>
 		$body$

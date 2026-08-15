@@ -1,6 +1,7 @@
 ---
 title: l-m.dev
 pageurl: /
+description: l-m.dev - my website
 ---
 
 # l-m <span class="meta">(Liam Leadbetter)</span>
@@ -54,13 +55,13 @@ My <span style="color: #ff0033">YouTube</span> <a href="https://www.youtube.com/
 - Series on writing a functional programming language compiler in C
 - Fun technical talks, stream VODs, etc
 
-![](l-mdotdev-youtube-strip.png){.png-full}
+![Thumbnails from the l-m.dev YouTube channel](l-mdotdev-youtube-strip.png){.png-full}
 
 # Presentations
 
 See [/talk](/talk)
 
-![](Zero to RandomX.js_ Bringing Webmining Back From The Grave - Linux Society UNSW 2025 - 0-45-06.jpeg){.png-full}
+![Presenting "Zero to RandomX.js: Bringing Webmining Back From The Grave" at Linux Society UNSW 2025.](Zero to RandomX.js_ Bringing Webmining Back From The Grave - Linux Society UNSW 2025 - 0-45-06.jpeg){.png-full}
 
 # revisions
 

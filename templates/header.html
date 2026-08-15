@@ -5,15 +5,27 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>$if(title-prefix)$$title-prefix$ - $endif$$pagetitle$</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
 $if(description-meta)$
 <meta name="description" content="$description-meta$" />
 $endif$
 
+$if(canonical)$
+<link rel="canonical" href="$canonical$" />
+<meta property="og:url" content="$canonical$">
+<meta property="og:type" content="$if(og_type)$$og_type$$else$website$endif$">
+<meta property="og:title" content="$if(title-prefix)$$title-prefix$ - $endif$$pagetitle$">
+$if(description-meta)$
+<meta property="og:description" content="$description-meta$">
+<meta name="twitter:description" content="$description-meta$">
+$endif$
+<meta name="twitter:title" content="$if(title-prefix)$$title-prefix$ - $endif$$pagetitle$">
+<meta name="twitter:card" content="$if(embed)$summary_large_image$else$summary$endif$">
+$endif$
+
 $if(embed)$
 $-- https://snook.ca/archives/html_and_css/open-graph-and-sharing-tags
-<meta property="og:image" name="twitter:image" content="$embed$">
+$-- absolute url required
+<meta property="og:image" name="twitter:image" content="$siteurl$$embed$">
 $endif$
 
 <link rel="stylesheet" type="text/css" media="screen" href="/static/fonts.css" />

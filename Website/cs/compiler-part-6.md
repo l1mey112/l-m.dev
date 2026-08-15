@@ -57,7 +57,7 @@ The only option that will actually get me to the goal of writing the stas compil
 All the new code is in a different branch called [tiny-stas](https://github.com/l1mey112/stas/tree/tiny-stas), waiting to be merged into the main branch.
 
 # Forgotten Code
-I'll gloss over what I implmenteted right after part 4, before the time I worked on the [C projects](/posts/learning_by_doing_in_c_lookback/).
+I'll gloss over what I implmenteted right after part 4, before the time I worked on the [C projects](/cs/learning_by_doing_in_c_lookback).
 
 # [C style variable refereces](https://github.com/l1mey112/stas/blob/e136ade9e33903a7e8df1553f3d2b57e10778c74/files/addrof.stas)
 

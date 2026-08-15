@@ -1,5 +1,8 @@
 website := Website
 
+# <link rel=canonical>, og:url, absolute og:image
+SITEURL := https://l-m.dev
+
 # force the use of bash as <(...) is not supported by /bin/sh
 SHELL := /bin/bash
 
@@ -30,6 +33,7 @@ TOPLEVEL_LIST := /cs /stream /talk
 TOPLEVEL_LIST_ARG := $(foreach t,$(TOPLEVEL_LIST),-M toplevel_list=$(t))
 
 PANDOC_OPTS := -s -L tools/resources.lua -L tools/relative_time.lua -L tools/mark_to_meta.lua $(TOPLEVEL_LIST_ARG) \
+	-M siteurl=$(SITEURL) \
 	--from markdown+hard_line_breaks+wikilinks_title_after_pipe-implicit_figures+mark+pipe_tables \
 	--highlight-style=templates/monokai.theme \
 	--syntax-definition=templates/vlang.xml \
@@ -71,6 +75,7 @@ public/index.html: $(website)/index.md $(TEMPLATES) $(STATIC) $(TARGETS) \
 		$(PANDOC_OPTS) -L tools/metadata_list_tags.lua \
 		-M list_tags_file=<(tools/dump_tags_popcount.sh meta.db) \
 		-M colours_file=$(website)/colours.json \
+		-M canonical="$(SITEURL)/" \
 		--metadata title="l-m.dev"
 
 public/%/index.html: $(website)/%.md $(TEMPLATES) $(STATIC) \
@@ -83,6 +88,7 @@ public/%/index.html: $(website)/%.md $(TEMPLATES) $(STATIC) \
 		--css=/static/main.css \
 		--css=/static/index.css \
 		-V is_homepage=true -V is_dark_already=false \
+		-M canonical="$(SITEURL)/$*" \
 		$(PANDOC_OPTS) -L tools/metadata_page.lua
 
 STYLE_cs   := /static/main.css
@@ -91,6 +97,15 @@ STYLE_DEFAULT := /static/me.css
 TEMPLATE_BASE_cs := templates/cs/
 TEMPLATE_BASE_DEFAULT := templates/me/
 
+# only emit one <link rel=canonical>
+# this is separate to what stream does for example
+CANONICAL_SINGLE_cs := true
+
+DESCRIPTION_cs := My blog about computers and all of the above.
+DESCRIPTION_stream := Stream announcements and VOD notes.
+
+# this isn't general, applies to everything
+# TODO: make it not general, yagni for now
 SUBSITE_OPTS := -V is_dark_already=true
 
 # root rule is public/$1/index.html
@@ -112,6 +127,8 @@ public/$1/index.html: $$(MARK_PAGES_$1) $$(TEMPLATES) $$(STATIC) \
 		-M section="$1" -V is_$1=true $$(SUBSITE_OPTS) \
 		$$(PANDOC_OPTS) -L tools/metadata_list_map.lua -L tools/metadata_list_tags.lua \
 		-M pageurl="/$1" \
+		-M canonical="$(SITEURL)/$1" \
+		$(if $(DESCRIPTION_$1),-M description="$(DESCRIPTION_$1)") \
 		-M list_map_file=<(tools/dump_list.sh meta.db "/$1*") \
 		-M list_tags_file=<(tools/dump_tags_popcount.sh meta.db "$1") \
 		-M colours_file=$(website)/colours.json \
@@ -128,6 +145,7 @@ public/$1/%/index.html: $(website)/$1/%.md $$(TEMPLATES) $$(STATIC) \
 		-M section="$1" -V is_$1=true $$(SUBSITE_OPTS) \
 		$$(PANDOC_OPTS) -L tools/metadata_hook.lua -L tools/metadata_page.lua \
 		-M pageurl="/$1/$$(basename $$(notdir $$<))" \
+		$(if $(CANONICAL_SINGLE_$1),-M canonical="$(SITEURL)/$1/$$(basename $$(notdir $$<))" -V og_type=article) \
 		-M emit_meta=true \
 		--title-prefix="l-m.dev" \
 	| sqlite3 meta.db

@@ -18,7 +18,7 @@ I love simplicity and control, C does that for me.
 
 Anyway, here are some core topics I have come to learn through these four projects!
 
-# [Speeding Up malloc With Fixed Size Allocation (lmalloc)](/cs/learning_by_doing_in_c_part_1/)
+# [Speeding Up malloc With Fixed Size Allocation (lmalloc)](/cs/learning_by_doing_in_c_part_1)
 
 - Slab Allocation
 - Linked Lists
@@ -26,7 +26,7 @@ Anyway, here are some core topics I have come to learn through these four projec
 - Replacing libc Functionality
 - The 'mmap' system call
 
-# [Huffman Coding and Dynamic Strings](/cs/learning_by_doing_in_c_part_2/)
+# [Huffman Coding and Dynamic Strings](/cs/learning_by_doing_in_c_part_2)
 
 - Dynamic Arrays
 - Dynamic Bit Arrays
@@ -45,7 +45,7 @@ Anyway, here are some core topics I have come to learn through these four projec
 - Splitting By Delimiters In The String Library 
 - 'sprintf' For A String Builder
 
-# [Rendering The Mandelbrot Set Inside 16 Bit Bootsector Code](/cs/learning_by_doing_in_c_part_4/)
+# [Rendering The Mandelbrot Set Inside 16 Bit Bootsector Code](/cs/learning_by_doing_in_c_part_4)
 
 - 16 Bit Assembly And C Code
 - BIOS Interrupts

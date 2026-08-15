@@ -434,7 +434,7 @@ printf("Floating point bits of precision: %d\n"
 ::::: {.flex-columns-1}
 My GPU's highest floating point precision avaliable is equal to a 'single precision float' in the IEEE 754 standard.
 If you don't know what that means, don't worry. A single precision float is a 32 bit floating point value equal to the 'float' 
-type in C. As a comparision, the [project before](https://blog.l-m.dev/posts/dvd_screensaver_bootsector/) used 80 bit floats 
+type in C. As a comparision, the [project before](/cs/dvd_screensaver_bootsector) used 80 bit floats 
 but was exponentially slower. 
 :::::
 ::::: {.flex-columns-1}

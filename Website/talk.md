@@ -2,6 +2,7 @@
 title: talk
 section: talk
 pageurl: /talk
+description: l-m.dev - my presentations and technical talks
 ---
 
 **All presentation source code is here!** [l1mey112/l-m.dev/Presentations](https://github.com/l1mey112/l-m.dev/tree/master/Presentations)
