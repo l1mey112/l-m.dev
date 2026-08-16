@@ -21,9 +21,14 @@ $if(canonical)$
 <meta property="og:url" content="$canonical$">
 <meta property="og:type" content="$if(og_type)$$og_type$$else$website$endif$">
 <meta property="og:title" content="$pagetitle$$if(title-prefix)$ - $title-prefix$$endif$">
+$if(og_description)$
+<meta property="og:description" content="$og_description/nowrap$">
+<meta name="twitter:description" content="$og_description/nowrap$">
+$else$
 $if(description-meta)$
 <meta property="og:description" content="$description-meta$">
 <meta name="twitter:description" content="$description-meta$">
+$endif$
 $endif$
 <meta name="twitter:title" content="$pagetitle$$if(title-prefix)$ - $title-prefix$$endif$">
 <meta name="twitter:card" content="$if(embed)$summary_large_image$else$summary$endif$">

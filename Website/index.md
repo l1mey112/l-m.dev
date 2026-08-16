@@ -1,19 +1,20 @@
 ---
 title: Liam Leadbetter - l-m.dev
 pageurl: /
-description: my website and all about me
+description: l-m.dev is the personal site of Liam Leadbetter (l-m), Head of Product at Zenith Hosting. Writing on compilers, WebAssembly, Lean4, Kubernetes and low level systems.
+og_description: my website and all about me
 ---
 
-# l-m <span class="meta">(Liam Leadbetter)</span>
+# l-m.dev | l-m <span class="meta">(Liam Leadbetter)</span>
 
 * Self taught and persistent.
 
-<p></p>
+<!-- -->
 
 - **Full time** @ <a href="https://zenith.hosting/"><span style="color: #6d44c5;">**Zenith Hosting**</span></a> as Head of Product.
 - Part time studying Pure Mathematics, Computer Science @ <span style="color: #ff6a48;">**UNSW**</span> and a Casual Academic teaching COMP1521.
 
-<p></p>
+<!-- -->
 
 - Platform and infra engineer, doing a lot of backend in Golang at the moment.
   Experience with hard systems programming.
@@ -24,13 +25,13 @@ description: my website and all about me
 - Previous semi serious and hobby experience with Blender, 3D modeling.
 - Can write <span style="color: #3b94ff;">**Lean4**</span> and understand math at an undergrad level.
 
-<p></p>
+<!-- -->
 
 - <span style="color: #00ADD8;">**Go**</span>, <span style="color: #669ad3;">**C**</span>, <span style="color: #3b94ff;">**Lean4**</span>, <span style="color: #654ff0;">**WebAssembly**</span>, <span style="color: #3077c5;">**TypeScript**</span>, <span style="color: #f7a41d;">**Zig**</span>.
 
 + I daily drive <span style="color: #d60652;">**Debian**</span> (laptop) because it's very stable.
 
-<p></p>
+<!-- -->
 
 ## l-m.dev
 
@@ -84,9 +85,9 @@ See [/talk](/talk)
 
 </div>
 
-- [(+)](https://github.com/l1mey112/l-m.dev/) **'l-m.dev'** | My website!
+- [(+)](https://github.com/l1mey112/l-m.dev/) **l-m.dev** | My personal site and a blog on compilers, infra, low level, WebAssembly, plus talks and stream VODs. | Notable fun projects below!
 
-<p></p>
+<!-- -->
 
 * [(+)](https://github.com/l1mey112/peephole-formal) [\[P\]](https://l-m.dev/cs/formally-verifying-peephole-optimisations-in-lean) [\[Yt\]](https://www.youtube.com/playlist?list=PLqQJmxnx9qYWN5X5B2zpmgCu75KdegdK5) **Peephole Formal** | Formalisation of peephole optimisations in Lean.
 - [(+)](https://github.com/l1mey112/randomx.js) [\[Pre\]](https://www.youtube.com/watch?v=gmAgvHaw9w4) **'RandomX.js'** | RandomX.js is an implementation of the ubiquitous Monero POW algorithm RandomX in JavaScript. 
