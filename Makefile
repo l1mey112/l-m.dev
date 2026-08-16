@@ -114,7 +114,8 @@ SUBSITE_OPTS := -V is_dark_already=true
 
 # root rule is public/$1/index.html
 define SUBSITE_RULE
-MARK_$1 := $$(wildcard $(website)/$1/*.md)
+# draft = have _name.md at the front
+MARK_$1 := $$(filter-out $(website)/$1/_%.md,$$(wildcard $(website)/$1/*.md))
 MARK_PAGES_$1 := $$(patsubst $(website)/$1/%.md,public/$1/%/index.html,$$(MARK_$1))
 
 CURRENT_STYLE_$1 := $(or $(STYLE_$1),$(STYLE_DEFAULT))
