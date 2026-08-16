@@ -233,10 +233,6 @@ h2.title::before { content: '>> '; }
   text-align: center;
 }
 
-.talkdesc::before {
-  content: '>> ';
-}
-
 hr {
   position: relative;
   height: 20px;

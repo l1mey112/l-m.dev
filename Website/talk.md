@@ -19,7 +19,7 @@ description: Recordings, slides and source code for the technical talks I've giv
 <time datetime="2026">2026</time> | Linux Society UNSW
 </div>
 
-<div class="meta talkdesc">Why do people think Kubernetes is so hard? In this presentation I destroy my perfectly good homelab and turn it into a Kubernetes cluster at home on Talos Linux. A talk about selfhosting and more.</div>
+<div class="meta">Why do people think Kubernetes is so hard? In this presentation I destroy my perfectly good homelab and turn it into a Kubernetes cluster at home on Talos Linux. A talk about selfhosting and more.</div>
 
 [
 ![Title slide from the talk "Destroying My Homelab With Kubernetes" at Linux Society UNSW 2026.](Destroying My Homelab With Kubernetes - Linux Society UNSW 2026 - 0-20-28.jpeg){.png-full}
@@ -49,7 +49,7 @@ description: Recordings, slides and source code for the technical talks I've giv
 <time datetime="2025">2025</time> | Linux Society UNSW
 </div>
 
-<div class="meta talkdesc">Presentation on the internals, rationale, and my experience implementing the Monero POW algorithm RandomX in JavaScript. WebAssembly, floating point, bit trickery, cryptography, performance, benchmarks, everything.</div>
+<div class="meta">Presentation on the internals, rationale, and my experience implementing the Monero POW algorithm RandomX in JavaScript. WebAssembly, floating point, bit trickery, cryptography, performance, benchmarks, everything.</div>
 
 [
 ![Title slide from the talk "Zero to RandomX.js: Bringing Webmining Back From The Grave" at Linux Society UNSW 2025.](Zero to RandomX.js_ Bringing Webmining Back From The Grave - Linux Society UNSW 2025 - 0-12-49.png){.png-full}
@@ -79,7 +79,7 @@ description: Recordings, slides and source code for the technical talks I've giv
 <time datetime="2023">2023</time> | SYNCS
 </div>
 
-<div class="meta talkdesc">Introduction to the V programming language. Maintaining and iterating on the V programming language, and writing its WebAssembly backend.</div>
+<div class="meta">Introduction to the V programming language. Maintaining and iterating on the V programming language, and writing its WebAssembly backend.</div>
 
 [
 ![Title slide from my talk on the V programming language at SYNCS.](image-syncs-talk-yt-real.png){.png-full}
