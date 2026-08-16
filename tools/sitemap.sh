@@ -33,5 +33,19 @@ cd "$SCRIPT_DIR/.." || exit 1
 			"$canon" "${mod:+<lastmod>$mod</lastmod>}"
 	done < <(find public -name index.html | sort)
 
+	# /talks
+	# the point is that i create "handout" versions (the phandout.typ files) that
+	# can be indexed nicely by the internet
+	while IFS= read -r f; do
+		# public/talks/foo.pdf -> /talks/foo.pdf
+		loc="${f#public}"
+
+		mod=$(git log -1 --format=%cs -- "$f" 2>/dev/null)
+		[[ -n $mod ]] || mod=$(date -r "$f" +%F)
+
+		printf '\t<url><loc>%s%s</loc>%s</url>\n' \
+			"https://l-m.dev" "${loc// /%20}" "${mod:+<lastmod>$mod</lastmod>}"
+	done < <(find public/talks -name '*.pdf' | sort)
+
 	echo '</urlset>'
 } > public/sitemap.xml

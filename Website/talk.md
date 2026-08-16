@@ -29,13 +29,13 @@ description: Recordings, slides and source code for the technical talks I've giv
 
 <details>
 <summary>slides</summary>
-<object data="/media/presentation_homelab.pdf#toolbar=0&navpanes=0&scrollbar=0&view=Fit" type="application/pdf"
+<object data="/talks/destroying-my-homelab-with-kubernetes.pdf#toolbar=0&navpanes=0&scrollbar=0&view=Fit" type="application/pdf"
         style="width: 100%; aspect-ratio: 16 / 9;">
-<p>Can't display the PDF here. <a href="/media/presentation_homelab.pdf">Download presentation_homelab.pdf</a>.</p>
+<p>Can't display the PDF here. <a href="/talks/destroying-my-homelab-with-kubernetes.pdf">Download the slides for &ldquo;Destroying My Homelab With Kubernetes&rdquo; (PDF)</a>.</p>
 </object>
 </details>
 
-[presentation_homelab.pdf](/media/presentation_homelab.pdf) | [source code Presentations/homelab](https://github.com/l1mey112/l-m.dev/tree/master/Presentations/homelab)
+[slides: Destroying My Homelab With Kubernetes (PDF)](/talks/destroying-my-homelab-with-kubernetes.pdf) | [source code Presentations/homelab](https://github.com/l1mey112/l-m.dev/tree/master/Presentations/homelab)
 
 </article>
 
@@ -59,13 +59,13 @@ description: Recordings, slides and source code for the technical talks I've giv
 
 <details>
 <summary>slides</summary>
-<object data="/media/presentation_randomx.js.pdf#toolbar=0&navpanes=0&scrollbar=0&view=Fit" type="application/pdf"
+<object data="/talks/zero-to-randomx-js-webmining.pdf#toolbar=0&navpanes=0&scrollbar=0&view=Fit" type="application/pdf"
         style="width: 100%; aspect-ratio: 16 / 9;">
-<p>Can't display the PDF here. <a href="/media/presentation_randomx.js.pdf">Download presentation_randomx.js.pdf</a>.</p>
+<p>Can't display the PDF here. <a href="/talks/zero-to-randomx-js-webmining.pdf">Download the slides for &ldquo;Zero to RandomX.js: Bringing Webmining Back From The Grave&rdquo; (PDF)</a>.</p>
 </object>
 </details>
 
-[presentation_randomx.js.pdf](/media/presentation_randomx.js.pdf) | [source code Presentations/randomx.js](https://github.com/l1mey112/l-m.dev/tree/master/Presentations/randomx.js)
+[slides: Zero to RandomX.js: Bringing Webmining Back From The Grave (PDF)](/talks/zero-to-randomx-js-webmining.pdf) | [source code Presentations/randomx.js](https://github.com/l1mey112/l-m.dev/tree/master/Presentations/randomx.js)
 
 </article>
 
@@ -73,7 +73,7 @@ description: Recordings, slides and source code for the technical talks I've giv
 
 <article class="talk">
 
-## Read Fast, Write Fast, Run Faster: How To Maintain And Iterate With V
+## Read Fast, Write Fast, And Run Faster: How To Maintain And Iterate With V
 
 <div class="meta">
 <time datetime="2023">2023</time> | SYNCS
@@ -89,12 +89,12 @@ description: Recordings, slides and source code for the technical talks I've giv
 
 <details>
 <summary>slides</summary>
-<object data="/media/presentation_v_talk.pdf#toolbar=0&navpanes=0&scrollbar=0&view=Fit" type="application/pdf"
+<object data="/talks/read-fast-write-fast-run-faster-with-v.pdf#toolbar=0&navpanes=0&scrollbar=0&view=Fit" type="application/pdf"
         style="width: 100%; aspect-ratio: 16 / 9;">
-<p>Can't display the PDF here. <a href="/media/presentation_v_talk.pdf">Download presentation_v_talk.pdf</a>.</p>
+<p>Can't display the PDF here. <a href="/talks/read-fast-write-fast-run-faster-with-v.pdf">Download the slides for &ldquo;Read Fast, Write Fast, And Run Faster: How To Maintain And Iterate With V&rdquo; (PDF)</a>.</p>
 </object>
 </details>
 
-[presentation_v_talk.pdf](/media/presentation_v_talk.pdf) | [source code Presentations/v-talk](https://github.com/l1mey112/l-m.dev/tree/master/Presentations/v-talk%40rel)
+[slides: Read Fast, Write Fast, And Run Faster: How To Maintain And Iterate With V (PDF)](/talks/read-fast-write-fast-run-faster-with-v.pdf) | [source code Presentations/v-talk](https://github.com/l1mey112/l-m.dev/tree/master/Presentations/v-talk%40rel)
 
 </article>

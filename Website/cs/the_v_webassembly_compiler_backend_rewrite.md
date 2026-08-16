@@ -185,7 +185,7 @@ The way the backend is structured is pretty standard for most other backends. Th
 I will not explain everything, I already made a guide.
 
 :::::::::: {.centre-text}
-[cs/how_to_make_a_v_backend](https://l-m.dev/cs/how_to_make_a_v_backend/)
+[cs/how_to_make_a_v_backend](https://l-m.dev/cs/how_to_make_a_v_backend)
 ::::::::::
 
 :::::
@@ -435,7 +435,7 @@ Constructing the return value in the return slot is a form of RVO (return value 
 I open up on the differences between the old variable representation and the new here. It explains why the old version was so bad, and why the new version is way more flexible.
 
 :::::::::: {.centre-text}
-[cs/three_undocumented_projects](https://l-m.dev/cs/three_undocumented_projects/)
+[cs/three_undocumented_projects](https://l-m.dev/cs/three_undocumented_projects)
 ::::::::::
 
 ## Calling External Functions

@@ -281,7 +281,7 @@ For a month or so back then, I've been stringing the V community along with upda
 
 It's time to show something new.
 
-# Year 11 Physics, Applied. [[+]](https://l-m.dev/physics-applied/)
+# Year 11 Physics, Applied. [[+]](https://l-m.dev/physics-applied)
 
 A collection of interactive demonstrations and physics simulations.
 
@@ -289,7 +289,7 @@ A collection of interactive demonstrations and physics simulations.
 
 I love Physics, there isn't anything like it. My obession is probably indicative by all of these simulations I've created over the years.
 
-[Remember that softbody one I did?](https://l-m.dev/cs/softbody-dynamics-terminal/)
+[Remember that softbody one I did?](https://l-m.dev/cs/softbody-dynamics-terminal)
 
 That's one of them. Not even including the tons of toy Rasterisers, Ray Tracers, Ray Marchers, and Physics engines.
 
@@ -316,11 +316,11 @@ Full source -> **[l1mey112/physics-applied](https://github.com/l1mey112/yr11-phy
 ](https://github.com/l1mey112/yr11-physics-applied)
 :::::
 ::::: {.flex-columns-1}
-1. [Vector Addition](https://l-m.dev/physics-applied/#vector_addition)
-1. [Static And Kinematic Friction Coefficients](https://l-m.dev/physics-applied/#friction_coefficients)
-1. [Transverse Wave Motion](https://l-m.dev/physics-applied/#wave_generator)
-1. [Softbody Pressure And Ideal Gases](https://l-m.dev/physics-applied/#softbody)
-1. [Gravitational Potential Energy And Kinetic Energy](https://l-m.dev/physics-applied/#potential_energy)
+1. [Vector Addition](https://l-m.dev/physics-applied#vector_addition)
+1. [Static And Kinematic Friction Coefficients](https://l-m.dev/physics-applied#friction_coefficients)
+1. [Transverse Wave Motion](https://l-m.dev/physics-applied#wave_generator)
+1. [Softbody Pressure And Ideal Gases](https://l-m.dev/physics-applied#softbody)
+1. [Gravitational Potential Energy And Kinetic Energy](https://l-m.dev/physics-applied#potential_energy)
 :::::
 ::::::::::
 

@@ -8,7 +8,7 @@ tags:
   - C
 sources:
   - "[VOD] PEEP 2 - proof of addNsw_assoc (add nsw LLVM instruction)": https://www.youtube.com/watch?v=lY1GF-8sdsA&t=8367s
-  - l-m.dev/stream (stream schedule): https://l-m.dev/stream/
+  - l-m.dev/stream (stream schedule): https://l-m.dev/stream
   - l1mey112/peephole-formal: https://github.com/l1mey112/peephole-formal
   - google/souper: https://github.com/google/souper
 ---
@@ -59,7 +59,7 @@ Here is some [HN article](https://news.ycombinator.com/item?id=10463312) about S
 
 :::::::::: {.centre-text}
 
-[l1mey112/peephole-formal](https://github.com/l1mey112/peephole-formal) - [l-m.dev/stream/](https://l-m.dev/stream/) for implementation streams
+[l1mey112/peephole-formal](https://github.com/l1mey112/peephole-formal) - [l-m.dev/stream/](https://l-m.dev/stream) for implementation streams
 
 ::::::::::
 

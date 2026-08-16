@@ -58,7 +58,7 @@ serve: all
 
 .PHONY: clean
 clean:
-	find public -mindepth 1 -maxdepth 1 ! -name 'static' ! -name 'media' ! -name 'robots.txt' ! -name 'physics-applied' -exec rm -rf {} +
+	find public -mindepth 1 -maxdepth 1 ! -name 'static' ! -name 'media' ! -name 'robots.txt' ! -name 'talks' ! -name 'physics-applied' -exec rm -rf {} +
 	rm -f meta.db meta.db-shm meta.db-wal
 
 _metadb := $(shell sqlite3 meta.db < tools/schema.sql)
