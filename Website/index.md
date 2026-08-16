@@ -32,14 +32,14 @@ description: my website and all about me
 
 <p></p>
 
-# l-m.dev
+## l-m.dev
 
 - [/cs](/cs) | My blog about computers and all of the above. <!-- <span class="meta">[[RSS]](/cs/index.xml)</span> -->
 * [/stream](/stream) | I stream sometimes.
 * [/talk](/talk) | I present talks sometimes.
 * [/net](/net) | Cool sites on the internet.
 
-# where to find me
+## where to find me
 
 - YouTube: <a href="https://www.youtube.com/@l-mdotdev" rel="me">@l-mdotdev</a>
 - Twitch: <a href="https://www.twitch.tv/lmdotdev" rel="me">lmdotdev</a>
@@ -48,7 +48,7 @@ description: my website and all about me
 - GitHub: <a href="https://github.com/l1mey112" rel="me">l1mey112</a>
 - Discord: 'lm111'
 
-# YouTube
+## YouTube
 
 My <span style="color: #ff0033">YouTube</span> <a href="https://www.youtube.com/@l-mdotdev" rel="me">channel</a> contains some fun stuff. I started it when I was 16 and wanted to talk about C programming
 
@@ -58,13 +58,13 @@ My <span style="color: #ff0033">YouTube</span> <a href="https://www.youtube.com/
 
 ![Thumbnails from the l-m.dev YouTube channel](l-mdotdev-youtube-strip.png){.png-full}
 
-# Presentations
+## Presentations
 
 See [/talk](/talk)
 
 ![Presenting "Zero to RandomX.js: Bringing Webmining Back From The Grave" at Linux Society UNSW 2025.](Zero to RandomX.js_ Bringing Webmining Back From The Grave - Linux Society UNSW 2025 - 0-45-06.jpeg){.png-full}
 
-# revisions
+## revisions
 
 | Year      |                          |                                                                                 |
 | --------- | ------------------------ | ------------------------------------------------------------------------------- |
@@ -72,7 +72,7 @@ See [/talk](/talk)
 | 2025      | [/2025](/2025)           | I rewrote everything -> [l1mey112/l-m.dev](https://github.com/l1mey112/l-m.dev) |
 | mid 2026  | [/](/)                   | More exciting things in my life                                                 |
 
-# All notable software projects
+## All notable software projects
 
 <div class="meta">
 

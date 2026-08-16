@@ -5,6 +5,8 @@ pageurl: /net
 description: cool websites and all my friends and stuff
 ---
 
+# cool things on the net
+
 All my friends from around the internet and real life who have websites
 
 - julia [https://kitti.cat/](https://kitti.cat/)
@@ -23,6 +25,7 @@ All my friends from around the internet and real life who have websites
 - ethan [https://github.com/thgilciffart](https://github.com/thgilciffart)
 - 1b [https://unemployed.foo/](https://unemployed.foo/)
 - ronnie [blog.suwuako.com](https://blog.suwuako.com)
+- justin [https://jstnc.dev/](https://jstnc.dev/)
 
 a large amount of these people are know from real life
 

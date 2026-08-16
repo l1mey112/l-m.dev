@@ -1,6 +1,6 @@
 ---
 title: Learning By Doing In C Finale - A Look Back
-description: 
+description: Four projects, one month, all in C.
 date: 2022-09-17
 tags:
   - C

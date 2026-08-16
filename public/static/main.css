@@ -219,6 +219,24 @@ h6::before {
   content: '###### ';
 }
 
+/* because of /cs shifting the headers by one */
+.body h2::before { content: '>> '; }
+.body h3::before { content: '## '; }
+.body h4::before { content: '### '; }
+.body h5::before { content: '#### '; }
+.body h6::before { content: '##### '; }
+
+h2.title::before { content: '>> '; }
+
+.talk {
+  display: block;
+  text-align: center;
+}
+
+.talkdesc::before {
+  content: '>> ';
+}
+
 hr {
   position: relative;
   height: 20px;

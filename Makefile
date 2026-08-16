@@ -100,6 +100,9 @@ TEMPLATE_BASE_DEFAULT := templates/me/
 # this is separate to what stream does for example
 CANONICAL_SINGLE_cs := true
 
+# template for cs puts post title as <h1>, so we want to shift all "#" -> "##"
+SHIFT_HEADING_cs := true
+
 DESCRIPTION_cs := My blog about computers and all of the above.
 DESCRIPTION_stream := Stream announcements and VOD notes.
 
@@ -145,8 +148,8 @@ public/$1/%/index.html: $(website)/$1/%.md $$(TEMPLATES) $$(STATIC) \
 		$$(PANDOC_OPTS) -L tools/metadata_hook.lua -L tools/metadata_page.lua \
 		-M pageurl="/$1/$$(basename $$(notdir $$<))" \
 		$(if $(CANONICAL_SINGLE_$1),-M canonical="$(SITEURL)/$1/$$(basename $$(notdir $$<))" -V og_type=article) \
+		$(if $(SHIFT_HEADING_$1),--shift-heading-level-by=1) \
 		-M emit_meta=true \
-		--title-prefix="l-m.dev" \
 	| sqlite3 meta.db
 endef
 
