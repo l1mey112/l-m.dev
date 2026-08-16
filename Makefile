@@ -32,7 +32,9 @@ TOPLEVEL_LIST := /cs /stream /talk /net
 # TOPLEVEL_LIST -> -M toplevel_list=item1 -M toplevel_list=item2 ...
 TOPLEVEL_LIST_ARG := $(foreach t,$(TOPLEVEL_LIST),-M toplevel_list=$(t))
 
-PANDOC_OPTS := -s -L tools/resources.lua -L tools/relative_time.lua -L tools/mark_to_meta.lua $(TOPLEVEL_LIST_ARG) \
+YEAR := $(shell date +%Y)
+
+PANDOC_OPTS := -M year=$(YEAR) -s -L tools/resources.lua -L tools/relative_time.lua -L tools/mark_to_meta.lua $(TOPLEVEL_LIST_ARG) \
 	-M siteurl=$(SITEURL) \
 	--from markdown+hard_line_breaks+wikilinks_title_after_pipe-implicit_figures+mark+pipe_tables \
 	--highlight-style=templates/monokai.theme \
