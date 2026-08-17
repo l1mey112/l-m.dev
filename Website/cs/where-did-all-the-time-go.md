@@ -11,7 +11,7 @@ sources:
   - l1mey112/experimental_compiler2: https://github.com/l1mey112/experimental_compiler2
   - l1mey112/randomx.js: https://github.com/l1mey112/randomx.js
   - l1mey112/l-m.dev: https://github.com/l1mey112/l-m.dev
-embed: Zero to RandomX.js_ Bringing Webmining Back From The Grave - Linux Society UNSW 2025 - 0-12-49.png
+embed: Zero to RandomX.js_ Bringing Webmining Back From The Grave - Linux Society UNSW 2025 - 0-12-49.jpeg
 embed_url: https://www.youtube.com/watch?v=gmAgvHaw9w4
 ---
 
@@ -91,7 +91,7 @@ You should expect to see a lot of formal verification, computerised theorem prov
 Other than that, I did a lot of volunteering at the Linux Society over there. I got to run presentations there, and did one of my own. I entered some programming competitions with them, won some. At the end of the day all I wanted was some friends and they delivered.
 
 [
-![[Zero to RandomX.js_ Bringing Webmining Back From The Grave - Linux Society UNSW 2025 - 0-12-49.png]]
+![[Zero to RandomX.js_ Bringing Webmining Back From The Grave - Linux Society UNSW 2025 - 0-12-49.jpeg]]
 ](https://www.youtube.com/watch?v=gmAgvHaw9w4)
 
 > *Zero to RandomX.js: Bringing Webmining Back From The Grave - Linux Society UNSW 2025*

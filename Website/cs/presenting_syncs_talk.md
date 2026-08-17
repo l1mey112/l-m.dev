@@ -11,7 +11,7 @@ tags:
   - V
   - Compiler
   - Presentation
-embed: image-syncs-talk-yt-real.png
+embed: image-syncs-talk-yt-real.jpeg
 embed_url: https://www.youtube.com/watch?v=pchEsYwA74Q
 ---
 
@@ -30,7 +30,7 @@ embed_url: https://www.youtube.com/watch?v=pchEsYwA74Q
 > **TLDR: Watch this, now!**
 
 [
-![](image-syncs-talk-yt-real.png){.png-full}
+![](image-syncs-talk-yt-real.jpeg){.png-full}
 ](https://www.youtube.com/watch?v=pchEsYwA74Q)
 
 > *Read Fast, Write Fast, Run Faster: How To Maintain And Iterate With V - SYNCS 2023*
