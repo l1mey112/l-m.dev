@@ -46,8 +46,17 @@ $-- absolute url required
 <meta property="og:image" name="twitter:image" content="$siteurl$$embed$">
 $endif$
 
+<link rel="preload" href="/static/fonts.css" as="style" />
+<link rel="preload" href="/static/uni.css" as="style" />
+$for(css)$
+<link rel="preload" href="$css$" as="style" />
+$endfor$
+
 <link rel="stylesheet" type="text/css" media="screen" href="/static/fonts.css" />
 <link rel="preload" href="/static/fonts/LiberationMono-Regular.woff2" as="font" type="font/woff2" crossorigin />
+$if(is_cs)$
+<link rel="preload" href="/static/fonts/fira-sans-v10-latin-regular.woff2" as="font" type="font/woff2" crossorigin />
+$endif$
 
 $if(is_dark_already)$
 <meta name="darkreader-lock">
