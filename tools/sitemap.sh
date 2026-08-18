@@ -47,5 +47,9 @@ cd "$SCRIPT_DIR/.." || exit 1
 			"https://l-m.dev" "${loc// /%20}" "${mod:+<lastmod>$mod</lastmod>}"
 	done < <(find public/talks -name '*.pdf' | sort)
 
+	# /physics-applied
+	printf '\t<url><loc>%s</loc><lastmod>%s</lastmod></url>\n' \
+		"https://l-m.dev/physics-applied" "2026-08-19"
+
 	echo '</urlset>'
 } > public/sitemap.xml
