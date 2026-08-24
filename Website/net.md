@@ -10,7 +10,7 @@ description: cool websites and all my friends and stuff
 All my friends from around the internet and real life who have websites
 
 - julia [kitti.cat](https://kitti.cat/)
-- violet [vbmcn.com](https://vbmcn.com/)
+- violet [violetronics.dev](https://violetronics.dev/)
 - max [zopolis4.github.io](https://zopolis4.github.io/)
 - ace [github.com/AceLikesGhosts](https://github.com/AceLikesGhosts)
 - isobel [www.isobel.zip](https://www.isobel.zip/)
