@@ -27,6 +27,7 @@ All my friends from around the internet and real life who have websites
 - ronnie [blog.suwuako.com](https://blog.suwuako.com)
 - justin [jstnc.dev](https://jstnc.dev/)
 - laura [github.com/11au](https://github.com/11au)
+- jake [blueberrywren.dev](https://blueberrywren.dev)
 
 a large amount of these people are know from real life
 

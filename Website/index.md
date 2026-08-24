@@ -17,7 +17,7 @@ og_description: my website and all about me
 <!-- -->
 
 - Platform and infra engineer, doing a lot of backend in Golang at the moment.
-  Experience with hard systems programming.
+  Experience with systems programming.
 - Homelab is a bare metal <span style="color: #618be5">**Kubernetes cluster**</span>, Talos Linux.
 - Selfhosted and bootstrapped compilers for fun, interested in P/L optimisation.
 - <span style="color: #654ff0;">**WebAssembly**</span>: Performance, WASM spec, porting, Emscripten, and work on WebAssembly code generators.
