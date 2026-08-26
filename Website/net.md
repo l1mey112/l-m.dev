@@ -28,6 +28,8 @@ All my friends from around the internet and real life who have websites
 - justin [jstnc.dev](https://jstnc.dev/)
 - laura [github.com/11au](https://github.com/11au)
 - jake [blueberrywren.dev](https://blueberrywren.dev)
+- maddy [maddyguthridge.com](https://maddyguthridge.com/)
+- aurore [aurore.sh](https://aurore.sh/)
 
 a large amount of these people are know from real life
 
