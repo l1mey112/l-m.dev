@@ -33,6 +33,11 @@ og_description: my website and all about me
 
 <!-- -->
 
+<iframe src="https://mrrrp.cat/ring/l-m.dev/iframe"
+    title="mrrrp.cat webring"
+    loading="lazy"
+    style="display:block;width:100%;height:56px;margin:0 auto;border:0"></iframe>
+
 ## l-m.dev
 
 - [/cs](/cs) | My blog about computers and all of the above. <!-- <span class="meta">[[RSS]](/cs/index.xml)</span> -->
