@@ -13,7 +13,7 @@ All my friends from around the internet and real life who have websites
 - violet [violetronics.dev](https://violetronics.dev/)
 - max [zopolis4.github.io](https://zopolis4.github.io/)
 - ace [github.com/AceLikesGhosts](https://github.com/AceLikesGhosts)
-- isobel [www.isobel.zip](https://www.isobel.zip/)
+- isobel [isobel.zip](https://isobel.zip/)
 - josh [odpay.net](https://odpay.net/)
 - odin [odin4252.nekoweb.org](https://odin4252.nekoweb.org/)
 - josh [logykk.stream](https://logykk.stream/)
