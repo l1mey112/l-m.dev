@@ -9,6 +9,7 @@ description: cool websites and all my friends and stuff
 
 All my friends from around the internet and real life who have websites
 
+- ![[cate.png|20]] [mrrrp.cat](https://mrrrp.cat/)
 - julia [kitti.cat](https://kitti.cat/)
 - violet [violetronics.dev](https://violetronics.dev/)
 - max [zopolis4.github.io](https://zopolis4.github.io/)
