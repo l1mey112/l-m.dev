@@ -10,6 +10,7 @@ description: cool websites and all my friends and stuff
 All my friends from around the internet and real life who have websites
 
 - ![[cate.png|20]] [mrrrp.cat](https://mrrrp.cat/)
+- laura [github.com/11au](https://github.com/11au)
 - julia [kitti.cat](https://kitti.cat/)
 - violet [violetronics.dev](https://violetronics.dev/)
 - max [zopolis4.github.io](https://zopolis4.github.io/)
@@ -27,7 +28,6 @@ All my friends from around the internet and real life who have websites
 - 1b [unemployed.foo](https://unemployed.foo/)
 - ronnie [blog.suwuako.com](https://blog.suwuako.com)
 - justin [jstnc.dev](https://jstnc.dev/)
-- laura [github.com/11au](https://github.com/11au)
 - jake [blueberrywren.dev](https://blueberrywren.dev)
 - maddy [maddyguthridge.com](https://maddyguthridge.com/)
 - aurore [aurore.sh](https://aurore.sh/)
